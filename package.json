@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:artifact": "vite build --config vite.artifact.config.ts --mode artifact",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -29,6 +30,7 @@
     "postcss": "^8.5.19",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vite-plugin-singlefile": "^2.3.3"
   }
 }
