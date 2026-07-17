@@ -56,8 +56,8 @@ export const clients = [
     services: ["Social Media Management", "Produzione Video", "Strategia & Positioning"],
     stats: [
       { value: "+30%", label: "crescita follower in 5 settimane" },
-      { value: "8.000+", label: "visualizzazioni generate" },
-      { value: "3.189", label: "views organiche sul singolo video più performante" },
+      { value: "750.000+", label: "visualizzazioni generate" },
+      { value: "25.000+", label: "views organiche sul singolo video più performante" },
       { value: "3×", label: "contenuti pubblicati a settimana" },
     ],
     approach:
