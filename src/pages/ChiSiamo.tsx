@@ -11,7 +11,7 @@ export function ChiSiamo() {
       <PageHero
         label="Chi Siamo"
         title="Un'agenzia costruita per chi è stanco di pubblicare a caso."
-        subtitle="Will Agency nasce per portare nel social media marketing locale lo stesso rigore strategico che le grandi agenzie riservano solo ai grandi brand."
+        subtitle="Will Marketing Agency nasce per portare nel social media marketing locale lo stesso rigore strategico che le grandi agenzie riservano solo ai grandi brand."
       />
 
       <section className="pb-28">
@@ -26,7 +26,7 @@ export function ChiSiamo() {
               con i like. Noi facciamo l'opposto.
             </p>
             <p className="mt-5 text-[15px] leading-relaxed text-smoke">
-              Ogni cliente che entra in Will Agency riceve un'analisi di posizionamento, un
+              Ogni cliente che entra in Will Marketing Agency riceve un'analisi di posizionamento, un
               calendario di argomenti pianificato, format editoriali costruiti sui suoi reali
               punti di forza — e un report mensile che dice la verità sui numeri, buoni o cattivi
               che siano.
@@ -77,9 +77,16 @@ export function ChiSiamo() {
 
       <section className="py-28">
         <Container>
-          <div className="grid items-center gap-14 rounded-3xl border border-line bg-surface p-9 md:grid-cols-[1fr_1.3fr] md:p-14">
-            <Reveal>
-              <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-gold/10 text-3xl font-display font-medium text-gold">
+          <Reveal>
+            <SectionLabel>Il team</SectionLabel>
+            <h2 className="font-display mt-6 max-w-2xl text-balance text-4xl font-medium leading-[1.1] tracking-tight text-paper md:text-5xl">
+              Due persone, una sola ossessione.
+            </h2>
+          </Reveal>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-2">
+            <Reveal className="flex h-full flex-col rounded-3xl border border-line bg-surface p-9 md:p-11">
+              <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gold/10 text-3xl font-display font-medium text-gold">
                 M
               </div>
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-bone">
@@ -88,17 +95,37 @@ export function ChiSiamo() {
               <h3 className="font-display mt-2 text-2xl font-medium tracking-tight text-paper">
                 Mattia
               </h3>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="text-[15px] leading-relaxed text-smoke">
-                Ho fondato Will Agency perché ero stanco di vedere attività locali con prodotti
-                e servizi eccellenti restare invisibili online — o peggio, affidarsi ad agenzie
-                che vendono pacchetti di post senza una vera strategia dietro.
+              <p className="mt-5 text-[15px] leading-relaxed text-smoke">
+                Ho fondato Will Marketing Agency perché ero stanco di vedere attività locali con
+                prodotti e servizi eccellenti restare invisibili online — o peggio, affidarsi ad
+                agenzie che vendono pacchetti di post senza una vera strategia dietro.
               </p>
               <p className="mt-5 text-[15px] leading-relaxed text-smoke">
                 Ogni cliente che seguiamo oggi, da Termo Zero a Unique Gioielleria, ha una cosa in
                 comune: crediamo nei loro numeri prima ancora di pubblicare il primo contenuto,
                 perché li costruiamo insieme a partire dai dati.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.1} className="flex h-full flex-col rounded-3xl border border-line bg-surface p-9 md:p-11">
+              <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gold/10 text-3xl font-display font-medium text-gold">
+                R
+              </div>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-bone">
+                Co-Founder · Editor
+              </p>
+              <h3 className="font-display mt-2 text-2xl font-medium tracking-tight text-paper">
+                Riccardo
+              </h3>
+              <p className="mt-5 text-[15px] leading-relaxed text-smoke">
+                Riccardo è dietro le quinte di ogni contenuto che pubblichiamo: monta ogni singolo
+                video, cura ritmo e regia in post-produzione, e decide quale taglio di un girato
+                diventa il contenuto che i clienti vedono online.
+              </p>
+              <p className="mt-5 text-[15px] leading-relaxed text-smoke">
+                Non compare mai davanti alla telecamera, ma è il motivo per cui ogni format
+                mantiene lo stesso standard qualitativo — cliente dopo cliente, settimana dopo
+                settimana.
               </p>
             </Reveal>
           </div>

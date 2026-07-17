@@ -59,7 +59,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-line py-8 text-xs text-smoke md:flex-row">
-          <span>© {new Date().getFullYear()} Will Agency. Tutti i diritti riservati.</span>
+          <span>© {new Date().getFullYear()} Will Marketing Agency. Tutti i diritti riservati.</span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-gold" />
             Studiato, prodotto e misurato in Italia.

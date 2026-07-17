@@ -4,6 +4,7 @@ import { Container, SectionLabel } from "../components/Container";
 import { Reveal, RevealGroup, revealItem } from "../components/Reveal";
 import { Marquee } from "../components/Marquee";
 import { CtaBand } from "../components/CtaBand";
+import { LogoMark } from "../components/Logo";
 import { services, clients, process } from "../data/content";
 
 export function Home() {
@@ -17,9 +18,18 @@ export function Home() {
         />
         <Container className="relative">
           <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-8"
+          >
+            <LogoMark size={40} />
+          </motion.div>
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           >
             <SectionLabel>Social Media &amp; Content Agency</SectionLabel>
           </motion.div>
@@ -39,7 +49,7 @@ export function Home() {
             transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8 max-w-xl text-balance text-lg text-smoke md:text-xl"
           >
-            Will Agency guida attività locali attraverso strategia, produzione video
+            Will Marketing Agency guida attività locali attraverso strategia, produzione video
             e dati reali — trasformando profili social in canali di crescita misurabile.
           </motion.p>
 
@@ -78,10 +88,10 @@ export function Home() {
             items={[
               "Termo Zero",
               "Unique Gioielleria",
-              "Will Agency",
+              "Will Marketing Agency",
               "Termo Zero",
               "Unique Gioielleria",
-              "Will Agency",
+              "Will Marketing Agency",
             ].map((name, i) => (
               <span key={i} className="font-display px-6 text-2xl font-medium tracking-tight text-paper/25 md:text-3xl">
                 {name}
@@ -97,7 +107,7 @@ export function Home() {
           <RevealGroup className="grid grid-cols-2 gap-10 md:grid-cols-4">
             {[
               { value: "+30%", label: "crescita follower Termo Zero in 5 settimane" },
-              { value: "8.000+", label: "visualizzazioni generate in un mese" },
+              { value: "750.000+", label: "visualizzazioni generate" },
               { value: "9", label: "script strategici consegnati per Unique Gioielleria" },
               { value: "3×", label: "contenuti pubblicati a settimana, ogni settimana" },
             ].map((stat) => (

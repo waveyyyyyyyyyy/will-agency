@@ -84,7 +84,7 @@ export const clients = [
     approach:
       "Format ricorrenti — “Mari Consiglia”, “Scene da Gioielleria”, “Miti sui Gioielli” — pensati per costruire fiducia consulenziale invece della semplice esposizione prodotto.",
     quote:
-      "Volevamo un'agenzia che capisse il prodotto, non solo i social. Will Agency è arrivata con una strategia già scritta.",
+      "Volevamo un'agenzia che capisse il prodotto, non solo i social. Will Marketing Agency è arrivata con una strategia già scritta.",
   },
 ];
 
