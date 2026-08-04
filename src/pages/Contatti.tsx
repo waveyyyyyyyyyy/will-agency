@@ -3,7 +3,7 @@ import { Container, SectionLabel } from "../components/Container";
 import { PageHero } from "../components/PageHero";
 import { Reveal } from "../components/Reveal";
 
-const CONTACT_EMAIL = "willagency2026@gmail.com";
+const CONTACT_EMAIL = "info@willmarketingagency.com";
 
 export function Contatti() {
   const [sent, setSent] = useState(false);

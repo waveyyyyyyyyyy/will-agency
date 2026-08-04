@@ -28,8 +28,8 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bone">Contatti</p>
             <div className="mt-5 flex flex-col gap-3 text-sm text-smoke">
-              <a href="mailto:willagency2026@gmail.com" className="hover:text-gold">
-                willagency2026@gmail.com
+              <a href="mailto:info@willmarketingagency.com" className="hover:text-gold">
+                info@willmarketingagency.com
               </a>
               <span>Italia</span>
             </div>
