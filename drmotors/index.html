@@ -1,0 +1,1111 @@
+<title>DR Motors — Vendita Auto Plurimarche a Barletta</title>
+<style>
+  @font-face {
+    font-family: 'Bricolage';
+    font-style: normal;
+    font-weight: 200 800;
+    font-display: swap;
+    src: url(./assets/fonts/bricolage.woff2) format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(./assets/fonts/inter.woff2) format('woff2-variations');
+  }
+
+  :root{
+    --paper:#F7F9FC;
+    --paper-2:#EEF3FA;
+    --ink:#0B1B33;
+    --ink-soft:#4A5A72;
+    --line:#D8E1EE;
+    --blue-900:#0B2148;
+    --blue-700:#123E8F;
+    --blue-600:#1948A3;
+    --blue-400:#4A8FE0;
+    --blue-100:#E7EFFC;
+    --yellow:#F5B400;
+    --yellow-ink:#5A3D00;
+    --white:#FFFFFF;
+    --radius:14px;
+    --shadow: 0 12px 32px -16px rgba(11,27,51,.28);
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Bricolage','Inter',system-ui,sans-serif;
+    font-weight:800;
+    text-wrap:balance;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  @media (max-width:640px){ .wrap{padding:0 18px;} }
+
+  .eyebrow{
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue-600);
+  }
+
+  .tabular{ font-variant-numeric: tabular-nums; }
+
+  /* ---------- floating quick-contact ---------- */
+  .quickbar{
+    position:fixed; right:20px; bottom:20px; z-index:70;
+    display:flex; flex-direction:column; gap:10px; align-items:flex-end;
+  }
+  .quickbar a{
+    display:flex; align-items:center; gap:9px; text-decoration:none;
+    background:var(--white); color:var(--blue-900); border:1px solid var(--line);
+    padding:11px 16px 11px 12px; border-radius:999px; font-weight:700; font-size:.86rem;
+    box-shadow:var(--shadow); transition:transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .quickbar a .ic{
+    width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .quickbar a.call{ }
+  .quickbar a.call .ic{ background:var(--blue-100); color:var(--blue-700); }
+  .quickbar a.call:hover{ transform:translateY(-2px); }
+  .quickbar a.wa{ background:#1EAD5A; color:#fff; border-color:#1EAD5A; }
+  .quickbar a.wa .ic{ background:rgba(255,255,255,.18); color:#fff; }
+  .quickbar a.wa:hover{ transform:translateY(-2px); background:#189249; }
+  .quickbar .label{ display:none; }
+  @media (min-width:560px){ .quickbar .label{ display:inline; } }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,249,252,.86);
+    backdrop-filter:saturate(160%) blur(10px);
+    border-bottom:1px solid var(--line);
+    transition:box-shadow .25s ease, background .25s ease;
+  }
+  header.nav.scrolled{ box-shadow:0 8px 24px -18px rgba(11,27,51,.4); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:76px; }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .brand img{ height:36px; width:auto; display:block; }
+  .logo-badge{
+    background:#fff; border-radius:9px; padding:5px 7px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px -4px rgba(0,0,0,.3);
+  }
+  .logo-badge img{ height:26px; width:auto; display:block; }
+  .brand-word{ font-family:'Bricolage'; font-weight:800; font-size:1.28rem; letter-spacing:-0.02em; color:var(--blue-900); line-height:1; }
+  .brand-word span{ color:var(--blue-400); }
+
+  nav.links{ display:flex; align-items:center; gap:36px; }
+  nav.links a{
+    text-decoration:none; color:var(--ink); font-weight:600; font-size:.95rem;
+    position:relative; padding:4px 0;
+  }
+  nav.links a::after{
+    content:""; position:absolute; left:0; right:100%; bottom:0; height:2px; background:var(--blue-600);
+    transition:right .22s ease;
+  }
+  nav.links a:hover::after{ right:0; }
+  .nav-cta{
+    background:var(--blue-700); color:#fff !important; padding:11px 20px; border-radius:999px;
+    font-weight:700 !important; font-size:.88rem !important;
+    box-shadow:var(--shadow);
+  }
+  .nav-cta::after{ display:none; }
+  .nav-cta:hover{ background:var(--blue-600); }
+
+  .burger{ display:none; background:none; border:0; cursor:pointer; padding:8px; }
+  .burger span{ display:block; width:24px; height:2px; background:var(--blue-900); margin:5px 0; border-radius:2px; }
+
+  @media (max-width:900px){
+    nav.links{
+      position:fixed; inset:76px 0 0 0; background:var(--white);
+      flex-direction:column; align-items:flex-start; padding:28px 24px; gap:22px;
+      transform:translateX(100%); transition:transform .3s ease; overflow-y:auto;
+    }
+    nav.links.open{ transform:translateX(0); }
+    nav.links a{ font-size:1.1rem; width:100%; }
+    .nav-cta{ text-align:center; }
+    .burger{ display:block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ position:relative; overflow:hidden; border-bottom:1px solid var(--line); }
+  .hero-glow{
+    position:absolute; inset:-20% -10% auto -10%; height:120%;
+    background:radial-gradient(60% 60% at 70% 30%, rgba(74,143,224,.22), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;
+    padding:76px 0 56px;
+    position:relative;
+  }
+  @media (max-width:960px){
+    .hero-grid{ grid-template-columns:1fr; padding:44px 0 40px; gap:36px; }
+  }
+  .hero h1{ font-size:clamp(2.3rem, 4.4vw, 3.6rem); line-height:1.04; color:var(--blue-900); }
+  .hero h1 em{ font-style:normal; color:var(--blue-600); }
+  .hero p.lead{ margin-top:18px; max-width:46ch; color:var(--ink-soft); font-size:1.08rem; }
+  .hero-actions{ display:flex; gap:14px; margin-top:30px; flex-wrap:wrap; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    padding:14px 26px; border-radius:999px; font-weight:700; font-size:.96rem;
+    border:1px solid transparent; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active{ transform:scale(.97); }
+  .btn-primary{ background:var(--blue-700); color:#fff; box-shadow:var(--shadow); }
+  .btn-primary:hover{ background:var(--blue-600); }
+  .btn-ghost{ background:var(--white); color:var(--blue-900); border-color:var(--line); }
+  .btn-ghost:hover{ border-color:var(--blue-400); }
+  .btn-yellow{ background:var(--yellow); color:var(--yellow-ink); }
+  .btn-yellow:hover{ filter:brightness(1.05); }
+
+  .stat-strip{
+    display:flex; gap:0; margin-top:44px; border-top:1px solid var(--line); padding-top:26px; flex-wrap:wrap;
+  }
+  .stat{ flex:1 1 130px; padding-right:20px; }
+  .stat b{ display:block; font-family:'Bricolage'; font-weight:800; font-size:1.7rem; color:var(--blue-900); }
+  .stat span{ font-size:.78rem; color:var(--ink-soft); }
+
+  /* hero showcase */
+  .showcase{
+    position:relative; border-radius:22px; background:linear-gradient(155deg,var(--blue-900),var(--blue-700) 60%, var(--blue-400));
+    padding:30px; box-shadow:0 30px 60px -24px rgba(11,27,51,.45);
+  }
+  .showcase-tag{
+    position:absolute; top:20px; left:20px; background:var(--yellow); color:var(--yellow-ink);
+    font-weight:800; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:7px 12px; border-radius:8px; transform:rotate(-3deg);
+    box-shadow:0 8px 16px -6px rgba(0,0,0,.35);
+  }
+  .showcase-stage{
+    background:radial-gradient(60% 80% at 50% 100%, rgba(255,255,255,.18), transparent 70%);
+    border-radius:16px; padding:26px 18px 6px; position:relative; min-height:230px;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .showcase-stage svg{ width:100%; max-width:360px; }
+  .showcase-caption{ display:flex; justify-content:space-between; align-items:flex-end; margin-top:18px; color:#fff; }
+  .showcase-caption h3{ font-size:1.15rem; color:#fff; }
+  .showcase-caption .price{ font-family:'Bricolage'; font-weight:800; font-size:1.3rem; color:var(--yellow); }
+  .showcase-dots{ display:flex; gap:6px; margin-top:14px; justify-content:center; }
+  .showcase-dots span{ width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.35); }
+  .showcase-dots span.active{ background:var(--yellow); width:18px; border-radius:4px; }
+
+  /* ---------- section shell ---------- */
+  section{ padding:84px 0; }
+  @media (max-width:640px){ section{ padding:56px 0; } }
+  .section-band{ background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .section-head{ max-width:640px; margin-bottom:44px; }
+  .section-head h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin-top:10px; color:var(--blue-900); }
+  .section-head p{ margin-top:14px; color:var(--ink-soft); }
+  .section-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
+
+  /* ---------- filters ---------- */
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:34px; }
+  .chip{
+    border:1px solid var(--line); background:var(--white); color:var(--ink-soft);
+    padding:9px 18px; border-radius:999px; font-weight:700; font-size:.86rem; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{ border-color:var(--blue-400); color:var(--blue-700); }
+  .chip.active{ background:var(--blue-700); border-color:var(--blue-700); color:#fff; }
+
+  /* ---------- car grid ---------- */
+  .car-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  @media (max-width:980px){ .car-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:640px){ .car-grid{ grid-template-columns:1fr; } }
+
+  .car-card{
+    background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .car-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+  .car-card[hidden]{ display:none; }
+
+  .car-media{ position:relative; aspect-ratio:4/3; background:linear-gradient(160deg,var(--blue-100),var(--paper-2)); overflow:hidden; }
+  .car-slides{ display:flex; height:100%; transition:transform .35s ease; }
+  .car-slide{ flex:0 0 100%; display:flex; align-items:center; justify-content:center; padding:16px; }
+  .car-slide.photo{ padding:0; }
+  .car-slide svg{ width:82%; }
+  .car-slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .car-badge{
+    position:absolute; top:12px; left:12px; background:var(--blue-900); color:#fff;
+    font-size:.68rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+    padding:5px 10px; border-radius:6px; z-index:2;
+  }
+  .car-badge.promo{ background:var(--yellow); color:var(--yellow-ink); }
+
+  .car-price-tag{
+    position:absolute; bottom:10px; right:10px; background:var(--yellow); color:var(--yellow-ink);
+    font-family:'Bricolage'; font-weight:800; font-size:1.02rem; padding:6px 12px; border-radius:8px;
+    box-shadow:0 6px 14px -6px rgba(0,0,0,.35); z-index:2; transform:rotate(-2deg);
+  }
+
+  .car-nav{
+    position:absolute; top:50%; transform:translateY(-50%); background:rgba(11,27,51,.55); color:#fff;
+    border:0; width:30px; height:30px; border-radius:50%; cursor:pointer; z-index:2;
+    display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .15s ease;
+  }
+  .car-media:hover .car-nav{ opacity:1; }
+  .car-nav.prev{ left:8px; } .car-nav.next{ right:8px; }
+  .car-dots{ position:absolute; bottom:10px; left:12px; display:flex; gap:5px; z-index:2; }
+  .car-dots span{ width:5px; height:5px; border-radius:50%; background:rgba(11,27,51,.25); }
+  .car-dots span.active{ background:var(--blue-700); width:14px; border-radius:3px; }
+
+  .car-body{ padding:18px 18px 20px; display:flex; flex-direction:column; gap:12px; flex:1; }
+  .car-body .kicker{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--blue-600); }
+  .car-body h3{ font-size:1.15rem; color:var(--ink); }
+  .car-body .desc{ font-size:.88rem; color:var(--ink-soft); flex:1; }
+
+  .spec-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding-top:10px; border-top:1px solid var(--line); }
+  .spec{ display:flex; flex-direction:column; gap:2px; align-items:flex-start; }
+  .spec svg{ width:16px; height:16px; color:var(--blue-500,var(--blue-600)); }
+  .spec b{ font-size:.78rem; font-weight:700; color:var(--ink); }
+  .spec small{ font-size:.66rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; }
+
+  .car-foot{ display:flex; gap:10px; margin-top:4px; }
+  .car-foot .btn{ padding:10px 16px; font-size:.84rem; flex:1; justify-content:center; }
+
+  .catalog-more{ text-align:center; margin-top:40px; }
+
+  /* ---------- why us ---------- */
+  .why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  @media (max-width:900px){ .why-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .why-grid{ grid-template-columns:1fr; } }
+  .why-card{ background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:26px 22px; }
+  .why-card .ic{
+    width:46px; height:46px; border-radius:12px; background:var(--blue-100); color:var(--blue-700);
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+  }
+  .why-card h3{ font-size:1.02rem; margin-bottom:8px; }
+  .why-card p{ font-size:.86rem; color:var(--ink-soft); margin:0; }
+
+  /* ---------- chi siamo ---------- */
+  .about-grid{ display:grid; grid-template-columns:.95fr 1.05fr; gap:56px; align-items:center; }
+  @media (max-width:900px){ .about-grid{ grid-template-columns:1fr; gap:36px; } }
+  .about-copy p{ color:var(--ink-soft); margin-top:16px; }
+  .about-copy p:first-of-type{ margin-top:18px; }
+  .value-list{ list-style:none; margin:26px 0 0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .value-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.92rem; }
+  .value-list svg{ flex:0 0 auto; width:20px; height:20px; color:var(--blue-700); margin-top:2px; }
+
+  .about-visual{
+    position:relative; border-radius:20px; background:linear-gradient(150deg,var(--blue-900),var(--blue-600));
+    padding:34px; color:#fff; overflow:hidden;
+  }
+  .about-visual .logo-plate{
+    background:#fff; border-radius:14px; padding:16px 20px; display:inline-block; margin-bottom:26px;
+    box-shadow:0 10px 22px -10px rgba(0,0,0,.4);
+  }
+  .about-visual .logo-plate img{ display:block; height:34px; width:auto; }
+  .about-visual .badge-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; position:relative; }
+  .about-visual .badge{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:18px; }
+  .about-visual .badge b{ display:block; font-family:'Bricolage'; font-size:1.5rem; font-weight:800; color:var(--yellow); }
+  .about-visual .badge span{ font-size:.76rem; color:#DCE7F9; }
+
+  /* ---------- testimonials ---------- */
+  .google-strip{
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    background:var(--white); border:1px solid var(--line); border-radius:16px; padding:22px 26px; margin-bottom:30px;
+  }
+  .google-strip-left{ display:flex; align-items:center; gap:14px; }
+  .google-strip-left .stars{ color:var(--yellow); font-size:1rem; letter-spacing:2px; }
+  .google-strip-left b{ font-family:'Bricolage'; font-size:1.05rem; }
+  .google-strip-left span{ display:block; font-size:.78rem; color:var(--ink-soft); }
+  .testi-track{ display:flex; gap:22px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; margin:0 -4px; }
+  .testi-track::-webkit-scrollbar{ height:8px; }
+  .testi-track::-webkit-scrollbar-thumb{ background:var(--line); border-radius:8px; }
+  .testi-card{
+    scroll-snap-align:start; flex:0 0 min(360px,84vw); background:var(--white); border:1px solid var(--line);
+    border-radius:var(--radius); padding:26px; display:flex; flex-direction:column; gap:14px;
+  }
+  .testi-stars{ color:var(--yellow); font-size:.9rem; letter-spacing:2px; }
+  .testi-card p{ font-size:.92rem; color:var(--ink); margin:0; }
+  .testi-who{ display:flex; align-items:center; gap:10px; margin-top:auto; }
+  .testi-avatar{
+    width:38px; height:38px; border-radius:50%; background:var(--blue-100); color:var(--blue-700);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Bricolage';
+  }
+  .testi-who b{ display:block; font-size:.86rem; }
+  .testi-who span{ font-size:.74rem; color:var(--ink-soft); }
+
+  /* ---------- faq ---------- */
+  .faq{ max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
+  .faq-item{ border:1px solid var(--line); border-radius:12px; background:var(--white); overflow:hidden; }
+  .faq-q{
+    width:100%; text-align:left; background:none; border:0; padding:18px 20px; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; gap:16px; font-weight:700; font-size:.96rem; color:var(--ink);
+  }
+  .faq-q .plus{ flex:0 0 auto; width:22px; height:22px; position:relative; }
+  .faq-q .plus::before, .faq-q .plus::after{ content:""; position:absolute; background:var(--blue-700); border-radius:2px; }
+  .faq-q .plus::before{ width:100%; height:2px; top:50%; left:0; transform:translateY(-50%); }
+  .faq-q .plus::after{ width:2px; height:100%; left:50%; top:0; transform:translateX(-50%); transition:transform .2s ease; }
+  .faq-item.open .plus::after{ transform:translateX(-50%) rotate(90deg); opacity:0; }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .faq-a p{ padding:0 20px 18px; margin:0; color:var(--ink-soft); font-size:.9rem; }
+  .faq-item.open .faq-a{ max-height:220px; }
+
+  /* ---------- map banner ---------- */
+  .map-banner{
+    position:relative; overflow:hidden; border-radius:20px; margin-bottom:40px;
+    background:linear-gradient(120deg,var(--blue-900),var(--blue-700) 55%,var(--blue-400));
+    padding:40px; display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center;
+    box-shadow:var(--shadow);
+  }
+  @media (max-width:860px){ .map-banner{ grid-template-columns:1fr; padding:30px 24px; } }
+  .map-banner-copy{ color:#fff; position:relative; z-index:1; }
+  .map-banner-copy .eyebrow{ color:var(--yellow); }
+  .map-banner-copy h3{ font-family:'Bricolage'; font-weight:800; font-size:1.5rem; color:#fff; margin-top:8px; }
+  .map-banner-copy p{ color:#CFE0FA; margin-top:10px; font-size:.92rem; max-width:36ch; }
+  .map-banner-actions{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+  .map-visual{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; background:#DCE7F5; }
+  .map-visual svg{ width:100%; height:100%; }
+  .map-pin-pulse{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); }
+  .map-pin-pulse .ring{
+    position:absolute; left:50%; top:50%; width:16px; height:16px; border-radius:50%;
+    background:rgba(245,180,0,.5); transform:translate(-50%,-50%); animation:pingRing 1.8s ease-out infinite;
+  }
+  @keyframes pingRing{ 0%{ transform:translate(-50%,-50%) scale(1); opacity:.8; } 100%{ transform:translate(-50%,-50%) scale(4.2); opacity:0; } }
+  @media (prefers-reduced-motion: reduce){ .map-pin-pulse .ring{ animation:none; opacity:0; } }
+
+  /* ---------- contact ---------- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; gap:36px; } }
+  .card-replica{
+    background:var(--white); border:1px solid var(--line); border-radius:18px; padding:34px;
+    box-shadow:var(--shadow);
+  }
+  .info-row{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .info-row:last-child{ border-bottom:0; }
+  .info-row .ic{ width:38px; height:38px; border-radius:10px; background:var(--blue-100); color:var(--blue-700); display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .info-row b{ display:block; font-size:.94rem; }
+  .info-row span, .info-row a{ font-size:.86rem; color:var(--ink-soft); text-decoration:none; }
+  .info-row a:hover{ color:var(--blue-600); }
+
+  .form-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .form-field label{ font-size:.8rem; font-weight:700; color:var(--ink-soft); }
+  .form-field input, .form-field select, .form-field textarea{
+    border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-family:inherit; font-size:.92rem;
+    background:var(--paper); color:var(--ink);
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{
+    outline:2px solid var(--blue-400); outline-offset:1px; border-color:var(--blue-400);
+  }
+  .form-row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:480px){ .form-row2{ grid-template-columns:1fr; } }
+  .form-note{ font-size:.76rem; color:var(--ink-soft); margin-top:10px; }
+
+  /* ---------- footer ---------- */
+  footer{ background:var(--blue-900); color:#CFE0FA; padding:56px 0 26px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; }
+  @media (max-width:760px){ .footer-grid{ grid-template-columns:1fr; gap:30px; } }
+  .footer-brand .brand-word{ color:#fff; }
+  .footer-brand p{ color:#AFC4E4; font-size:.88rem; margin-top:14px; max-width:34ch; }
+  footer h4{ font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:#8FAAD6; margin-bottom:16px; }
+  footer ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  footer a{ color:#DCE7F9; text-decoration:none; font-size:.9rem; }
+  footer a:hover{ color:var(--yellow); }
+  .footer-social{ display:flex; gap:12px; margin-top:6px; }
+  .footer-social a{ width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; }
+  .footer-social a:hover{ background:var(--yellow); color:var(--blue-900); }
+  .footer-bottom{ border-top:1px solid rgba(255,255,255,.12); margin-top:44px; padding-top:22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:.78rem; color:#8FAAD6; }
+
+  /* scroll reveal */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .55s ease, transform .55s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* lightbox */
+  .lightbox{ position:fixed; inset:0; background:rgba(8,16,31,.86); display:none; align-items:center; justify-content:center; z-index:100; padding:30px; }
+  .lightbox.open{ display:flex; }
+  .lightbox-box{ background:#fff; border-radius:16px; padding:30px; max-width:520px; width:100%; text-align:center; position:relative; }
+  .lightbox-box svg{ width:70%; margin:0 auto; }
+  .lightbox-close{ position:absolute; top:14px; right:14px; background:var(--paper-2); border:0; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem; }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translate(-50%,120%); background:var(--blue-900); color:#fff;
+    padding:14px 22px; border-radius:12px; font-size:.9rem; font-weight:600; box-shadow:var(--shadow);
+    transition:transform .3s ease; z-index:120; display:flex; align-items:center; gap:10px;
+  }
+  .toast.show{ transform:translate(-50%,0); }
+  .toast svg{ width:18px; height:18px; color:var(--yellow); }
+
+  .skip-link{ position:absolute; left:-999px; top:auto; }
+  .skip-link:focus{ left:16px; top:16px; background:#fff; padding:10px 16px; border-radius:8px; z-index:200; }
+</style>
+
+<a class="skip-link" href="#catalogo">Vai al catalogo</a>
+
+<div class="quickbar">
+  <a class="wa" href="https://wa.me/393475237486" target="_blank" rel="noopener">
+    <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 003.7 17.3L2 22l4.8-1.6A11 11 0 1020.5 3.5zM12 20a8 8 0 01-4.1-1.1l-.3-.2-2.9 1 1-2.8-.2-.3A8 8 0 1112 20zm4.4-5.9c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.2.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3 1 2.5c.1.2 1.6 2.5 4 3.5.6.2 1 .4 1.3.5.6.2 1.1.1 1.5 0 .5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.5-.3z"/></svg></span>
+    <span class="label">WhatsApp</span>
+  </a>
+  <a class="call" href="tel:+390883888658">
+    <span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6A2 2 0 0122 16.9z"/></svg></span>
+    <span class="label">Chiama</span>
+  </a>
+</div>
+
+<header class="nav" id="siteNav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <img src="./assets/logos/logo1.jpg" alt="DR Motors">
+      <span class="brand-word">DR<span>MOTORS</span></span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#catalogo">Catalogo</a>
+      <a href="#perche-noi">Perché Noi</a>
+      <a href="#chi-siamo">Chi Siamo</a>
+      <a href="#recensioni">Recensioni</a>
+      <a href="#contatti">Contatti</a>
+      <a href="#contatti" class="nav-cta">Prenota una Visita</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Apri il menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Vendita Auto Plurimarche · Barletta (BT)</p>
+        <h1>Ogni marca.<br>Un unico <em>salone</em> di fiducia.</h1>
+        <p class="lead">Da DR Motors trovi usato garantito e km0 delle principali case automobilistiche, selezionato e controllato prima di arrivare in salone — con permuta, finanziamento e assistenza post-vendita.</p>
+        <div class="hero-actions">
+          <a href="#catalogo" class="btn btn-primary">Sfoglia il Catalogo</a>
+          <a href="#contatti" class="btn btn-ghost">Vieni a Trovarci</a>
+        </div>
+        <div class="stat-strip">
+          <div class="stat"><b class="tabular" data-count="120">0</b><span>Auto disponibili</span></div>
+          <div class="stat"><b class="tabular" data-count="15">0</b><span>Anni di esperienza</span></div>
+          <div class="stat"><b class="tabular" data-count="8">0</b><span>Marchi trattati</span></div>
+          <div class="stat"><b class="tabular" data-count="98">0</b><span>% clienti soddisfatti</span></div>
+        </div>
+      </div>
+
+      <div class="showcase">
+        <span class="showcase-tag">In Vetrina</span>
+        <div class="showcase-stage" id="showcaseStage">
+          <!-- illustrations injected/rotated by JS -->
+        </div>
+        <div class="showcase-dots" id="showcaseDots"></div>
+        <div class="showcase-caption">
+          <h3 id="showcaseName">Berlina Executive</h3>
+          <span class="price" id="showcasePrice">€ 18.900</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOGO -->
+  <section id="catalogo">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Il Salone</p>
+        <h2>Il catalogo, aggiornato ogni settimana.</h2>
+        <p>Il parco auto reale del salone. Chilometraggio dichiarato dal venditore; prezzo e passaggio di proprietà su richiesta. Descrizioni indicative, non vincolanti.</p>
+      </div>
+
+      <div class="filters reveal" id="filterBar">
+        <button class="chip active" data-filter="tutte">Tutte</button>
+        <button class="chip" data-filter="citycar">City Car</button>
+        <button class="chip" data-filter="suv">SUV &amp; Crossover</button>
+        <button class="chip" data-filter="monovolume">Monovolume</button>
+        <button class="chip" data-filter="wagon">Station Wagon</button>
+        <button class="chip" data-filter="scooter">Scooter</button>
+      </div>
+
+      <div class="car-grid reveal" id="carGrid"></div>
+
+      <div class="catalog-more reveal">
+        <a href="#contatti" class="btn btn-ghost">Non trovi quello che cerchi? Contattaci</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERCHE NOI -->
+  <section id="perche-noi" class="section-band">
+    <div class="wrap">
+      <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+        <p class="eyebrow">Perché Sceglierci</p>
+        <h2>Comprare un'auto senza pensieri.</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg></div>
+          <h3>Garanzia inclusa</h3>
+          <p>Ogni vettura è controllata e coperta da garanzia, per acquistare in totale sicurezza.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M2 11h20M7 15h3"/></svg></div>
+          <h3>Finanziamenti su misura</h3>
+          <p>Rate personalizzate in base alle tue esigenze, con risposta rapida direttamente in salone.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l4-4M4 12l4 4M4 12h9M20 12l-4 4M20 12l-4-4M20 12h-9"/></svg></div>
+          <h3>Permuta il tuo usato</h3>
+          <p>Valutiamo la tua auto attuale e la ritiriamo in permuta, in pochi minuti e senza impegno.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h3>Plurimarche, un solo salone</h3>
+          <p>Confronti modelli e marchi diversi nello stesso posto, senza girare tra più concessionarie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHI SIAMO -->
+  <section id="chi-siamo">
+    <div class="wrap about-grid">
+      <div class="about-copy reveal">
+        <p class="eyebrow">Chi Siamo</p>
+        <h2>Il salone plurimarche di riferimento a Barletta.</h2>
+        <p>DR Motors nasce a Barletta con un'idea semplice: un unico salone dove trovare le migliori occasioni delle principali case automobilistiche, selezionate una ad una e seguite da un team che conosce ogni vettura nel dettaglio.</p>
+        <p>Non vendiamo solo automobili: accompagniamo il cliente dalla scelta del modello giusto fino al ritiro delle chiavi, con trasparenza su prezzo, condizioni e storico del veicolo.</p>
+        <ul class="value-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Ogni auto controllata e certificata prima della vendita</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Consulenza dedicata, senza fretta e senza pressioni</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Assistenza anche dopo l'acquisto</li>
+        </ul>
+      </div>
+      <div class="about-visual reveal">
+        <span class="logo-plate"><img src="./assets/logos/logo2.jpg" alt="DR Motors — Vendita Auto Plurimarche"></span>
+        <div class="badge-row">
+          <div class="badge"><b class="tabular">2009</b><span>Anno di fondazione</span></div>
+          <div class="badge"><b class="tabular">1200+</b><span>Auto vendute</span></div>
+          <div class="badge"><b>Multi-brand</b><span>Le principali case auto</span></div>
+          <div class="badge"><b>Barletta</b><span>Via N. Parrilli, 20/A</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENSIONI -->
+  <section id="recensioni" class="section-band">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Recensioni</p>
+        <h2>Cosa dicono i nostri clienti.</h2>
+        <p>Le card qui sotto sono un esempio dimostrativo dello stile grafico — verranno sostituite con le recensioni reali del vostro profilo Google.</p>
+      </div>
+
+      <div class="google-strip reveal">
+        <div class="google-strip-left">
+          <svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.2-.4-4.7H24v9h11.8c-.5 2.8-2.1 5.1-4.4 6.7v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.5z"/><path fill="#34A853" d="M24 46c6 0 11-2 14.6-5.3l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.6 28.2c-.4-1.3-.7-2.7-.7-4.2s.2-2.9.7-4.2v-5.7H4.3C2.8 17 2 20.4 2 24s.8 7 2.3 9.9l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.3 0 6.2 1.1 8.5 3.3l6.3-6.3C34.9 4.2 30 2 24 2 15.4 2 7.9 6.9 4.3 14.1l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1z"/></svg>
+          <div>
+            <div class="stars">★★★★★</div>
+            <span>Recensioni Google verificate — collegamento in arrivo</span>
+          </div>
+        </div>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=DR+Motors+Barletta" target="_blank" rel="noopener">Vedi il Profilo Google</a>
+      </div>
+      <div class="testi-track reveal" id="testiTrack"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+        <p class="eyebrow">Domande Frequenti</p>
+        <h2>Tutto quello che vuoi sapere.</h2>
+      </div>
+      <div class="faq" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- CONTATTI -->
+  <section id="contatti" class="section-band">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Contatti</p>
+        <h2>Vieni a trovarci in salone.</h2>
+        <p>Siamo a Barletta, in Via Nicola Parrilli 20/A. Passa a trovarci o scrivici per fissare un appuntamento.</p>
+      </div>
+
+      <div class="map-banner reveal">
+        <div class="map-banner-copy">
+          <p class="eyebrow">Dove Siamo</p>
+          <h3>Via Nicola Parrilli, 20/A — 76121 Barletta (BT)</h3>
+          <p>Parcheggio disponibile davanti al salone. Aprici Google Maps e imposta subito il percorso, oppure chiamaci e ti aspettiamo in vetrina.</p>
+          <div class="map-banner-actions">
+            <a class="btn btn-yellow" href="https://www.google.com/maps/search/?api=1&query=Via+Nicola+Parrilli+20A+Barletta+DR+Motors" target="_blank" rel="noopener">Apri in Google Maps</a>
+            <a class="btn btn-ghost" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Nicola+Parrilli+20A+Barletta" target="_blank" rel="noopener">Ottieni Indicazioni</a>
+          </div>
+        </div>
+        <div class="map-visual" aria-hidden="true">
+          <svg viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="225" fill="#E4EEFB"/>
+            <g stroke="#C6D8ED" stroke-width="2">
+              <path d="M0 40h300M0 90h300M0 140h300M0 190h300"/>
+              <path d="M50 0v225M120 0v225M190 0v225M260 0v225"/>
+            </g>
+            <path d="M0 70L300 55" stroke="#B9CEE8" stroke-width="10" fill="none"/>
+            <path d="M40 0L110 225" stroke="#B9CEE8" stroke-width="14" fill="none"/>
+            <rect x="150" y="95" width="46" height="34" rx="4" fill="#fff" stroke="#B9CEE8" stroke-width="2"/>
+            <rect x="205" y="120" width="34" height="26" rx="4" fill="#fff" stroke="#B9CEE8" stroke-width="2"/>
+            <rect x="95" y="130" width="30" height="24" rx="4" fill="#fff" stroke="#B9CEE8" stroke-width="2"/>
+          </svg>
+          <div class="map-pin-pulse">
+            <span class="ring"></span>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="#0B2148" style="position:relative;"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z"/><circle cx="12" cy="10" r="3" fill="#F5B400"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card-replica reveal">
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><b>Indirizzo</b><br><a href="https://www.google.com/maps/search/?api=1&query=Via+Nicola+Parrilli+20A+Barletta+DR+Motors" target="_blank" rel="noopener">Via Nicola Parrilli, 20/A — 76121 Barletta (BT)</a></div>
+          </div>
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6A2 2 0 0122 16.9z"/></svg></div>
+            <div><b>Telefono / Cellulare</b><br><a href="tel:+390883888658">0883 88 86 58</a> · <a href="tel:+393475237486">347 523 74 86</a></div>
+          </div>
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg></div>
+            <div><b>Email</b><br><a href="mailto:drmotors@virgilio.it">drmotors@virgilio.it</a></div>
+          </div>
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
+            <div><b>Instagram</b><br><a href="https://instagram.com/autosalone_drmotors" target="_blank" rel="noopener">@autosalone_drmotors</a></div>
+          </div>
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+            <div><b>Orari</b><br><span>Lun–Sab 9:00–13:00 / 16:00–20:00</span></div>
+          </div>
+          <div class="info-row">
+            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 4h14v16H5z"/></svg></div>
+            <div><b>Partita IVA</b><br><span class="tabular">08157550727</span></div>
+          </div>
+        </div>
+
+        <form class="card-replica reveal" id="contactForm">
+          <div class="form-field">
+            <label for="f-name">Nome e Cognome</label>
+            <input id="f-name" type="text" placeholder="Es. Marco Rossi" required>
+          </div>
+          <div class="form-row2">
+            <div class="form-field">
+              <label for="f-phone">Telefono</label>
+              <input id="f-phone" type="tel" placeholder="Es. 333 1234567" required>
+            </div>
+            <div class="form-field">
+              <label for="f-car">Auto d'interesse</label>
+              <select id="f-car">
+                <option>Nessuna in particolare</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="f-msg">Messaggio</label>
+            <textarea id="f-msg" rows="3" placeholder="Vorrei prenotare un appuntamento per vedere l'auto..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-yellow" style="width:100%;">Invia Richiesta</button>
+          <p class="form-note">Anteprima dimostrativa: l'invio non è ancora collegato a un indirizzo reale.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand" style="margin-bottom:6px;">
+          <span class="logo-badge"><img src="./assets/logos/logo1.jpg" alt="DR Motors"></span>
+          <span class="brand-word">DR<span>MOTORS</span></span>
+        </a>
+        <p>Vendita auto plurimarche a Barletta. Usato garantito, km0 e assistenza su misura.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/autosalone_drmotors" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+          <a href="tel:+390883888658" aria-label="Chiama">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6A2 2 0 0122 16.9z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Naviga</h4>
+        <ul>
+          <li><a href="#catalogo">Catalogo</a></li>
+          <li><a href="#chi-siamo">Chi Siamo</a></li>
+          <li><a href="#recensioni">Recensioni</a></li>
+          <li><a href="#contatti">Contatti</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contatti</h4>
+        <ul>
+          <li>Via N. Parrilli, 20/A — Barletta</li>
+          <li><a href="tel:+390883888658">0883 88 86 58</a></li>
+          <li><a href="mailto:drmotors@virgilio.it">drmotors@virgilio.it</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> DR Motors — P.IVA 08157550727</span>
+      <span>Sito realizzato da Will Agency</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-box">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi">×</button>
+    <div id="lightboxContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastMsg">Fatto</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---- nav scroll + mobile menu ---- */
+  var navEl = document.getElementById('siteNav');
+  window.addEventListener('scroll', function(){
+    navEl.classList.toggle('scrolled', window.scrollY > 8);
+  });
+  var burger = document.getElementById('burgerBtn');
+  var navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', function(){
+    var open = navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navLinks.classList.remove('open'); burger.setAttribute('aria-expanded','false'); });
+  });
+
+  /* ---- scroll reveal ---- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  if(reduceMotion || !('IntersectionObserver' in window)){
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:.12 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- count-up stats ---- */
+  var counted = false;
+  function countUp(){
+    if(counted) return; counted = true;
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'),10);
+      if(reduceMotion){ el.textContent = target; return; }
+      var start = null, dur = 1100;
+      function step(ts){
+        if(!start) start = ts;
+        var p = Math.min((ts-start)/dur, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1-p,3)));
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  var statStrip = document.querySelector('.stat-strip');
+  if(statStrip){
+    if('IntersectionObserver' in window){
+      var io2 = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ countUp(); io2.disconnect(); } });
+      }, { threshold:.4 });
+      io2.observe(statStrip);
+    } else { countUp(); }
+  }
+
+  /* ---- car illustrations (line-art placeholders) ---- */
+  function carSVG(kind, palette){
+    if(kind === 'scooter') return scooterSVG(palette);
+    var c1 = palette[0], c2 = palette[1];
+    var bodies = {
+      suv: '<path d="M18 78c0-22 14-34 34-36l14-16h44l16 16c18 2 30 12 32 36" fill="'+c1+'"/><rect x="14" y="72" width="152" height="26" rx="10" fill="'+c2+'"/><circle cx="52" cy="100" r="16" fill="#1a2233"/><circle cx="132" cy="100" r="16" fill="#1a2233"/>',
+      berlina: '<path d="M14 82c2-18 16-28 34-30l16-20h58l18 20c16 2 28 12 32 30" fill="'+c1+'"/><rect x="10" y="78" width="160" height="20" rx="9" fill="'+c2+'"/><circle cx="50" cy="100" r="15" fill="#1a2233"/><circle cx="134" cy="100" r="15" fill="#1a2233"/>',
+      citycar: '<path d="M26 80c0-20 12-30 30-32l10-14h44l10 14c16 2 26 12 28 32" fill="'+c1+'"/><rect x="20" y="76" width="140" height="20" rx="10" fill="'+c2+'"/><circle cx="54" cy="98" r="15" fill="#1a2233"/><circle cx="130" cy="98" r="15" fill="#1a2233"/>',
+      wagon: '<path d="M12 80c2-18 14-30 32-32l14-18h52l16 18c16 2 30 12 34 32" fill="'+c1+'"/><rect x="8" y="76" width="166" height="20" rx="9" fill="'+c2+'"/><circle cx="48" cy="98" r="15" fill="#1a2233"/><circle cx="138" cy="98" r="15" fill="#1a2233"/>',
+      monovolume: '<path d="M16 80c0-28 12-42 30-44h56c18 2 30 16 32 44" fill="'+c1+'"/><rect x="12" y="76" width="160" height="24" rx="10" fill="'+c2+'"/><circle cx="50" cy="100" r="16" fill="#1a2233"/><circle cx="134" cy="100" r="16" fill="#1a2233"/>'
+    };
+    var winW = kind==='suv'?116:kind==='citycar'?96:kind==='monovolume'?134:126;
+    var winY = kind==='monovolume' ? 42 : 50;
+    var winH = kind==='monovolume' ? 34 : 22;
+    return '<svg viewBox="0 0 184 118" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="92" cy="104" rx="80" ry="8" fill="#0B2148" opacity="0.08"/>' +
+      (bodies[kind]||bodies.berlina) +
+      '<rect x="34" y="'+winY+'" width="' + winW + '" height="'+winH+'" rx="9" fill="#EAF3FF" opacity="0.85"/>' +
+      '</svg>';
+  }
+
+  function scooterSVG(palette){
+    var c1 = palette[0], c2 = palette[1];
+    return '<svg viewBox="0 0 184 118" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="92" cy="104" rx="70" ry="7" fill="#0B2148" opacity="0.08"/>' +
+      '<circle cx="46" cy="90" r="17" fill="#1a2233"/><circle cx="46" cy="90" r="7" fill="#647089"/>' +
+      '<circle cx="140" cy="90" r="17" fill="#1a2233"/><circle cx="140" cy="90" r="7" fill="#647089"/>' +
+      '<path d="M46 90c0-11 9-21 23-23h28c15 0 22 9 29 20l14 5" stroke="'+c1+'" stroke-width="11" fill="none" stroke-linecap="round"/>' +
+      '<rect x="86" y="50" width="44" height="15" rx="7.5" fill="'+c2+'"/>' +
+      '<path d="M128 58l16-19" stroke="'+c1+'" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M144 39l17-3M144 39l3 17" stroke="'+c1+'" stroke-width="6" stroke-linecap="round"/>' +
+      '<rect x="58" y="68" width="26" height="17" rx="4" fill="#EAF3FF" opacity="0.85"/>' +
+      '</svg>';
+  }
+
+  var palettes = [ ['#123E8F','#4A8FE0'], ['#0B2148','#2E7BD6'], ['#1948A3','#8FC1F5'], ['#0B2148','#4A8FE0'] ];
+
+  var cars = [
+    { name:'Citroën C3 1.4 HDi', slug:'citroen-c3-1-4-hdi-2014', cat:'citycar', catLabel:'City Car', year:'2014', km:'158.000', fuel:'Diesel', gear:'Manuale', price:null,
+      desc:'Versione Exclusive, unico proprietario, km. 158.000 certificati. Cerchi in lega, tetto panoramico, navigatore Citroën e clima automatico: tenuta con cura, frizione sostituita di recente.',
+      images:['./assets/cars/citroen-c3-2014/1.jpg','./assets/cars/citroen-c3-2014/2.jpg','./assets/cars/citroen-c3-2014/3.jpg','./assets/cars/citroen-c3-2014/4.jpg','./assets/cars/citroen-c3-2014/5.jpg'] },
+    { name:'Fiat 500 1.0 Hybrid', slug:'fiat-500-1-0-2022-ibrida', cat:'citycar', catLabel:'City Car', year:'2022', km:null, fuel:'Ibrida', gear:'Manuale', price:null,
+      desc:'L\'icona Fiat in versione ibrida: agile in centro storico, silenziosa in marcia e con consumi ridotti grazie al mild-hybrid. Estetica intramontabile, tecnologia aggiornata.',
+      images:['./assets/cars/fiat-500-1-0-2022-ibrida/1.jpg','./assets/cars/fiat-500-1-0-2022-ibrida/2.jpg','./assets/cars/fiat-500-1-0-2022-ibrida/3.jpg'] },
+    { name:'Fiat 500L 1.3 Multijet', slug:'fiat-500l-1-3-mjt-2017', cat:'monovolume', catLabel:'Monovolume', year:'2017', km:'142.000', fuel:'Diesel', gear:'Manuale', price:null,
+      desc:'Versione Business, colore grigio, unico proprietario, km. 142.000 certificati. Navigatore TomTom, cruise control e climatizzatore: spazio da monovolume in formato compatto.',
+      images:['./assets/cars/fiat-500l-2017/1.jpg','./assets/cars/fiat-500l-2017/2.jpg','./assets/cars/fiat-500l-2017/3.jpg','./assets/cars/fiat-500l-2017/4.jpg','./assets/cars/fiat-500l-2017/5.jpg'] },
+    { name:'Fiat 500X 1.3 Multijet', slug:'fiat-500x-1-3-mjt-2018', cat:'suv', catLabel:'SUV & Crossover', year:'2018', km:'133.000', fuel:'Diesel', gear:'Manuale', price:null,
+      desc:'Versione Pop Star, colore blu, unico proprietario, km. 133.000 con tagliandi certificati. Cerchi in lega, cruise control e sensori posteriori: il crossover Fiat pronto per città e strada.',
+      images:['./assets/cars/fiat-500x-2018/1.jpg','./assets/cars/fiat-500x-2018/2.jpg','./assets/cars/fiat-500x-2018/3.jpg','./assets/cars/fiat-500x-2018/4.jpg','./assets/cars/fiat-500x-2018/5.jpg'] },
+    { name:'Fiat Punto Metano', slug:'fiat-punto-2016-metano', cat:'citycar', catLabel:'City Car', year:'2016', km:null, fuel:'Metano', gear:null, price:null,
+      desc:'Un classico intramontabile ora ad alimentazione a metano: costi di rifornimento ridotti al minimo e affidabilità Fiat, per chi guida ogni giorno senza pensieri sul carburante.',
+      images:['./assets/cars/fiat-punto-2016-metano/1.jpg','./assets/cars/fiat-punto-2016-metano/2.jpg','./assets/cars/fiat-punto-2016-metano/3.jpg','./assets/cars/fiat-punto-2016-metano/4.jpg','./assets/cars/fiat-punto-2016-metano/5.jpg'] },
+    { name:'Ford C-Max 1.5 TDCi Titanium', slug:'ford-c-max-1-5-tdci-2018', cat:'monovolume', catLabel:'Monovolume', year:'2018', km:'177.000', fuel:'Diesel', gear:null, price:null,
+      desc:'Versione Titanium, colore blu, km. 177.000 originali. Navigatore Ford Sync, cruise control, sensori anteriori/posteriori e sedili misto pelle: comfort e spazio per tutta la famiglia.',
+      images:['./assets/cars/ford-c-max-2018-blu-titanium/1.jpg','./assets/cars/ford-c-max-2018-blu-titanium/2.jpg','./assets/cars/ford-c-max-2018-blu-titanium/3.jpg','./assets/cars/ford-c-max-2018-blu-titanium/4.jpg','./assets/cars/ford-c-max-2018-blu-titanium/5.jpg'] },
+    { name:'Ford Focus SW 1.5 TDCI', slug:'ford-focus-sw-1-5-tdci-2018', cat:'wagon', catLabel:'Station Wagon', year:'2018', km:'144.000', fuel:'Diesel', gear:'Manuale', price:null,
+      desc:'Versione Business, unico proprietario, km. 144.000 certificati. Sistema Ford Sync touchscreen, cerchi in lega e sensori posteriori: una wagon pratica per lunghi chilometraggi.',
+      images:['./assets/cars/ford-focus-sw-2018-nera/1.jpg','./assets/cars/ford-focus-sw-2018-nera/2.jpg','./assets/cars/ford-focus-sw-2018-nera/3.jpg','./assets/cars/ford-focus-sw-2018-nera/4.jpg','./assets/cars/ford-focus-sw-2018-nera/5.jpg'] },
+    { name:'Opel Grandland', slug:'opel-grandland-2021', cat:'suv', catLabel:'SUV & Crossover', year:'2021', km:'141.000', fuel:'Diesel', gear:'Automatico', price:null,
+      desc:'Versione Elegance 1.5 Diesel 130CV, cambio automatico EAT8, km. 141.000 originali. Clima bi-zona, CarPlay/Android Auto, sensori e telecamera posteriore: un SUV completo e ben accessoriato.',
+      images:['./assets/cars/opel-grandland-2021/1.jpg','./assets/cars/opel-grandland-2021/2.jpg','./assets/cars/opel-grandland-2021/3.jpg','./assets/cars/opel-grandland-2021/4.jpg','./assets/cars/opel-grandland-2021/5.jpg'] },
+    { name:'Peugeot 208', slug:'peugeot-208-2016', cat:'citycar', catLabel:'City Car', year:'2016', km:'92.000', fuel:'Diesel', gear:'Manuale', price:null,
+      desc:'Versione Active 1.5 BlueHDi, colore bianco, unico proprietario, km. 92.000 originali. Touchscreen a colori, cruise control e clima: la city car Peugeot pronta all\'uso quotidiano.',
+      images:['./assets/cars/peugeot-208-2016/1.jpg','./assets/cars/peugeot-208-2016/2.jpg','./assets/cars/peugeot-208-2016/3.jpg','./assets/cars/peugeot-208-2016/4.jpg','./assets/cars/peugeot-208-2016/5.jpg'] },
+    { name:'Peugeot 3008 1.5 BlueHDi Allure', slug:'peugeot-3008-1-5-blu-hdi-2023', cat:'suv', catLabel:'SUV & Crossover', year:'2023', km:null, fuel:'Diesel', gear:null, price:null,
+      desc:'SUV Peugeot di ultima generazione in allestimento Allure, colore nero: cabina di guida i-Cockpit, materiali premium e diesel BlueHDi efficiente anche sui lunghi tragitti.',
+      images:['./assets/cars/peugeot-3008-2023-allure-nera/1.jpg','./assets/cars/peugeot-3008-2023-allure-nera/2.jpg','./assets/cars/peugeot-3008-2023-allure-nera/3.jpg','./assets/cars/peugeot-3008-2023-allure-nera/4.jpg','./assets/cars/peugeot-3008-2023-allure-nera/5.jpg'] },
+    { name:'Peugeot 5008 — 5 posti', slug:'peugeot-5008-2011', cat:'suv', catLabel:'SUV & Crossover', year:'2011', km:null, fuel:null, gear:null, price:null,
+      desc:'SUV/monovolume Peugeot in configurazione 5 posti, colore grigio: spazio generoso per passeggeri e bagagli, ideale per famiglie che cercano comfort e versatilità.', images:[] },
+    { name:'Piaggio Beverly 350', slug:'piaggio-beverly-350-2019', cat:'scooter', catLabel:'Scooter', year:'2019', km:null, fuel:'Benzina', gear:'Automatico', price:null,
+      desc:'Scooter GT Piaggio pensato per lunghe percorrenze: vano sottosella capiente, comfort di guida e il 350cc brillante sia in città che fuori porta.',
+      images:['./assets/cars/piaggio-beverly-350-2019/1.jpg','./assets/cars/piaggio-beverly-350-2019/2.jpg','./assets/cars/piaggio-beverly-350-2019/3.jpg','./assets/cars/piaggio-beverly-350-2019/4.jpg','./assets/cars/piaggio-beverly-350-2019/5.jpg'] }
+  ];
+
+  var grid = document.getElementById('carGrid');
+  var fuelIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v18M6 21V8a2 2 0 012-2h4M6 12h5M17 8l3 3v6a1.5 1.5 0 01-3 0v-2a1 1 0 00-1-1h-1"/></svg>';
+  var gearIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/></svg>';
+  var calIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+  var kmIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>';
+
+  cars.forEach(function(car, idx){
+    var pal = palettes[idx % palettes.length];
+    var hasPhotos = car.images && car.images.length > 0;
+    var slideSrcs = hasPhotos ? car.images : null;
+    var slideCount = hasPhotos ? slideSrcs.length : 1;
+    var card = document.createElement('article');
+    card.className = 'car-card';
+    card.setAttribute('data-cat', car.cat);
+
+    var slidesHTML = hasPhotos
+      ? slideSrcs.map(function(src){ return '<div class="car-slide photo"><img src="'+src+'" alt="'+car.name+'" loading="lazy"></div>'; }).join('')
+      : '<div class="car-slide">'+carSVG(car.cat, pal)+'</div>';
+    var dotsHTML = slideCount > 1
+      ? Array.from({length:slideCount}).map(function(_,i){ return '<span class="'+(i===0?'active':'')+'"></span>'; }).join('')
+      : '';
+    var priceHTML = car.price
+      ? '<span class="car-price-tag tabular">€ '+car.price+'</span>'
+      : '<span class="car-price-tag" style="font-size:.78rem;">Prezzo su richiesta</span>';
+
+    card.innerHTML =
+      '<div class="car-media">' +
+        (hasPhotos ? '' : '<span class="car-badge">Foto in arrivo</span>') +
+        '<div class="car-slides">'+slidesHTML+'</div>' +
+        (slideCount > 1 ? '<button class="car-nav prev" aria-label="Foto precedente">‹</button><button class="car-nav next" aria-label="Foto successiva">›</button><div class="car-dots">'+dotsHTML+'</div>' : '') +
+        priceHTML +
+      '</div>' +
+      '<div class="car-body">' +
+        '<span class="kicker">'+car.catLabel+'</span>' +
+        '<h3>'+car.name+'</h3>' +
+        '<p class="desc">'+car.desc+'</p>' +
+        '<div class="spec-row">' +
+          '<div class="spec">'+calIcon+'<b class="tabular">'+car.year+'</b><small>Anno</small></div>' +
+          '<div class="spec">'+kmIcon+'<b class="tabular">'+(car.km||'—')+'</b><small>Km</small></div>' +
+          '<div class="spec">'+fuelIcon+'<b>'+(car.fuel||'—')+'</b><small>Alimentaz.</small></div>' +
+          '<div class="spec">'+gearIcon+'<b>'+(car.gear||'—')+'</b><small>Cambio</small></div>' +
+        '</div>' +
+        '<div class="car-foot">' +
+          '<button class="btn btn-ghost btn-details" type="button">Vedi Dettagli</button>' +
+          '<a href="#contatti" class="btn btn-primary btn-inquire">Richiedi Info</a>' +
+        '</div>' +
+      '</div>';
+
+    grid.appendChild(card);
+
+    // per-card carousel
+    var slidesWrap = card.querySelector('.car-slides');
+    var dots = card.querySelectorAll('.car-dots span');
+    var current = 0;
+    function go(i){
+      current = (i + slideCount) % slideCount;
+      slidesWrap.style.transform = 'translateX(-' + (current*100) + '%)';
+      dots.forEach(function(d,di){ d.classList.toggle('active', di===current); });
+    }
+    if(slideCount > 1){
+      card.querySelector('.car-nav.prev').addEventListener('click', function(){ go(current-1); });
+      card.querySelector('.car-nav.next').addEventListener('click', function(){ go(current+1); });
+    }
+
+    card.querySelector('.btn-details').addEventListener('click', function(){
+      var lb = document.getElementById('lightbox');
+      var visual = hasPhotos ? '<img src="'+slideSrcs[0]+'" alt="'+car.name+'" style="border-radius:10px;">' : carSVG(car.cat, pal);
+      var priceLine = car.price ? '€ '+car.price : 'Prezzo su richiesta — contattaci';
+      document.getElementById('lightboxContent').innerHTML =
+        '<div style="margin-bottom:14px;">'+visual+'</div>' +
+        '<h3 style="font-family:\'Bricolage\';font-size:1.2rem;margin-bottom:6px;">'+car.name+'</h3>' +
+        '<p style="color:var(--ink-soft);font-size:.9rem;margin-bottom:14px;">'+car.desc+'</p>' +
+        '<p style="font-family:\'Bricolage\';font-weight:800;color:var(--blue-700);font-size:1.3rem;">'+priceLine+'</p>';
+      lb.classList.add('open');
+    });
+
+    card.querySelector('.btn-inquire').addEventListener('click', function(){
+      var sel = document.getElementById('f-car');
+      var opt = document.createElement('option');
+      opt.textContent = car.name; opt.value = car.name;
+      var exists = Array.prototype.some.call(sel.options, function(o){ return o.value === car.name; });
+      if(!exists){ sel.appendChild(opt); }
+      sel.value = car.name;
+    });
+  });
+
+  /* filters */
+  document.getElementById('filterBar').addEventListener('click', function(e){
+    var btn = e.target.closest('.chip');
+    if(!btn) return;
+    document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('active'); });
+    btn.classList.add('active');
+    var f = btn.getAttribute('data-filter');
+    document.querySelectorAll('.car-card').forEach(function(card){
+      card.hidden = !(f === 'tutte' || card.getAttribute('data-cat') === f);
+    });
+  });
+
+  /* hero showcase rotator */
+  var showcaseCars = cars.slice(0,4);
+  var scIndex = 0;
+  var scStage = document.getElementById('showcaseStage');
+  var scDots = document.getElementById('showcaseDots');
+  scDots.innerHTML = showcaseCars.map(function(_,i){ return '<span class="'+(i===0?'active':'')+'"></span>'; }).join('');
+  function renderShowcase(){
+    var car = showcaseCars[scIndex];
+    var pal = palettes[scIndex % palettes.length];
+    if(car.images && car.images.length){
+      scStage.innerHTML = '<img src="'+car.images[0]+'" alt="'+car.name+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+    } else {
+      scStage.innerHTML = carSVG(car.cat, pal);
+    }
+    document.getElementById('showcaseName').textContent = car.name;
+    document.getElementById('showcasePrice').textContent = car.price ? ('€ ' + car.price) : 'Prezzo su richiesta';
+    scDots.querySelectorAll('span').forEach(function(d,i){ d.classList.toggle('active', i===scIndex); });
+  }
+  renderShowcase();
+  var scTimer = setInterval(function(){
+    scIndex = (scIndex+1) % showcaseCars.length;
+    renderShowcase();
+  }, 3800);
+
+  /* lightbox close */
+  var lightbox = document.getElementById('lightbox');
+  document.getElementById('lightboxClose').addEventListener('click', function(){ lightbox.classList.remove('open'); });
+  lightbox.addEventListener('click', function(e){ if(e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lightbox.classList.remove('open'); });
+
+  /* testimonials */
+  var testis = [
+    { name:'Anna M.', role:'Cliente dal 2024', text:'Personale disponibile, nessuna fretta nella scelta e prezzo onesto. Auto perfetta come descritta.' },
+    { name:'Vito D.', role:'Cliente dal 2023', text:'Ho permutato la mia vecchia auto in mezz\'ora, valutazione corretta e ritiro a domicilio.' },
+    { name:'Giulia R.', role:'Cliente dal 2025', text:'Finanziamento approvato in giornata e consegna rapidissima. Consigliatissimi.' },
+    { name:'Michele P.', role:'Cliente dal 2024', text:'Ottima assistenza anche dopo l\'acquisto per un piccolo tagliando. Servizio serio.' }
+  ];
+  var track = document.getElementById('testiTrack');
+  testis.forEach(function(t){
+    var el = document.createElement('div');
+    el.className = 'testi-card';
+    el.innerHTML = '<div class="testi-stars">★★★★★</div><p>&ldquo;'+t.text+'&rdquo;</p>' +
+      '<div class="testi-who"><div class="testi-avatar">'+t.name.charAt(0)+'</div><div><b>'+t.name+'</b><span>'+t.role+'</span></div></div>';
+    track.appendChild(el);
+  });
+
+  /* faq */
+  var faqs = [
+    { q:'Posso richiedere un finanziamento?', a:'Sì, in salone lavoriamo con più istituti finanziari e possiamo darti una risposta indicativa già durante la visita.' },
+    { q:'Ritirate la mia auto usata in permuta?', a:'Certo, valutiamo la tua vettura attuale e la scontiamo direttamente dal prezzo della nuova.' },
+    { q:'Le auto hanno garanzia?', a:'Tutte le vetture in vendita sono coperte da garanzia secondo la normativa vigente sull\'usato garantito.' },
+    { q:'Posso prenotare un giro di prova?', a:'Sì, contattaci per telefono, email o Instagram e fissiamo insieme data e orario per il test drive.' }
+  ];
+  var faqList = document.getElementById('faqList');
+  faqs.forEach(function(f){
+    var item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML = '<button class="faq-q"><span>'+f.q+'</span><span class="plus"></span></button><div class="faq-a"><p>'+f.a+'</p></div>';
+    item.querySelector('.faq-q').addEventListener('click', function(){
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+      if(!wasOpen) item.classList.add('open');
+    });
+    faqList.appendChild(item);
+  });
+
+  /* contact form (demo only) */
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = 'Richiesta inviata! (demo — collegare a un indirizzo reale)';
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 3200);
+    e.target.reset();
+  });
+
+})();
+</script>
