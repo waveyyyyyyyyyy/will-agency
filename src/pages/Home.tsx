@@ -4,7 +4,6 @@ import { Container, SectionLabel } from "../components/Container";
 import { Reveal, RevealGroup, revealItem } from "../components/Reveal";
 import { Marquee } from "../components/Marquee";
 import { CtaBand } from "../components/CtaBand";
-import { LogoBadge } from "../components/Logo";
 import { services, clients, process } from "../data/content";
 
 export function Home() {
@@ -18,18 +17,9 @@ export function Home() {
         />
         <Container className="relative">
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-8"
-          >
-            <LogoBadge size={72} />
-          </motion.div>
-
-          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <SectionLabel>Social Media &amp; Content Agency</SectionLabel>
           </motion.div>
@@ -227,7 +217,7 @@ export function Home() {
         </Container>
       </section>
 
-      <CtaBand />
+      <CtaBand showLogo />
     </>
   );
 }

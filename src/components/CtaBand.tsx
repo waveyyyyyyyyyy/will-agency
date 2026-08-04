@@ -1,17 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
+import { LogoBadge } from "./Logo";
 
 export function CtaBand({
   eyebrow = "Pronti a partire",
   title = "Il tuo brand merita una strategia, non un profilo social a caso.",
   subtitle = "Analizziamo la tua situazione attuale e ti diciamo, senza giri di parole, cosa serve per crescere davvero.",
   ctaLabel = "Prenota una call gratuita",
+  showLogo = false,
 }: {
   eyebrow?: string;
   title?: string;
   subtitle?: string;
   ctaLabel?: string;
+  showLogo?: boolean;
 }) {
   return (
     <section className="relative overflow-hidden border-t border-line bg-surface py-28">
@@ -21,6 +24,11 @@ export function CtaBand({
       />
       <Container className="relative text-center">
         <Reveal>
+          {showLogo && (
+            <div className="mb-8 flex justify-center">
+              <LogoBadge size={88} />
+            </div>
+          )}
           <span className="text-xs font-medium uppercase tracking-[0.3em] text-gold">{eyebrow}</span>
           <h2 className="font-display mx-auto mt-5 max-w-3xl text-balance text-4xl font-medium leading-[1.1] tracking-tight text-paper md:text-5xl">
             {title}
