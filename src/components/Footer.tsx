@@ -30,6 +30,7 @@ export function Footer() {
             <div className="mt-5 flex flex-col gap-3 text-sm text-smoke">
               <a href="mailto:info@willmarketingagency.com" className="hover:text-gold">
                 info@willmarketingagency.com
+                +39 351 595 2825
               </a>
               <span>Italia</span>
             </div>
