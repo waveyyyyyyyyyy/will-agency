@@ -17,7 +17,7 @@ export function Footer() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bone">Agenzia</p>
-            <nav className="mt-5 flex flex-col gap-3 text-sm text-smoke">
+            <nav className="mt-5 flex flex-col gap-4 text-sm text-smoke">
               <NavLink to="/servizi" className="hover:text-gold">Servizi</NavLink>
               <NavLink to="/risultati" className="hover:text-gold">Risultati</NavLink>
               <NavLink to="/chi-siamo" className="hover:text-gold">Chi Siamo</NavLink>
@@ -27,7 +27,7 @@ export function Footer() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bone">Contatti</p>
-            <div className="mt-5 flex flex-col gap-3 text-sm text-smoke">
+            <div className="mt-5 flex flex-col gap-4 text-sm text-smoke">
               <a href="mailto:info@willmarketingagency.com" className="hover:text-gold">
                 info@willmarketingagency.com
               </a>
@@ -40,7 +40,7 @@ export function Footer() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bone">Social</p>
-            <div className="mt-5 flex flex-col gap-3 text-sm text-smoke">
+            <div className="mt-5 flex flex-col gap-4 text-sm text-smoke">
               <a
                 href="https://instagram.com/willmarketingagency"
                 target="_blank"

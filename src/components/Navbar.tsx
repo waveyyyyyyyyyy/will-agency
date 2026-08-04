@@ -37,7 +37,7 @@ export function Navbar() {
           <Logo />
         </NavLink>
 
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-9 lg:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -53,7 +53,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <NavLink
             to="/contatti"
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gold px-5 py-2.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink transition-transform hover:scale-[1.03] active:scale-[0.98]"
@@ -64,7 +64,7 @@ export function Navbar() {
 
         <button
           aria-label="Apri menu"
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           <span
@@ -83,7 +83,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-line bg-ink md:hidden"
+            className="overflow-hidden border-t border-line bg-ink lg:hidden"
           >
             <Container className="flex flex-col gap-1 py-6">
               {links.map((link) => (

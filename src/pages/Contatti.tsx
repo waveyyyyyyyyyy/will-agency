@@ -33,7 +33,7 @@ export function Contatti() {
       />
 
       <section className="pb-32">
-        <Container className="grid gap-14 md:grid-cols-[1fr_1.2fr] md:gap-20">
+        <Container className="grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <Reveal>
             <SectionLabel>Contatto diretto</SectionLabel>
             <a

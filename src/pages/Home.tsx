@@ -28,7 +28,7 @@ export function Home() {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display mt-7 max-w-5xl text-balance text-6xl font-medium leading-[1.02] tracking-tight text-paper md:text-8xl"
+            className="font-display mt-7 max-w-5xl text-balance text-4xl font-medium leading-[1.1] tracking-tight text-paper sm:text-5xl md:text-7xl md:leading-[1.02] lg:text-8xl"
           >
             Contenuti che <span className="text-gold">costruiscono</span> brand, non solo numeri.
           </motion.h1>
