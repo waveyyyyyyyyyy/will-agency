@@ -4,7 +4,7 @@ import { Container, SectionLabel } from "../components/Container";
 import { Reveal, RevealGroup, revealItem } from "../components/Reveal";
 import { Marquee } from "../components/Marquee";
 import { CtaBand } from "../components/CtaBand";
-import { LogoMark } from "../components/Logo";
+import { LogoBadge } from "../components/Logo";
 import { services, clients, process } from "../data/content";
 
 export function Home() {
@@ -23,7 +23,7 @@ export function Home() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="mb-8"
           >
-            <LogoMark size={40} />
+            <LogoBadge size={72} />
           </motion.div>
 
           <motion.div
