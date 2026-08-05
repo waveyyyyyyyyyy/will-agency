@@ -1,26 +1,36 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ScrollToTop } from "./lib/ScrollToTop";
 import { useSmoothScroll } from "./lib/useSmoothScroll";
-import { Home } from "./pages/Home";
+import { CorridorScene } from "./scenes/CorridorScene";
+import { GateScene } from "./scenes/GateScene";
+import { RoomPlaceholder } from "./scenes/RoomPlaceholder";
 import { Servizi } from "./pages/Servizi";
 import { Risultati } from "./pages/Risultati";
 import { ChiSiamo } from "./pages/ChiSiamo";
 import { Contatti } from "./pages/Contatti";
 import { NotFound } from "./pages/NotFound";
 
+// The corridor walkthrough (home, portal junction, and its three rooms) is a
+// full-bleed cinematic experience — the marketing chrome stays out of the way there.
+const IMMERSIVE_ROUTES = [/^\/$/, /^\/portale(\/.*)?$/];
+
 function App() {
   useSmoothScroll();
+  const location = useLocation();
+  const immersive = IMMERSIVE_ROUTES.some((re) => re.test(location.pathname));
 
   return (
     <>
       <div className="noise-overlay" />
       <ScrollToTop />
-      <Navbar />
+      {!immersive && <Navbar />}
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<CorridorScene />} />
+          <Route path="/portale" element={<GateScene />} />
+          <Route path="/portale/:doorId" element={<RoomPlaceholder />} />
           <Route path="/servizi" element={<Servizi />} />
           <Route path="/risultati" element={<Risultati />} />
           <Route path="/chi-siamo" element={<ChiSiamo />} />
@@ -28,7 +38,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
+      {!immersive && <Footer />}
     </>
   );
 }

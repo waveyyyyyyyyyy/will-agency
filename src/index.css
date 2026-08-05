@@ -16,6 +16,20 @@
   --color-gold-deep: #e0a500;
   --color-line: rgba(246, 245, 241, 0.1);
 
+  /* Cosmic gallery palette — sampled from the diamond-corridor reference art.
+     Used by the animated homepage / portal / room scenes. */
+  --color-cosmic-void: #07040f;
+  --color-cosmic-indigo: #150c33;
+  --color-cosmic-violet: #4c2a8f;
+  --color-cosmic-violet-light: #8a5fd6;
+  --color-cosmic-blue: #23306e;
+  --color-cosmic-teal: #14a696;
+  --color-cosmic-ruby: #9c1f3f;
+  --color-cosmic-ruby-light: #d94566;
+  --color-cosmic-gold: #e8c168;
+  --color-cosmic-gold-deep: #b6862c;
+  --color-cosmic-star: #f1e8ff;
+
   --animate-marquee: marquee 32s linear infinite;
 }
 
@@ -25,6 +39,77 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes float-y {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* Walker figure — natural gait cycle. Legs/arms are opposite-phase, applied
+   with delayed copies of the same keyframe so left/right stay mirrored. */
+@keyframes limb-swing {
+  0% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(22deg);
+  }
+  100% {
+    transform: rotate(-22deg);
+  }
+}
+
+@keyframes walk-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5%);
+  }
+}
+
+@keyframes footstep-glow {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
   }
 }
 
