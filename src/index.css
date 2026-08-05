@@ -76,40 +76,39 @@
   }
 }
 
-/* Walker figure — natural gait cycle. Legs/arms are opposite-phase, applied
-   with delayed copies of the same keyframe so left/right stay mirrored. */
-@keyframes limb-swing {
+/* Tile-illumination sequence — each floor tile blooms in, then settles at a
+   lower steady glow (fill-mode: forwards holds the 100% value), building a
+   lit trail toward the diamond one tile at a time. */
+@keyframes tile-bloom-core {
   0% {
-    transform: rotate(-22deg);
+    opacity: 0;
   }
-  50% {
-    transform: rotate(22deg);
+  45% {
+    opacity: 1;
   }
   100% {
-    transform: rotate(-22deg);
+    opacity: 0.85;
   }
 }
 
-@keyframes walk-bob {
+@keyframes tile-bloom-glow {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes trail-breathe {
   0%, 100% {
-    transform: translateY(0);
+    opacity: 0.88;
   }
   50% {
-    transform: translateY(-2.5%);
-  }
-}
-
-@keyframes footstep-glow {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  18% {
-    opacity: 0.95;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
+    opacity: 1;
   }
 }
 
