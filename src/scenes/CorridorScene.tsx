@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, animate, motion, useMotionValueEvent, useMotionValue } from "framer-motion";
 import { WalkerFigure } from "./WalkerFigure";
+import corridorImg from "../assets/corridor.jpg";
 
 /**
  * The mosaic path traced through the corridor photo, in percent-of-frame
@@ -95,7 +96,7 @@ export function CorridorScene() {
       >
         {/* background photo */}
         <motion.img
-          src="/scenes/corridor.jpg"
+          src={corridorImg}
           alt="Galleria cosmica con soffitto a volta stellato e pavimento in marmo intarsiato, che conduce a un diamante luminoso"
           className="absolute inset-0 h-full w-full object-cover"
           initial={{ scale: 1 }}
