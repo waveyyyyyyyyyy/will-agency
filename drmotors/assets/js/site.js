@@ -23,6 +23,7 @@
       var card = document.createElement('article');
       card.className = 'car-card';
       card.setAttribute('data-cat', car.cat);
+      card.setAttribute('data-brand', car.brand || '');
       card.innerHTML =
         '<a class="car-media" href="' + detailUrl(car) + '">' +
           (hasPhoto ? '' : '<span class="car-badge">Foto in arrivo</span>') +
@@ -39,16 +40,33 @@
       grid.appendChild(card);
     });
 
+    /* ---- filtro marca (elenco fisso, indipendente dallo stock attuale) ---- */
+    var BRANDS = ['Alfa Romeo','Audi','BMW','Citroën','Cupra','Dacia','Fiat','Ford','Kia','Lancia','Mercedes','Nissan','Opel','Peugeot','Piaggio','Renault','Seat','Skoda','Suzuki','Toyota','Volkswagen','Volvo'];
+    var brandSelect = document.getElementById('brandFilter');
+    BRANDS.forEach(function (b) {
+      var opt = document.createElement('option');
+      opt.value = b; opt.textContent = b;
+      brandSelect.appendChild(opt);
+    });
+
+    function applyFilters() {
+      var cat = document.querySelector('.chip.active').getAttribute('data-filter');
+      var brand = brandSelect.value;
+      document.querySelectorAll('.car-card').forEach(function (card) {
+        var matchCat = cat === 'tutte' || card.getAttribute('data-cat') === cat;
+        var matchBrand = brand === 'tutte' || card.getAttribute('data-brand') === brand;
+        card.hidden = !(matchCat && matchBrand);
+      });
+    }
+
     document.getElementById('filterBar').addEventListener('click', function (e) {
       var btn = e.target.closest('.chip');
       if (!btn) return;
       document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
       btn.classList.add('active');
-      var f = btn.getAttribute('data-filter');
-      document.querySelectorAll('.car-card').forEach(function (card) {
-        card.hidden = !(f === 'tutte' || card.getAttribute('data-cat') === f);
-      });
+      applyFilters();
     });
+    brandSelect.addEventListener('change', applyFilters);
   }
 
   /* ---- count-up statistiche hero ---- */

@@ -1,6 +1,6 @@
-# DR Motors — Sito Demo
+# DRMotors — Sito Demo
 
-Sito statico multi-pagina (HTML + CSS + JS vanilla, nessuna build richiesta) per DR Motors, concessionaria plurimarche a Barletta. Il layout della pagina annuncio è ispirato a subito.it: foto grande + miniature a sinistra, prezzo/scheda tecnica/contatti a destra.
+Sito statico multi-pagina (HTML + CSS + JS vanilla, nessuna build richiesta) per DRMotors, concessionaria plurimarche a Barletta. Il layout della pagina annuncio è ispirato a subito.it: foto grande + miniature a sinistra, prezzo/scheda tecnica/contatti a destra.
 
 ## Struttura
 
@@ -17,7 +17,7 @@ drmotors/
     │   ├── site.js               # logica della home (catalogo, filtri, FAQ, form)
     │   └── detail.js             # logica della pagina annuncio (galleria, specifiche, CTA)
     ├── fonts/                   # Bricolage Grotesque + Inter (variable, woff2)
-    ├── logos/                    # loghi ufficiali DR Motors (logo1 = icona, logo2 = orizzontale)
+    ├── logos/                    # loghi ufficiali DRMotors (logo1 = icona, logo2 = orizzontale)
     └── cars/<slug>/1.jpg…        # foto reali per veicolo (5 per auto, 3 per la Fiat 500 Ibrida)
 ```
 
