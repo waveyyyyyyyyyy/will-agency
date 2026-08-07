@@ -19,9 +19,7 @@
     if (car.euro) {
       html += '<div class="spec">' + leafIcon + '<b>' + car.euro + '</b><small>Classe</small></div>';
     }
-    if (car.bodyType) {
-      html += '<div class="spec">' + bodyIcon + '<b>' + car.bodyType + '</b><small>Categoria</small></div>';
-    }
+    html += '<div class="spec">' + bodyIcon + '<b>' + car.catLabel + '</b><small>Categoria</small></div>';
     return html;
   }
 
