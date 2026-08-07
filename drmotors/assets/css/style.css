@@ -159,7 +159,7 @@ nav.links a:hover::after{ right:0; }
   background-size:16px 16px; opacity:.35;
 }
 @media (max-width:960px){ .hero-dots{ display:none; } }
-.hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center; padding:76px 0 56px; position:relative; }
+.hero-grid{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:48px; align-items:center; padding:76px 0 56px; position:relative; }
 @media (max-width:960px){ .hero-grid{ grid-template-columns:1fr; padding:44px 0 40px; gap:36px; } }
 .hero h1{ font-size:clamp(2.3rem, 4.4vw, 3.6rem); line-height:1.04; color:var(--blue-900); }
 .hero h1 em{ font-style:normal; color:var(--blue-600); }
@@ -267,7 +267,7 @@ section{ padding:84px 0; }
 .why-card p{ font-size:.86rem; color:var(--ink-soft); margin:0; }
 
 /* ---------- chi siamo ---------- */
-.about-grid{ display:grid; grid-template-columns:.95fr 1.05fr; gap:56px; align-items:center; }
+.about-grid{ display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); gap:56px; align-items:center; }
 @media (max-width:900px){ .about-grid{ grid-template-columns:1fr; gap:36px; } }
 .about-copy p{ color:var(--ink-soft); margin-top:16px; }
 .about-copy p:first-of-type{ margin-top:18px; }
@@ -313,7 +313,7 @@ section{ padding:84px 0; }
 .faq-item.open .faq-a{ max-height:220px; }
 
 /* ---------- map ---------- */
-.map-banner{ position:relative; overflow:hidden; border-radius:20px; margin-bottom:40px; background:linear-gradient(120deg,var(--blue-900),var(--blue-700) 55%,var(--blue-400)); padding:32px; display:grid; grid-template-columns:1fr 1.1fr; gap:32px; align-items:stretch; box-shadow:var(--shadow); }
+.map-banner{ position:relative; overflow:hidden; border-radius:20px; margin-bottom:40px; background:linear-gradient(120deg,var(--blue-900),var(--blue-700) 55%,var(--blue-400)); padding:32px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:32px; align-items:stretch; box-shadow:var(--shadow); }
 @media (max-width:860px){ .map-banner{ grid-template-columns:1fr; padding:26px 20px; } }
 .map-banner-copy{ color:#fff; position:relative; z-index:1; display:flex; flex-direction:column; justify-content:center; }
 .map-banner-copy .eyebrow{ color:var(--yellow); }
@@ -380,7 +380,7 @@ footer a:hover{ color:var(--yellow); }
    sinistra con miniature, scheda con prezzo/specifiche/contatti a destra)
    ===================================================================== */
 .listing{ padding:36px 0 90px; }
-.listing-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:40px; align-items:start; }
+.listing-grid{ display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:40px; align-items:start; }
 @media (max-width:960px){ .listing-grid{ grid-template-columns:1fr; } }
 
 .gallery-main{ position:relative; border-radius:16px; overflow:hidden; background:var(--blue-100); aspect-ratio:4/3; box-shadow:var(--shadow); }
