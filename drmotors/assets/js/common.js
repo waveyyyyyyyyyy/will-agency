@@ -7,13 +7,22 @@
   var gearIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/></svg>';
   var calIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
   var kmIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>';
+  var leafIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21c9 0 14-5 14-14V5h-2C8 5 3 10 3 19v2z"/><path d="M5 21c4-8 8-11 14-14"/></svg>';
+  var bodyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17V9l3-4h10l3 4v8M4 17h16M4 17a2 2 0 104 0M16 17a2 2 0 104 0"/></svg>';
 
   function specRowHTML(car) {
-    return '' +
+    var html = '' +
       '<div class="spec">' + calIcon + '<b class="tabular">' + car.year + '</b><small>Anno</small></div>' +
       '<div class="spec">' + kmIcon + '<b class="tabular">' + (car.km || '—') + '</b><small>Km</small></div>' +
       '<div class="spec">' + fuelIcon + '<b>' + (car.fuel || '—') + '</b><small>Alimentaz.</small></div>' +
       '<div class="spec">' + gearIcon + '<b>' + (car.gear || '—') + '</b><small>Cambio</small></div>';
+    if (car.euro) {
+      html += '<div class="spec">' + leafIcon + '<b>' + car.euro + '</b><small>Classe</small></div>';
+    }
+    if (car.bodyType) {
+      html += '<div class="spec">' + bodyIcon + '<b>' + car.bodyType + '</b><small>Categoria</small></div>';
+    }
+    return html;
   }
 
   var palettes = [ ['#123E8F','#4A8FE0'], ['#0B2148','#2E7BD6'], ['#1948A3','#8FC1F5'], ['#0B2148','#4A8FE0'] ];

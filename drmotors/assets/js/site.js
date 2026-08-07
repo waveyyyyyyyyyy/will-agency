@@ -4,7 +4,9 @@
   "use strict";
   DRM.setupChrome();
 
-  var BASE = ''; // index.html è nella cartella drmotors/, i path in CARS sono già relativi a lì
+  var BASE = ''; // index.html è nella cartella drmotors/, i path in CARS sono già relative a lì
+  var FOUNDED_YEAR = 2018;
+  var BRANDS = ['Alfa Romeo','Audi','BMW','Citroën','Cupra','Dacia','Fiat','Ford','Kia','Lancia','Mercedes','Nissan','Opel','Peugeot','Piaggio','Renault','Seat','Skoda','Suzuki','Toyota','Volkswagen','Volvo'];
 
   function detailUrl(car) { return 'auto/' + car.slug + '.html'; }
 
@@ -41,7 +43,6 @@
     });
 
     /* ---- filtro marca (elenco fisso, indipendente dallo stock attuale) ---- */
-    var BRANDS = ['Alfa Romeo','Audi','BMW','Citroën','Cupra','Dacia','Fiat','Ford','Kia','Lancia','Mercedes','Nissan','Opel','Peugeot','Piaggio','Renault','Seat','Skoda','Suzuki','Toyota','Volkswagen','Volvo'];
     var brandSelect = document.getElementById('brandFilter');
     BRANDS.forEach(function (b) {
       var opt = document.createElement('option');
@@ -69,7 +70,12 @@
     brandSelect.addEventListener('change', applyFilters);
   }
 
-  /* ---- count-up statistiche hero ---- */
+  /* ---- statistiche hero: calcolate dai dati reali, non inventate ---- */
+  document.getElementById('statAuto').setAttribute('data-count', CARS.length);
+  document.getElementById('statAnni').setAttribute('data-count', new Date().getFullYear() - FOUNDED_YEAR);
+  document.getElementById('statMarchi').setAttribute('data-count', BRANDS.length);
+  // "Clienti soddisfatti": nessun dato Google verificabile disponibile -> resta "—" finché non arriva il numero reale.
+
   var counted = false;
   function countUp() {
     if (counted) return; counted = true;
