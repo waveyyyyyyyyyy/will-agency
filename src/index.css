@@ -96,6 +96,42 @@
   }
 }
 
+/* Floor-tile lighting sequence — each tile blooms in, then settles at a lower
+   steady glow (fill-mode: forwards holds the 100% value), building a lit
+   trail toward the diamond one tile at a time. */
+@keyframes tile-bloom-core {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes tile-bloom-glow {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes trail-breathe {
+  0%, 100% {
+    opacity: 0.88;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 html {
   background-color: var(--color-ink);
 }

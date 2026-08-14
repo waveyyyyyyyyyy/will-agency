@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, animate, motion, useMotionValue, useMotionValueEvent } from "framer-motion";
 import corridorImg from "../assets/corridor.jpg";
@@ -20,20 +20,58 @@ const ZOOM_DURATION_S = 1.15; // the click-triggered dash the rest of the way th
 const BOB_PERIOD_S = APPROACH_DURATION_S / 8; // one footfall cycle — a natural, unhurried cadence
 const BOB_ITERATIONS = 8; // whole number of cycles so the sway lands back on zero exactly at arrival
 
+const N_TILES = 14; // discrete floor tiles that light up in sequence, marking the way
+const STEP_S = 0.32; // pause between one tile catching light and the next — unhurried
+const TILE_FADE_S = 0.65; // how long a single tile takes to bloom in
+const SEQUENCE_S = (N_TILES - 1) * STEP_S + TILE_FADE_S; // ~4.8s — finishes well before arrival, so the
+// floor is already lit by the time the "sfiora il diamante" copy appears at APPROACH_DURATION_S
+
+type Tile = { key: number; d: string; coreWidth: number; glowWidth: number; delay: number };
+
+function scaleAt(t: number) {
+  // perspective falloff: things read large near the viewer, small as they recede toward the diamond
+  return 1 - 0.72 * Math.pow(t, 0.6);
+}
+
+/** Samples a short arc of the real floor path centered on `frac`, so each tile hugs the exact curve of the mosaic instead of a straight guess. */
+function buildTileSegment(path: SVGPathElement, totalLen: number, frac: number): string {
+  const s = scaleAt(frac);
+  const halfWindow = totalLen * 0.03 * (0.45 + s);
+  const center = frac * totalLen;
+  const start = Math.max(0, center - halfWindow);
+  const end = Math.min(totalLen, center + halfWindow);
+  const samples = 9;
+  const pts = Array.from({ length: samples }, (_, i) => {
+    const len = start + ((end - start) * i) / (samples - 1);
+    const p = path.getPointAtLength(len);
+    return `${p.x.toFixed(2)},${p.y.toFixed(2)}`;
+  });
+  return `M${pts.join(" L")}`;
+}
+
 export function CorridorScene() {
   const navigate = useNavigate();
   const pathRef = useRef<SVGPathElement>(null);
   const progress = useMotionValue(0); // 0 → 1 across the approach, sampled along the real floor path
+  const litProgress = useMotionValue(0); // 0 → 1 across the (faster) tile-lighting sequence
   const scale = useMotionValue(1); // shared by the approach dolly-in and the click-through zoom
 
+  const [totalLen, setTotalLen] = useState(0);
   const [origin, setOrigin] = useState({ x: 49.5, y: 96 });
+  const [headPos, setHeadPos] = useState({ x: 49.5, y: 96, scale: 1 });
+  const [pathLit, setPathLit] = useState(false); // floor fully illuminated, ahead of arrival/CTA
   const [arrived, setArrived] = useState(false);
   const [activating, setActivating] = useState(false);
+
+  useEffect(() => {
+    if (pathRef.current) setTotalLen(pathRef.current.getTotalLength());
+  }, []);
 
   // The camera "walks" by continuously zooming toward a focal point that itself
   // travels along the floor's curve — not a straight cut to the diamond, so the
   // approach visibly follows the pavement's own bend, exactly like footsteps
-  // tracing it would.
+  // tracing it would. The floor-lighting sequence runs on its own, faster
+  // timeline so the path is already lit well before the camera arrives.
   useEffect(() => {
     const progressControls = animate(progress, 1, {
       duration: APPROACH_DURATION_S,
@@ -44,9 +82,15 @@ export function CorridorScene() {
       ease: "easeInOut",
       onComplete: () => setArrived(true),
     });
+    const litControls = animate(litProgress, 1, {
+      duration: SEQUENCE_S,
+      ease: "easeInOut",
+      onComplete: () => setPathLit(true),
+    });
     return () => {
       progressControls.stop();
       scaleControls.stop();
+      litControls.stop();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,6 +101,30 @@ export function CorridorScene() {
     const p = path.getPointAtLength(t * path.getTotalLength());
     setOrigin({ x: p.x, y: p.y });
   });
+
+  useMotionValueEvent(litProgress, "change", (t) => {
+    const path = pathRef.current;
+    if (!path) return;
+    const p = path.getPointAtLength(t * path.getTotalLength());
+    setHeadPos({ x: p.x, y: p.y, scale: scaleAt(t) });
+  });
+
+  const tiles = useMemo<Tile[]>(() => {
+    const path = pathRef.current;
+    if (!path || totalLen === 0) return [];
+    return Array.from({ length: N_TILES }, (_, i) => {
+      const frac = 0.05 + (i * (0.97 - 0.05)) / (N_TILES - 1);
+      const s = scaleAt(frac);
+      return {
+        key: i,
+        d: buildTileSegment(path, totalLen, frac),
+        coreWidth: 0.9 + 2.6 * s,
+        glowWidth: 2.4 + 5.4 * s,
+        delay: i * STEP_S,
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalLen]);
 
   function handleDiamondClick() {
     if (!arrived || activating) return;
@@ -103,6 +171,69 @@ export function CorridorScene() {
           >
             <path ref={pathRef} d={PATH_D} fill="none" />
           </svg>
+
+          {/* the floor lighting up toward the diamond, marking the way — finishes well
+              before arrival, so the path is already lit by the time the CTA appears.
+              Additive "screen" blend only brightens the real photographed marble, it
+              never repaints the wrong colour, and every tile is sampled straight off
+              the floor path so it can't stray onto the wall roundels above it. */}
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute inset-0 h-full w-full mix-blend-screen"
+            style={pathLit ? { animation: "trail-breathe 4.5s ease-in-out infinite" } : undefined}
+            aria-hidden
+          >
+            <defs>
+              <filter id="tile-glow-blur" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="0.9" />
+              </filter>
+            </defs>
+            {tiles.map((tile) => (
+              <g key={tile.key}>
+                <path
+                  d={tile.d}
+                  fill="none"
+                  stroke="#e8c168"
+                  strokeWidth={tile.glowWidth}
+                  strokeLinecap="round"
+                  filter="url(#tile-glow-blur)"
+                  opacity={0}
+                  style={{
+                    animation: `tile-bloom-glow ${TILE_FADE_S}s ease-out ${tile.delay}s forwards`,
+                  }}
+                />
+                <path
+                  d={tile.d}
+                  fill="none"
+                  stroke="#fff6df"
+                  strokeWidth={tile.coreWidth}
+                  strokeLinecap="round"
+                  opacity={0}
+                  style={{
+                    animation: `tile-bloom-core ${TILE_FADE_S}s ease-out ${tile.delay}s forwards`,
+                  }}
+                />
+              </g>
+            ))}
+          </svg>
+
+          {/* the traveling light itself, bridging tile to tile as it heads for the diamond */}
+          {!pathLit && (
+            <span
+              className="pointer-events-none absolute rounded-full mix-blend-screen"
+              style={{
+                left: `${headPos.x}%`,
+                top: `${headPos.y}%`,
+                width: `${4.5 * headPos.scale}%`,
+                height: `${2.6 * headPos.scale}%`,
+                transform: "translate(-50%, -50%)",
+                background:
+                  "radial-gradient(ellipse at center, rgba(255,246,223,0.95) 0%, rgba(232,193,104,0.5) 55%, transparent 80%)",
+                filter: "blur(1px)",
+              }}
+            />
+          )}
 
           {/* diamond activation button */}
           <button
