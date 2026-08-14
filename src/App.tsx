@@ -6,6 +6,7 @@ import { useSmoothScroll } from "./lib/useSmoothScroll";
 import { CorridorScene } from "./scenes/CorridorScene";
 import { GateScene } from "./scenes/GateScene";
 import { RoomPlaceholder } from "./scenes/RoomPlaceholder";
+import { SoundToggle } from "./scenes/SoundToggle";
 import { Servizi } from "./pages/Servizi";
 import { Risultati } from "./pages/Risultati";
 import { ChiSiamo } from "./pages/ChiSiamo";
@@ -26,6 +27,7 @@ function App() {
       <div className="noise-overlay" />
       <ScrollToTop />
       {!immersive && <Navbar />}
+      {immersive && <SoundToggle />}
       <main>
         <Routes>
           <Route path="/" element={<CorridorScene />} />

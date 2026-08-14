@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { playSoftPing, playWhoosh } from "./audio";
 
 const DOORS = [
   { id: "sinistra", numeral: "I", accent: "#d94566", tilt: -9, label: "Primo Sentiero" },
@@ -121,9 +122,14 @@ export function GateScene() {
   const navigate = useNavigate();
   const [chosen, setChosen] = useState<string | null>(null);
 
+  useEffect(() => {
+    playSoftPing();
+  }, []);
+
   function handleChoose(id: string) {
     if (chosen) return;
     setChosen(id);
+    playWhoosh();
     setTimeout(() => navigate(`/portale/${id}`), 950);
   }
 

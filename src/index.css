@@ -76,26 +76,6 @@
   }
 }
 
-/* First-person footstep sway — rides on top of the corridor's dolly-zoom so
-   the approach reads as walking, not just a camera pushing in. */
-@keyframes camera-walk-bob {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(2.5px, -4px) rotate(0.15deg);
-  }
-  50% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  75% {
-    transform: translate(-2.5px, -4px) rotate(-0.15deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-}
-
 /* Floor-tile lighting sequence — each tile blooms in, then settles at a lower
    steady glow (fill-mode: forwards holds the 100% value), building a lit
    trail toward the diamond one tile at a time. */
