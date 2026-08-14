@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 
 const ROOMS: Record<string, { numeral: string; accent: string; label: string }> = {
-  sinistra: { numeral: "I", accent: "#d94566", label: "Primo Sentiero" },
-  centro: { numeral: "II", accent: "#e8c168", label: "Secondo Sentiero" },
-  destra: { numeral: "III", accent: "#14a696", label: "Terzo Sentiero" },
+  sinistra: { numeral: "I", accent: "#d94566", label: "Rubino" },
+  centro: { numeral: "II", accent: "#e8c168", label: "Topazio" },
+  destra: { numeral: "III", accent: "#14a696", label: "Smeraldo" },
 };
 
 /**
- * Placeholder interior for a chosen door — keeps the palette and mood of the
+ * Placeholder interior for a chosen gem — keeps the palette and mood of the
  * corridor/portal so the walkthrough reads as one continuous world. What
  * actually lives inside each room is defined in a later pass.
  */

@@ -96,7 +96,55 @@ function startAmbient() {
     oscillators.push(osc, lfo);
   });
 
+  // A pure, steady 528 Hz tone laid very quietly under the drone — the
+  // "solfeggio" frequency some listeners find calming. Kept far enough back
+  // in the mix that it reads as warmth, not as an audible pitch on its own.
+  const healingOsc = c.createOscillator();
+  healingOsc.type = "sine";
+  healingOsc.frequency.value = 528;
+  const healingGain = c.createGain();
+  healingGain.gain.value = 0;
+  healingOsc.connect(healingGain);
+  healingGain.connect(filter);
+  healingGain.gain.setValueAtTime(0, now);
+  healingGain.gain.linearRampToValueAtTime(0.045, now + 4);
+  const healingLfo = c.createOscillator();
+  healingLfo.frequency.value = 0.06;
+  const healingLfoGain = c.createGain();
+  healingLfoGain.gain.value = 0.015;
+  healingLfo.connect(healingLfoGain);
+  healingLfoGain.connect(healingGain.gain);
+  healingOsc.start(now);
+  healingLfo.start(now);
+  oscillators.push(healingOsc, healingLfo);
+
   ambientGain.gain.linearRampToValueAtTime(1, now + 2.6);
+
+  // Sparse, randomised high "starlight" twinkles — what turns a static drone
+  // into something that reads as generative "cosmic" music rather than a loop.
+  const cosmicNotes = [1046.5, 1174.66, 1318.51, 1567.98, 1760]; // C6 D6 E6 G6 A6
+  let twinkleTimer: number | undefined;
+  function scheduleTwinkle() {
+    const delay = 3.5 + Math.random() * 5.5;
+    twinkleTimer = window.setTimeout(() => {
+      const c2 = getCtx();
+      const t = c2.currentTime;
+      const freq = cosmicNotes[Math.floor(Math.random() * cosmicNotes.length)];
+      const osc = c2.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const g = c2.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.045, t + 0.6);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
+      osc.connect(g);
+      g.connect(masterGain!);
+      osc.start(t);
+      osc.stop(t + 3.3);
+      scheduleTwinkle();
+    }, delay * 1000);
+  }
+  scheduleTwinkle();
 
   ambient = {
     stop: () => {
@@ -105,6 +153,7 @@ function startAmbient() {
       ambientGain.gain.cancelScheduledValues(t);
       ambientGain.gain.setValueAtTime(ambientGain.gain.value, t);
       ambientGain.gain.linearRampToValueAtTime(0, t + 1);
+      if (twinkleTimer) window.clearTimeout(twinkleTimer);
       window.setTimeout(() => {
         oscillators.forEach((o) => {
           try {
