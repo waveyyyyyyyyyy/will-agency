@@ -76,39 +76,23 @@
   }
 }
 
-/* Tile-illumination sequence — each floor tile blooms in, then settles at a
-   lower steady glow (fill-mode: forwards holds the 100% value), building a
-   lit trail toward the diamond one tile at a time. */
-@keyframes tile-bloom-core {
+/* First-person footstep sway — rides on top of the corridor's dolly-zoom so
+   the approach reads as walking, not just a camera pushing in. */
+@keyframes camera-walk-bob {
   0% {
-    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
   }
-  45% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.85;
-  }
-}
-
-@keyframes tile-bloom-glow {
-  0% {
-    opacity: 0;
-  }
-  45% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes trail-breathe {
-  0%, 100% {
-    opacity: 0.88;
+  25% {
+    transform: translate(2.5px, -4px) rotate(0.15deg);
   }
   50% {
-    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  75% {
+    transform: translate(-2.5px, -4px) rotate(-0.15deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
   }
 }
 
