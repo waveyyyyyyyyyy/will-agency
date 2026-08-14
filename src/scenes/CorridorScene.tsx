@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, animate, motion, useMotionValue } from "framer-motion";
 import corridorImg from "../assets/corridor.jpg";
-import { playActivationChime, playWhoosh } from "./audio";
+import { playActivationChime, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
 const DIAMOND = { x: 62, y: 45 }; // percent-of-frame position of the diamond in the photo
@@ -18,6 +18,7 @@ export function CorridorScene() {
   const [activating, setActivating] = useState(false);
 
   useEffect(() => {
+    setAmbientProfile("cosmic");
     const t = window.setTimeout(() => {
       setReady(true);
       playActivationChime();

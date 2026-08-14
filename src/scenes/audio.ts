@@ -1,20 +1,40 @@
 import { useEffect, useState } from "react";
 
 /**
- * Fully synthesized scene audio — a soft ambient pad plus a handful of chimes,
- * all generated in-browser with the Web Audio API. No external/AI-generated
- * audio files: this sidesteps both the licensing question and the fact that
- * the available generation tools only produce speech, not music or sound
- * effects. Lives outside React (module-level singleton) so the ambience keeps
- * playing seamlessly as the visitor moves from the corridor into the portal
- * and its rooms, instead of restarting on every route change.
+ * Fully synthesized scene audio — a soft ambient pad plus a handful of
+ * chimes, all generated in-browser with the Web Audio API. No external/
+ * AI-generated audio files: this sidesteps both the licensing question and
+ * the fact that the available generation tools only produce speech, not
+ * music or sound effects. Lives outside React (module-level singleton) so
+ * the ambience keeps playing seamlessly as the visitor moves between scenes
+ * instead of restarting on every route change — it only ever crossfades
+ * when the *profile* changes (each journey has its own).
  */
 
 type AudioCtor = typeof AudioContext;
+type Texture = "twinkle" | "waves" | "wind" | "beating" | "none";
+
+export type AmbientProfileId = "cosmic" | "gems" | "mare" | "montagna" | "geometrico";
+
+interface ProfileConfig {
+  freqs: number[]; // base drone cluster
+  filterHz: number;
+  texture: Texture;
+}
+
+// Each journey's harmonic identity. All of them still carry the quiet 528Hz
+// tone underneath — that's the one constant across every path.
+const PROFILES: Record<AmbientProfileId, ProfileConfig> = {
+  cosmic: { freqs: [98, 146.83, 220, 293.66], filterHz: 850, texture: "twinkle" }, // G2 D3 A3 D4 — corridor/portal/galassie
+  gems: { freqs: [130.81, 196, 261.63, 329.63], filterHz: 1150, texture: "twinkle" }, // C3 G3 C4 E4 — brighter, crystalline
+  mare: { freqs: [87.31, 130.81, 174.61, 220], filterHz: 620, texture: "waves" }, // F2 C3 F3 A3 — low, tidal
+  montagna: { freqs: [110, 164.81, 220, 293.66, 440], filterHz: 950, texture: "wind" }, // A2 E3 A3 D4 A4 — wide, "symphonic"
+  geometrico: { freqs: [130.81, 195.5, 261.63, 391.0], filterHz: 1400, texture: "beating" }, // near-perfect fifths, slightly detuned for slow beating
+};
 
 let ctx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
-let ambient: { stop: () => void } | null = null;
+let ambient: { profile: AmbientProfileId; stop: () => void } | null = null;
 let soundOn = false;
 const listeners = new Set<(on: boolean) => void>();
 
@@ -53,37 +73,152 @@ export function useSoundEnabled() {
   return on;
 }
 
-function startAmbient() {
-  if (ambient) return;
+function makeNoiseBuffer(c: AudioContext, seconds: number, tint: "brown" | "white" = "white") {
+  const buffer = c.createBuffer(1, Math.floor(c.sampleRate * seconds), c.sampleRate);
+  const data = buffer.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < data.length; i++) {
+    const white = Math.random() * 2 - 1;
+    if (tint === "brown") {
+      last = (last + 0.02 * white) / 1.02;
+      data[i] = last * 3.2;
+    } else {
+      data[i] = white;
+    }
+  }
+  return buffer;
+}
+
+/** Continuous low swell, filtered brown noise breathing in and out — the sea. */
+function attachWaveTexture(c: AudioContext, destination: AudioNode, now: number) {
+  const noise = c.createBufferSource();
+  noise.buffer = makeNoiseBuffer(c, 6, "brown");
+  noise.loop = true;
+  const filter = c.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 480;
+  const gain = c.createGain();
+  gain.gain.value = 0.06;
+  const lfo = c.createOscillator();
+  lfo.frequency.value = 0.085; // one swell roughly every 12s
+  const lfoGain = c.createGain();
+  lfoGain.gain.value = 0.045;
+  lfo.connect(lfoGain);
+  lfoGain.connect(gain.gain);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(destination);
+  noise.start(now);
+  lfo.start(now);
+  return [noise as AudioScheduledSourceNode, lfo];
+}
+
+/** Airy, higher filtered noise that drifts in intensity — wind at altitude. */
+function attachWindTexture(c: AudioContext, destination: AudioNode, now: number) {
+  const noise = c.createBufferSource();
+  noise.buffer = makeNoiseBuffer(c, 5, "white");
+  noise.loop = true;
+  const filter = c.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = 1400;
+  filter.Q.value = 0.6;
+  const gain = c.createGain();
+  gain.gain.value = 0.02;
+  const lfo = c.createOscillator();
+  lfo.frequency.value = 0.05;
+  const lfoGain = c.createGain();
+  lfoGain.gain.value = 0.014;
+  lfo.connect(lfoGain);
+  lfoGain.connect(gain.gain);
+  const filterLfo = c.createOscillator();
+  filterLfo.frequency.value = 0.03;
+  const filterLfoGain = c.createGain();
+  filterLfoGain.gain.value = 300;
+  filterLfo.connect(filterLfoGain);
+  filterLfoGain.connect(filter.frequency);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(destination);
+  noise.start(now);
+  lfo.start(now);
+  filterLfo.start(now);
+  return [noise as AudioScheduledSourceNode, lfo, filterLfo];
+}
+
+/** A pair of voices detuned by a couple of cents — a slow, hypnotic beating pulse. */
+function attachBeatingTexture(c: AudioContext, destination: AudioNode, now: number) {
+  const osc = c.createOscillator();
+  osc.type = "sine";
+  osc.frequency.value = 392; // G4
+  const osc2 = c.createOscillator();
+  osc2.type = "sine";
+  osc2.frequency.value = 393.3; // ~2.3Hz beat
+  const gain = c.createGain();
+  gain.gain.value = 0.05;
+  osc.connect(gain);
+  osc2.connect(gain);
+  gain.connect(destination);
+  osc.start(now);
+  osc2.start(now);
+  return [osc, osc2];
+}
+
+/** Sparse, randomised high "starlight" twinkles — turns a static drone into generative music. */
+function scheduleTwinkle(getStopped: () => boolean) {
+  const cosmicNotes = [1046.5, 1174.66, 1318.51, 1567.98, 1760]; // C6 D6 E6 G6 A6
+  let timer: number | undefined;
+  function tick() {
+    if (getStopped()) return;
+    const delay = 3.5 + Math.random() * 5.5;
+    timer = window.setTimeout(() => {
+      if (getStopped()) return;
+      const c = getCtx();
+      const t = c.currentTime;
+      const freq = cosmicNotes[Math.floor(Math.random() * cosmicNotes.length)];
+      const osc = c.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const g = c.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.045, t + 0.6);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
+      osc.connect(g);
+      g.connect(masterGain!);
+      osc.start(t);
+      osc.stop(t + 3.3);
+      tick();
+    }, delay * 1000);
+  }
+  tick();
+  return () => {
+    if (timer) window.clearTimeout(timer);
+  };
+}
+
+function buildAmbient(profileId: AmbientProfileId) {
+  const config = PROFILES[profileId];
   const c = getCtx();
   const now = c.currentTime;
-
-  // A slow, breathing cluster of soft tones — deliberately unresolved/open so
-  // it reads as calm background wash rather than a melody competing for attention.
-  const freqs = [98, 146.83, 220, 293.66]; // G2, D3, A3, D4
-  const oscillators: OscillatorNode[] = [];
+  const nodes: AudioScheduledSourceNode[] = [];
 
   const filter = c.createBiquadFilter();
   filter.type = "lowpass";
-  filter.frequency.value = 850;
+  filter.frequency.value = config.filterHz;
 
   const ambientGain = c.createGain();
   ambientGain.gain.value = 0;
   filter.connect(ambientGain);
   ambientGain.connect(masterGain!);
 
-  freqs.forEach((freq, i) => {
+  config.freqs.forEach((freq, i) => {
     const osc = c.createOscillator();
     osc.type = i % 2 === 0 ? "sine" : "triangle";
     osc.frequency.value = freq;
-
     const voiceGain = c.createGain();
     voiceGain.gain.value = 0.11 / (i + 1);
     osc.connect(voiceGain);
     voiceGain.connect(filter);
 
-    // gentle detune LFO per voice so the cluster slowly drifts instead of
-    // sitting static — the "breathing" that makes a drone feel alive
     const lfo = c.createOscillator();
     lfo.frequency.value = 0.045 + i * 0.017;
     const lfoGain = c.createGain();
@@ -93,12 +228,10 @@ function startAmbient() {
 
     osc.start(now);
     lfo.start(now);
-    oscillators.push(osc, lfo);
+    nodes.push(osc, lfo);
   });
 
-  // A pure, steady 528 Hz tone laid very quietly under the drone — the
-  // "solfeggio" frequency some listeners find calming. Kept far enough back
-  // in the mix that it reads as warmth, not as an audible pitch on its own.
+  // The one constant across every journey: a quiet, steady 528 Hz tone.
   const healingOsc = c.createOscillator();
   healingOsc.type = "sine";
   healingOsc.frequency.value = 528;
@@ -116,46 +249,34 @@ function startAmbient() {
   healingLfoGain.connect(healingGain.gain);
   healingOsc.start(now);
   healingLfo.start(now);
-  oscillators.push(healingOsc, healingLfo);
+  nodes.push(healingOsc, healingLfo);
+
+  let stopTwinkle: (() => void) | null = null;
+  let stopped = false;
+  if (config.texture === "twinkle") {
+    stopTwinkle = scheduleTwinkle(() => stopped);
+  } else if (config.texture === "waves") {
+    nodes.push(...attachWaveTexture(c, filter, now));
+  } else if (config.texture === "wind") {
+    nodes.push(...attachWindTexture(c, filter, now));
+  } else if (config.texture === "beating") {
+    nodes.push(...attachBeatingTexture(c, filter, now));
+  }
 
   ambientGain.gain.linearRampToValueAtTime(1, now + 2.6);
 
-  // Sparse, randomised high "starlight" twinkles — what turns a static drone
-  // into something that reads as generative "cosmic" music rather than a loop.
-  const cosmicNotes = [1046.5, 1174.66, 1318.51, 1567.98, 1760]; // C6 D6 E6 G6 A6
-  let twinkleTimer: number | undefined;
-  function scheduleTwinkle() {
-    const delay = 3.5 + Math.random() * 5.5;
-    twinkleTimer = window.setTimeout(() => {
-      const c2 = getCtx();
-      const t = c2.currentTime;
-      const freq = cosmicNotes[Math.floor(Math.random() * cosmicNotes.length)];
-      const osc = c2.createOscillator();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      const g = c2.createGain();
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.045, t + 0.6);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
-      osc.connect(g);
-      g.connect(masterGain!);
-      osc.start(t);
-      osc.stop(t + 3.3);
-      scheduleTwinkle();
-    }, delay * 1000);
-  }
-  scheduleTwinkle();
-
-  ambient = {
+  return {
+    profile: profileId,
     stop: () => {
+      stopped = true;
+      stopTwinkle?.();
       const c2 = getCtx();
       const t = c2.currentTime;
       ambientGain.gain.cancelScheduledValues(t);
       ambientGain.gain.setValueAtTime(ambientGain.gain.value, t);
       ambientGain.gain.linearRampToValueAtTime(0, t + 1);
-      if (twinkleTimer) window.clearTimeout(twinkleTimer);
       window.setTimeout(() => {
-        oscillators.forEach((o) => {
+        nodes.forEach((o) => {
           try {
             o.stop();
           } catch {
@@ -167,21 +288,33 @@ function startAmbient() {
   };
 }
 
-function stopAmbient() {
+let desiredProfile: AmbientProfileId = "cosmic";
+
+/**
+ * Declares which journey's ambience should be playing. Safe to call whether
+ * or not sound is currently on — it always remembers the intent, and
+ * crossfades immediately if sound happens to already be enabled, so a
+ * scene never has to check `isSoundOn()` before calling this.
+ */
+export function setAmbientProfile(profileId: AmbientProfileId) {
+  desiredProfile = profileId;
+  if (!soundOn) return;
+  if (ambient?.profile === profileId) return;
   ambient?.stop();
-  ambient = null;
+  ambient = buildAmbient(profileId);
 }
 
 export async function enableSound() {
   const c = getCtx();
   if (c.state === "suspended") await c.resume();
-  startAmbient();
+  if (!ambient) ambient = buildAmbient(desiredProfile);
   soundOn = true;
   notify();
 }
 
 export function disableSound() {
-  stopAmbient();
+  ambient?.stop();
+  ambient = null;
   ctx?.suspend();
   soundOn = false;
   notify();
@@ -195,7 +328,7 @@ export async function toggleSound() {
   }
 }
 
-/** A short, soft bell — one per floor tile catching light, scheduled `delaySeconds` from now. */
+/** A short, soft bell — scheduled `delaySeconds` from now. */
 export function playTileChime(delaySeconds: number, index: number) {
   if (!soundOn) return;
   const c = getCtx();
@@ -281,7 +414,7 @@ export function playWhoosh() {
   noise.stop(now + duration);
 }
 
-/** A soft single tone — used for lighter UI moments like a door being chosen. */
+/** A soft single tone — used for lighter UI moments like a gem being chosen. */
 export function playSoftPing() {
   if (!soundOn) return;
   const c = getCtx();

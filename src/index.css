@@ -53,6 +53,35 @@
   }
 }
 
+/* Shared by the journey backdrops (galaxy dust, waves, mountain ridges) —
+   the layer is always duplicated side by side so this loops seamlessly. */
+@keyframes drift-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 @keyframes float-y {
   0%, 100% {
     transform: translateY(0);

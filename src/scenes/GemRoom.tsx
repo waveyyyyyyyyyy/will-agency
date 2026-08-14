@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { setAmbientProfile } from "./audio";
 
-const ROOMS: Record<string, { numeral: string; accent: string; label: string }> = {
-  sinistra: { numeral: "I", accent: "#d94566", label: "Rubino" },
-  centro: { numeral: "II", accent: "#e8c168", label: "Topazio" },
-  destra: { numeral: "III", accent: "#14a696", label: "Smeraldo" },
+const GEM_ROOMS: Record<string, { numeral: string; accent: string; label: string }> = {
+  rubino: { numeral: "I", accent: "#d94566", label: "Rubino" },
+  topazio: { numeral: "II", accent: "#e8c168", label: "Topazio" },
+  smeraldo: { numeral: "III", accent: "#14a696", label: "Smeraldo" },
 };
 
 /**
@@ -13,11 +15,15 @@ const ROOMS: Record<string, { numeral: string; accent: string; label: string }> 
  * corridor/portal so the walkthrough reads as one continuous world. What
  * actually lives inside each room is defined in a later pass.
  */
-export function RoomPlaceholder() {
-  const { doorId } = useParams();
-  const room = doorId ? ROOMS[doorId] : undefined;
+export function GemRoom() {
+  const { gemId } = useParams();
+  const room = gemId ? GEM_ROOMS[gemId] : undefined;
 
-  if (!room) return <Navigate to="/portale" replace />;
+  useEffect(() => {
+    setAmbientProfile("gems");
+  }, []);
+
+  if (!room) return <Navigate to="/portale/pietre" replace />;
 
   return (
     <section className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black">
@@ -52,10 +58,10 @@ export function RoomPlaceholder() {
         </p>
 
         <Link
-          to="/portale"
+          to="/portale/pietre"
           className="mt-9 inline-flex items-center gap-2 rounded-full border border-cosmic-gold/50 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-cosmic-gold transition-colors hover:bg-cosmic-gold/10"
         >
-          ← Torna al portale
+          ← Torna alle pietre
         </Link>
       </motion.div>
     </section>

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
-import { playSoftPing, playWhoosh } from "./audio";
+import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
 const GEMS = [
-  { id: "sinistra", numeral: "I", accent: "#d94566", tilt: -10, label: "Rubino" },
-  { id: "centro", numeral: "II", accent: "#e8c168", tilt: 0, label: "Topazio" },
-  { id: "destra", numeral: "III", accent: "#14a696", tilt: 10, label: "Smeraldo" },
+  { id: "rubino", numeral: "I", accent: "#d94566", tilt: -10, label: "Rubino" },
+  { id: "topazio", numeral: "II", accent: "#e8c168", tilt: 0, label: "Topazio" },
+  { id: "smeraldo", numeral: "III", accent: "#14a696", tilt: 10, label: "Smeraldo" },
 ] as const;
 
 // A symmetric low-poly gem — table, two crown facets, two pavilion facets —
@@ -88,12 +88,14 @@ function GemStone({
   );
 }
 
-export function GateScene() {
+/** Sub-junction for the "Pietre Preziose" path — the three gems the site started with. */
+export function GemPathScene() {
   const navigate = useNavigate();
   const [chosen, setChosen] = useState<string | null>(null);
   const tilt = usePointerTilt(4);
 
   useEffect(() => {
+    setAmbientProfile("gems");
     playSoftPing();
   }, []);
 
@@ -101,7 +103,7 @@ export function GateScene() {
     if (chosen) return;
     setChosen(id);
     playWhoosh();
-    setTimeout(() => navigate(`/portale/${id}`), 950);
+    setTimeout(() => navigate(`/portale/pietre/${id}`), 950);
   }
 
   return (
@@ -120,7 +122,7 @@ export function GateScene() {
       >
         <NebulaBackdrop starCount={160} />
 
-        {/* entry flash, sells the "arrived through the diamond" continuity */}
+        {/* entry flash, sells the "you just chose this path" continuity */}
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
@@ -147,7 +149,6 @@ export function GateScene() {
             WebkitMaskImage: "linear-gradient(180deg, transparent, black 45%)",
           }}
         />
-        {/* gloss sheen + gold seams over the floor */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] opacity-50 mix-blend-screen"
           style={{
@@ -165,9 +166,9 @@ export function GateScene() {
         />
 
         <div className="relative z-10 mb-16 max-w-xl text-center md:mb-20">
-          <span className="text-xs font-medium uppercase tracking-[0.35em] text-cosmic-gold">Il diamante ti ha condotto qui</span>
+          <span className="text-xs font-medium uppercase tracking-[0.35em] text-cosmic-gold">Hai scelto le Pietre Preziose</span>
           <h1 className="font-display mt-5 text-balance text-3xl font-medium leading-[1.15] tracking-tight text-cosmic-star sm:text-4xl md:text-5xl">
-            Tre pietre custodiscono tre sentieri.
+            Tre gemme, tre soglie.
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-cosmic-star/60 md:text-base">
             Scegli la pietra da cui proseguire.
@@ -199,13 +200,22 @@ export function GateScene() {
                 numeral={gem.numeral}
                 label={gem.label}
                 tilt={gem.tilt}
-                isCenter={gem.id === "centro"}
+                isCenter={gem.id === "topazio"}
                 state={chosen ? (chosen === gem.id ? "chosen" : "dimmed") : "idle"}
                 glintDelay={i * 1.1}
               />
             </motion.button>
           ))}
         </div>
+
+        {!chosen && (
+          <Link
+            to="/portale"
+            className="relative z-10 mt-16 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cosmic-star/50 transition-colors hover:text-cosmic-gold"
+          >
+            ← Torna al portale
+          </Link>
+        )}
 
         <AnimatePresence>
           {chosen && (
