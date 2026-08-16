@@ -53,8 +53,8 @@ export function DisclaimerGate({ onAcknowledge }: { onAcknowledge: () => void })
 
         <div className="mt-6 space-y-4 text-left text-sm leading-relaxed text-cosmic-star/75">
           <p>
-            Will Marketing Agency ti accompagna in un&apos;esperienza di immagini, suoni e atmosfere pensata per un
-            momento di pausa e di ascolto di sé.
+            Supernova ti accompagna in un&apos;esperienza di immagini, suoni e atmosfere pensata per un momento di
+            pausa e di ascolto di sé.
           </p>
           <p>
             Non è, in nessun modo, un percorso terapeutico, una diagnosi o una cura: non sostituisce il lavoro di uno

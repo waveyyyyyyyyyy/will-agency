@@ -175,8 +175,8 @@ export function IntroScene() {
         )}
       </AnimatePresence>
 
-      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.35em] text-cosmic-star/50 md:left-10 md:top-8">
-        Supernova
+      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.3em] text-cosmic-star/50 md:left-10 md:top-8">
+        Supernova <span className="text-cosmic-star/30">— The Matrix Code</span>
       </div>
     </section>
   );

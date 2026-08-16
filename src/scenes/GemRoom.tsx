@@ -38,6 +38,20 @@ export function GemRoom() {
     >
       <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
         <NebulaBackdrop starCount={110} />
+        {/* an oversized, softly blurred silhouette of this exact gem — so the
+            room itself reads as "inside the ruby" rather than a generic tint */}
+        <svg
+          viewBox="0 0 120 170"
+          className="absolute left-1/2 top-1/2 h-[85vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 opacity-25"
+          style={{ filter: "blur(18px)" }}
+          aria-hidden
+        >
+          <polygon points="42,16 78,16 106,42 14,42" fill={room.accent} />
+          <polygon points="42,16 14,42 4,68" fill={room.accent} opacity={0.85} />
+          <polygon points="78,16 116,68 106,42" fill={room.accent} opacity={0.6} />
+          <polygon points="4,68 44,116 60,166" fill={room.accent} opacity={0.75} />
+          <polygon points="116,68 60,166 76,116" fill={room.accent} opacity={0.5} />
+        </svg>
       </TiltedBackdrop>
 
       <div

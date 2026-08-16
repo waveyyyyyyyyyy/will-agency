@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getFrequency } from "./frequencies";
 
 /**
  * Fully synthesized scene audio — a soft ambient pad plus a handful of
@@ -12,7 +13,7 @@ import { useEffect, useState } from "react";
  */
 
 type AudioCtor = typeof AudioContext;
-type Texture = "twinkle" | "waves" | "wind" | "beating" | "none";
+type Texture = "twinkle" | "chime" | "waves" | "wind" | "beating" | "none";
 
 export type AmbientProfileId = "cosmic" | "gems" | "mare" | "montagna" | "geometrico";
 
@@ -20,16 +21,22 @@ interface ProfileConfig {
   freqs: number[]; // base drone cluster
   filterHz: number;
   texture: Texture;
+  /** id into FREQUENCY_LIBRARY — the profile's own quiet solfeggio layer, on top of the 528Hz constant. */
+  frequencyId: string;
 }
 
-// Each journey's harmonic identity. All of them still carry the quiet 528Hz
-// tone underneath — that's the one constant across every path.
+// Each journey's harmonic identity, and the characteristic "texture" that
+// makes it sound like its element rather than a generic pad — the sea gets
+// real (synthesised) wave swell, the mountain gets wind, etc. Every profile
+// also carries the quiet 528Hz tone plus one frequency of its own from the
+// library in frequencies.ts, chosen for what that path is meant to help
+// with (see elements.ts's "care" field for the reasoning behind each pick).
 const PROFILES: Record<AmbientProfileId, ProfileConfig> = {
-  cosmic: { freqs: [98, 146.83, 220, 293.66], filterHz: 850, texture: "twinkle" }, // G2 D3 A3 D4 — corridor/portal/galassie
-  gems: { freqs: [130.81, 196, 261.63, 329.63], filterHz: 1150, texture: "twinkle" }, // C3 G3 C4 E4 — brighter, crystalline
-  mare: { freqs: [87.31, 130.81, 174.61, 220], filterHz: 620, texture: "waves" }, // F2 C3 F3 A3 — low, tidal
-  montagna: { freqs: [110, 164.81, 220, 293.66, 440], filterHz: 950, texture: "wind" }, // A2 E3 A3 D4 A4 — wide, "symphonic"
-  geometrico: { freqs: [130.81, 195.5, 261.63, 391.0], filterHz: 1400, texture: "beating" }, // near-perfect fifths, slightly detuned for slow beating
+  cosmic: { freqs: [98, 146.83, 220, 293.66], filterHz: 850, texture: "twinkle", frequencyId: "963" }, // G2 D3 A3 D4 — corridor/portal/galassie; 963 Hz for quiete e presenza
+  gems: { freqs: [130.81, 196, 261.63, 329.63], filterHz: 1150, texture: "chime", frequencyId: "852" }, // C3 G3 C4 E4 — brighter, crystalline; 852 Hz for chiarezza
+  mare: { freqs: [87.31, 130.81, 174.61, 220], filterHz: 620, texture: "waves", frequencyId: "396" }, // F2 C3 F3 A3 — low, tidal; 396 Hz per il rilascio della paura
+  montagna: { freqs: [110, 164.81, 220, 293.66, 440], filterHz: 950, texture: "wind", frequencyId: "741" }, // A2 E3 A3 D4 A4 — wide, "symphonic"; 741 Hz per la chiarezza mentale
+  geometrico: { freqs: [130.81, 195.5, 261.63, 391.0], filterHz: 1400, texture: "beating", frequencyId: "417" }, // near-perfect fifths, slow beating; 417 Hz per il cambiamento
 };
 
 let ctx: AudioContext | null = null;
@@ -47,7 +54,7 @@ function getCtx(): AudioContext {
     const Ctor: AudioCtor = window.AudioContext ?? (window as unknown as { webkitAudioContext: AudioCtor }).webkitAudioContext;
     ctx = new Ctor();
     masterGain = ctx.createGain();
-    masterGain.gain.value = 0.5;
+    masterGain.gain.value = 0.3; // background contour, never the foreground — kept deliberately quiet
     masterGain.connect(ctx.destination);
   }
   return ctx;
@@ -163,6 +170,29 @@ function attachBeatingTexture(c: AudioContext, destination: AudioNode, now: numb
   return [osc, osc2];
 }
 
+/** A single quiet, steady tone with a very slow amplitude drift — used for both the
+ * universal 528Hz layer and each profile's own pick from the frequency library. */
+function attachSolfeggioTone(c: AudioContext, destination: AudioNode, now: number, hz: number, peakGain: number) {
+  const osc = c.createOscillator();
+  osc.type = "sine";
+  osc.frequency.value = hz;
+  const gain = c.createGain();
+  gain.gain.value = 0;
+  osc.connect(gain);
+  gain.connect(destination);
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(peakGain, now + 4);
+  const lfo = c.createOscillator();
+  lfo.frequency.value = 0.055 + Math.random() * 0.02;
+  const lfoGain = c.createGain();
+  lfoGain.gain.value = peakGain * 0.3;
+  lfo.connect(lfoGain);
+  lfoGain.connect(gain.gain);
+  osc.start(now);
+  lfo.start(now);
+  return [osc, lfo];
+}
+
 /** Sparse, randomised high "starlight" twinkles — turns a static drone into generative music. */
 function scheduleTwinkle(getStopped: () => boolean) {
   const cosmicNotes = [1046.5, 1174.66, 1318.51, 1567.98, 1760]; // C6 D6 E6 G6 A6
@@ -186,6 +216,49 @@ function scheduleTwinkle(getStopped: () => boolean) {
       g.connect(masterGain!);
       osc.start(t);
       osc.stop(t + 3.3);
+      tick();
+    }, delay * 1000);
+  }
+  tick();
+  return () => {
+    if (timer) window.clearTimeout(timer);
+  };
+}
+
+/** More frequent, glassier bell hits with a bright harmonic partial — crystal, not starlight. */
+function scheduleChime(getStopped: () => boolean) {
+  const gemNotes = [523.25, 659.25, 783.99, 987.77, 1046.5]; // C5 E5 G5 B5 C6
+  let timer: number | undefined;
+  function tick() {
+    if (getStopped()) return;
+    const delay = 2.2 + Math.random() * 3.2;
+    timer = window.setTimeout(() => {
+      if (getStopped()) return;
+      const c = getCtx();
+      const t = c.currentTime;
+      const freq = gemNotes[Math.floor(Math.random() * gemNotes.length)];
+      const osc = c.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const partial = c.createOscillator();
+      partial.type = "sine";
+      partial.frequency.value = freq * 2.01;
+      const g = c.createGain();
+      const gPartial = c.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.05, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+      gPartial.gain.setValueAtTime(0, t);
+      gPartial.gain.linearRampToValueAtTime(0.018, t + 0.015);
+      gPartial.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+      osc.connect(g);
+      partial.connect(gPartial);
+      g.connect(masterGain!);
+      gPartial.connect(masterGain!);
+      osc.start(t);
+      osc.stop(t + 2.5);
+      partial.start(t);
+      partial.stop(t + 1.3);
       tick();
     }, delay * 1000);
   }
@@ -231,30 +304,21 @@ function buildAmbient(profileId: AmbientProfileId) {
     nodes.push(osc, lfo);
   });
 
-  // The one constant across every journey: a quiet, steady 528 Hz tone.
-  const healingOsc = c.createOscillator();
-  healingOsc.type = "sine";
-  healingOsc.frequency.value = 528;
-  const healingGain = c.createGain();
-  healingGain.gain.value = 0;
-  healingOsc.connect(healingGain);
-  healingGain.connect(filter);
-  healingGain.gain.setValueAtTime(0, now);
-  healingGain.gain.linearRampToValueAtTime(0.045, now + 4);
-  const healingLfo = c.createOscillator();
-  healingLfo.frequency.value = 0.06;
-  const healingLfoGain = c.createGain();
-  healingLfoGain.gain.value = 0.015;
-  healingLfo.connect(healingLfoGain);
-  healingLfoGain.connect(healingGain.gain);
-  healingOsc.start(now);
-  healingLfo.start(now);
-  nodes.push(healingOsc, healingLfo);
+  // The one constant across every journey: a quiet, steady 528 Hz tone —
+  // plus this profile's own pick from the frequency library, layered in
+  // just as quietly right beside it.
+  nodes.push(...attachSolfeggioTone(c, filter, now, 528, 0.045));
+  const profileFreq = getFrequency(config.frequencyId);
+  if (profileFreq) {
+    nodes.push(...attachSolfeggioTone(c, filter, now, profileFreq.hz, 0.035));
+  }
 
-  let stopTwinkle: (() => void) | null = null;
+  let stopScheduled: (() => void) | null = null;
   let stopped = false;
   if (config.texture === "twinkle") {
-    stopTwinkle = scheduleTwinkle(() => stopped);
+    stopScheduled = scheduleTwinkle(() => stopped);
+  } else if (config.texture === "chime") {
+    stopScheduled = scheduleChime(() => stopped);
   } else if (config.texture === "waves") {
     nodes.push(...attachWaveTexture(c, filter, now));
   } else if (config.texture === "wind") {
@@ -269,7 +333,7 @@ function buildAmbient(profileId: AmbientProfileId) {
     profile: profileId,
     stop: () => {
       stopped = true;
-      stopTwinkle?.();
+      stopScheduled?.();
       const c2 = getCtx();
       const t = c2.currentTime;
       ambientGain.gain.cancelScheduledValues(t);
