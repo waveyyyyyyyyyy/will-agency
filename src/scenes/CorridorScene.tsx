@@ -5,8 +5,7 @@ import corridorImg from "../assets/corridor.jpg";
 import { playActivationChime, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
-const DIAMOND = { x: 62, y: 45 }; // percent-of-frame position of the diamond in the photo
-const LIGHT_SOURCE = { x: 62, y: 41 }; // a touch higher/further back — the glow reads as coming from behind the gem, not centred on it
+const DIAMOND = { x: 62, y: 45 }; // percent-of-frame position of the diamond in the photo — the glow is anchored right here
 const ZOOM_DURATION_S = 1.15; // the click-triggered dash through the diamond
 const REVEAL_DELAY_S = 0.7; // brief settle on load before the diamond starts pulsing
 
@@ -68,16 +67,14 @@ export function CorridorScene() {
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
 
-        {/* the diamond's radiance — anchored a little behind/above the gem itself
-            (not centred on it) so the light reads as a source the diamond sits in
-            front of, rather than a halo drawn symmetrically around the button */}
+        {/* the diamond's radiance — anchored exactly on the gem itself */}
         <div
           className="pointer-events-none absolute mix-blend-screen"
           style={{
-            left: `${LIGHT_SOURCE.x}%`,
-            top: `${LIGHT_SOURCE.y}%`,
-            width: "34%",
-            height: "42%",
+            left: `${DIAMOND.x}%`,
+            top: `${DIAMOND.y}%`,
+            width: "30%",
+            height: "38%",
             transform: "translate(-50%, -50%)",
           }}
         >
