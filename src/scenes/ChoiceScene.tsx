@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
@@ -44,7 +45,9 @@ export function ChoiceScene() {
       className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black px-6"
       style={{ perspective: 1400 }}
     >
-      <NebulaBackdrop starCount={150} />
+      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+        <NebulaBackdrop starCount={150} />
+      </TiltedBackdrop>
 
       <motion.div
         initial={{ opacity: 0, y: 14 }}

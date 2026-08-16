@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import corridorImg from "../assets/corridor.jpg";
+import supernovaPoster from "../assets/supernova-poster.jpg";
+import { TiltedBackdrop } from "./TiltedBackdrop";
+import { usePointerTilt } from "./usePointerTilt";
 
 const TAGLINES = [
   "Un campo di luce, suono e quiete.",
@@ -10,38 +12,77 @@ const TAGLINES = [
   "Un passo alla volta, verso un po' di calma.",
 ];
 
+type Spark = { top: number; left: number; size: number; delay: number; duration: number };
+
+function makeSparks(count: number): Spark[] {
+  return Array.from({ length: count }, () => ({
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    size: 1 + Math.random() * 2.4,
+    delay: Math.random() * 4,
+    duration: 2.5 + Math.random() * 3,
+  }));
+}
+
 /**
  * First screen after the consent gate — the "cover" of the experience.
- * Background image is a placeholder (the corridor photo) until the client
- * supplies a dedicated intro image; swap `corridorImg` below when it lands.
+ * The poster sits on its own tilt-responsive plane while a second, closer
+ * plane of drifting starlight moves a little more with the pointer — real
+ * parallax depth, not just a static photo, so it reads as the beginning of
+ * a walk into the image rather than a flat picture with text over it.
  */
 export function IntroScene() {
   const navigate = useNavigate();
   const [aboutOpen, setAboutOpen] = useState(false);
+  const tilt = usePointerTilt(7);
+  const sparks = useMemo(() => makeSparks(70), []);
 
   return (
-    <section className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black">
-      <motion.img
-        src={corridorImg}
-        alt="Galleria cosmica con soffitto a volta stellato, ambientazione di Supernova"
-        className="absolute inset-0 h-full w-full object-cover"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-      />
-      <div className="pointer-events-none absolute inset-0 bg-black/60" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/50" />
+    <section
+      ref={tilt.ref}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+      className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black"
+      style={{ perspective: 1200 }}
+    >
+      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY} duration={22}>
+        <motion.img
+          src={supernovaPoster}
+          alt="Supernova — spirale cosmica di stelle e nebulose in movimento"
+          className="absolute inset-0 h-full w-full object-cover"
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </TiltedBackdrop>
+
+      {/* a closer plane of drifting starlight — moves slightly more than the
+          poster itself under pointer tilt, the parallax cue that sells depth */}
+      <div className="pointer-events-none absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
+        <motion.div
+          className="absolute inset-0"
+          style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: "preserve-3d", translateZ: 60 }}
+        >
+          {sparks.map((s, i) => (
+            <span
+              key={i}
+              className="absolute rounded-full bg-cosmic-star mix-blend-screen"
+              style={{
+                top: `${s.top}%`,
+                left: `${s.left}%`,
+                width: s.size,
+                height: s.size,
+                animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
+              }}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 bg-black/50" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/55" />
 
       <div className="relative z-10 flex w-full max-w-xl flex-col items-center px-6 text-center">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-display text-3xl font-medium uppercase tracking-[0.4em] text-cosmic-star sm:text-4xl"
-        >
-          Supernova
-        </motion.span>
-
         <div className="mt-10 flex flex-col gap-4">
           {TAGLINES.map((line, i) => (
             <motion.p

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { JOURNEYS, type JourneyId } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
@@ -89,7 +90,9 @@ export function PathHub() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="relative flex min-h-[100dvh] w-full flex-col items-center justify-center px-6 py-24"
       >
-        <NebulaBackdrop starCount={170} />
+        <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+          <NebulaBackdrop starCount={170} />
+        </TiltedBackdrop>
 
         <motion.div
           initial={{ opacity: 1 }}

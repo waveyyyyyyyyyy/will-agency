@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { setAmbientProfile } from "./audio";
+import { usePointerTilt } from "./usePointerTilt";
 
 const GEM_ROOMS: Record<string, { numeral: string; accent: string; label: string }> = {
   rubino: { numeral: "I", accent: "#d94566", label: "Rubino" },
@@ -18,6 +20,7 @@ const GEM_ROOMS: Record<string, { numeral: string; accent: string; label: string
 export function GemRoom() {
   const { gemId } = useParams();
   const room = gemId ? GEM_ROOMS[gemId] : undefined;
+  const tilt = usePointerTilt(4);
 
   useEffect(() => {
     setAmbientProfile("gems");
@@ -26,8 +29,16 @@ export function GemRoom() {
   if (!room) return <Navigate to="/portale/pietre" replace />;
 
   return (
-    <section className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black">
-      <NebulaBackdrop starCount={110} />
+    <section
+      ref={tilt.ref}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+      className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black"
+      style={{ perspective: 1400 }}
+    >
+      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+        <NebulaBackdrop starCount={110} />
+      </TiltedBackdrop>
 
       <div
         className="pointer-events-none absolute inset-0"
@@ -40,8 +51,14 @@ export function GemRoom() {
         initial={{ opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          rotateX: tilt.rotateX,
+          rotateY: tilt.rotateY,
+          transformStyle: "preserve-3d",
+          borderColor: `${room.accent}55`,
+          background: "rgba(7,4,15,0.55)",
+        }}
         className="relative z-10 mx-6 flex max-w-lg flex-col items-center rounded-3xl border px-10 py-14 text-center backdrop-blur-sm"
-        style={{ borderColor: `${room.accent}55`, background: "rgba(7,4,15,0.55)" }}
       >
         <span
           className="font-display flex h-16 w-16 items-center justify-center rounded-full border text-2xl"

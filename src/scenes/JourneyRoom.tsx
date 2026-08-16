@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeBackdrop } from "./ThemeBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { getJourney, type JourneyId } from "./journeys";
 import { setAmbientProfile, playSoftPing } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
@@ -39,7 +40,9 @@ export function JourneyRoom({ journeyId }: { journeyId: JourneyId }) {
       className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black"
       style={{ perspective: 1400 }}
     >
-      <ThemeBackdrop theme={journeyId} />
+      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+        <ThemeBackdrop theme={journeyId} />
+      </TiltedBackdrop>
 
       <motion.div
         initial={{ opacity: 0, scale: 1.04 }}

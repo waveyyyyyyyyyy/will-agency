@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
@@ -120,7 +121,9 @@ export function GemPathScene() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="relative flex min-h-[100dvh] w-full flex-col items-center justify-center px-6 py-24"
       >
-        <NebulaBackdrop starCount={160} />
+        <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+          <NebulaBackdrop starCount={160} />
+        </TiltedBackdrop>
 
         {/* entry flash, sells the "you just chose this path" continuity */}
         <motion.div

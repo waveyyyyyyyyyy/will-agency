@@ -2,50 +2,136 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { TiltedBackdrop } from "./TiltedBackdrop";
 import { ELEMENTS, type ElementId } from "./elements";
 import { getJourney } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { usePointerTilt } from "./usePointerTilt";
 
-function ElementIcon({ id, accent }: { id: ElementId; accent: string }) {
+/**
+ * Fuller illustrated scenes rather than small line icons — each element
+ * should read immediately for what it is. No AI-generated photography was
+ * possible here (see the chat note on image-generation credits), so these
+ * are hand-built layered SVGs: several shaded shapes per element instead of
+ * a single stroke, closer to a small painting than a glyph.
+ */
+function ElementIllustration({ id }: { id: ElementId }) {
   switch (id) {
     case "fuoco":
       return (
-        <svg viewBox="0 0 60 60" className="h-8 w-8" aria-hidden>
+        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="fire-outer" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="#8a1f3a" />
+              <stop offset="55%" stopColor="#e0698a" />
+              <stop offset="100%" stopColor="#ffd27a" />
+            </linearGradient>
+            <linearGradient id="fire-inner" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="#c93f5e" />
+              <stop offset="70%" stopColor="#ffb24d" />
+              <stop offset="100%" stopColor="#fff3c9" />
+            </linearGradient>
+          </defs>
           <path
-            d="M30,10 C36,20 44,24 40,36 C38,42 32,46 26,44 C18,41 16,32 22,26 C22,32 26,32 26,28 C26,22 22,18 24,10 C27,16 30,14 30,10 Z"
-            fill={accent}
+            d="M50,14 C62,30 78,38 70,58 C66,70 54,80 40,76 C22,71 16,54 28,42 C28,54 36,56 36,48 C36,36 26,28 30,12 C38,22 44,18 50,14 Z"
+            fill="url(#fire-outer)"
           />
+          <path
+            d="M49,34 C56,44 62,50 56,62 C53,69 45,73 38,69 C28,64 27,53 35,47 C35,54 40,54 40,49 C40,42 34,38 37,28 C42,33 45,32 49,34 Z"
+            fill="url(#fire-inner)"
+          />
+          <circle cx="72" cy="26" r="2.6" fill="#ffd27a" opacity="0.9" />
+          <circle cx="66" cy="16" r="1.7" fill="#ffe6ac" opacity="0.8" />
+          <circle cx="79" cy="38" r="1.8" fill="#ffb24d" opacity="0.7" />
         </svg>
       );
     case "acqua":
       return (
-        <svg viewBox="0 0 60 60" className="h-8 w-8" aria-hidden>
-          <path d="M6,26 C14,18 20,34 28,26 C36,18 42,34 50,26" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" />
-          <path d="M6,36 C14,28 20,44 28,36 C36,28 42,44 50,36" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" opacity={0.55} />
+        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="water-deep" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0b6e64" />
+              <stop offset="100%" stopColor="#0a2a34" />
+            </linearGradient>
+          </defs>
+          <rect x="6" y="46" width="88" height="42" rx="6" fill="url(#water-deep)" />
+          <path d="M6,50 C20,40 32,60 46,50 C60,40 72,60 86,50 C90,49 94,48 94,48 L94,88 L6,88 Z" fill="#14a696" opacity="0.9" />
+          <path d="M6,62 C20,54 32,70 46,62 C60,54 72,70 86,62 C90,61 94,60 94,60 L94,88 L6,88 Z" fill="#2fc2b0" opacity="0.85" />
+          <path d="M6,74 C20,68 32,80 46,74 C60,68 72,80 86,74 L94,72 L94,88 L6,88 Z" fill="#7fe3d4" opacity="0.7" />
+          <circle cx="30" cy="30" r="3.4" fill="#7fe3d4" opacity="0.85" />
+          <circle cx="30" cy="30" r="1.4" fill="#eafffb" />
+          <circle cx="66" cy="22" r="2" fill="#7fe3d4" opacity="0.6" />
+          <circle cx="20" cy="20" r="1.3" fill="#7fe3d4" opacity="0.5" />
         </svg>
       );
     case "terra":
       return (
-        <svg viewBox="0 0 60 60" className="h-8 w-8" aria-hidden>
-          <polygon points="8,44 24,20 32,32 40,16 52,44" fill={accent} opacity={0.85} />
-          <rect x="6" y="44" width="48" height="4" rx="2" fill={accent} />
+        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#5c7a9a" />
+              <stop offset="100%" stopColor="#2c3f5e" />
+            </linearGradient>
+          </defs>
+          <rect x="6" y="52" width="88" height="36" rx="6" fill="url(#soil)" />
+          <rect x="6" y="46" width="88" height="10" fill="#3c5a78" />
+          {[14, 24, 34, 44, 54, 64, 74, 84].map((x, i) => (
+            <path
+              key={x}
+              d={`M${x},46 L${x - 3},${38 - (i % 3) * 3} M${x},46 L${x + 3},${37 - (i % 2) * 4}`}
+              stroke="#8fb4d9"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          ))}
+          {[
+            [18, 64], [30, 72], [42, 66], [54, 76], [66, 68], [78, 74], [24, 82], [60, 84],
+          ].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r={1.6 + (i % 3)} fill="#7fa6c9" opacity="0.5" />
+          ))}
+          <path d="M50,46 C50,36 44,32 46,22" stroke="#8fb4d9" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <circle cx="46" cy="20" r="3.2" fill="#a8c6e6" />
         </svg>
       );
     case "metallo":
       return (
-        <svg viewBox="0 0 60 60" className="h-8 w-8" aria-hidden>
-          <polygon points="30,10 42,22 30,50 18,22" fill={accent} opacity={0.9} />
-          <polygon points="24,20 30,15 36,20 30,25" fill="#fff6df" opacity={0.7} />
+        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="ore-a" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#fff6df" />
+              <stop offset="45%" stopColor="#e8c168" />
+              <stop offset="100%" stopColor="#8a6420" />
+            </linearGradient>
+            <linearGradient id="ore-b" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#fdf6e6" />
+              <stop offset="50%" stopColor="#c9a24a" />
+              <stop offset="100%" stopColor="#5f4713" />
+            </linearGradient>
+          </defs>
+          <polygon points="34,80 14,54 30,22 54,18 66,42 52,80" fill="url(#ore-a)" stroke="#5f4713" strokeOpacity="0.3" strokeWidth="0.6" />
+          <polygon points="30,22 54,18 44,40 24,38" fill="#fffaf0" opacity="0.55" />
+          <polygon points="70,86 58,62 72,38 90,44 94,68 82,86" fill="url(#ore-b)" stroke="#5f4713" strokeOpacity="0.3" strokeWidth="0.6" />
+          <polygon points="72,38 90,44 80,54 66,50" fill="#fffaf0" opacity="0.45" />
         </svg>
       );
     case "legno":
     default:
       return (
-        <svg viewBox="0 0 60 60" className="h-8 w-8" aria-hidden>
-          <path d="M30,50 L30,16" stroke={accent} strokeWidth="2.4" strokeLinecap="round" />
-          <path d="M30,30 C22,26 18,18 20,10" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" />
-          <path d="M30,36 C38,32 42,24 40,16" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" />
-          <circle cx="30" cy="14" r="3" fill={accent} />
+        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#c9b6f2" />
+              <stop offset="100%" stopColor="#4c2a8f" />
+            </linearGradient>
+          </defs>
+          <path d="M50,88 C50,60 48,40 50,16" stroke="#6b4a2a" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+          <path d="M50,66 C38,60 28,48 30,34" stroke="#8a6a45" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M50,50 C62,44 72,32 70,18" stroke="#8a6a45" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <ellipse cx="26" cy="30" rx="13" ry="8" fill="url(#leaf)" transform="rotate(-28 26 30)" />
+          <ellipse cx="16" cy="42" rx="11" ry="7" fill="url(#leaf)" opacity="0.85" transform="rotate(-10 16 42)" />
+          <ellipse cx="74" cy="14" rx="13" ry="8" fill="url(#leaf)" transform="rotate(24 74 14)" />
+          <ellipse cx="82" cy="28" rx="11" ry="7" fill="url(#leaf)" opacity="0.85" transform="rotate(8 82 28)" />
+          <ellipse cx="50" cy="14" rx="10" ry="6.5" fill="url(#leaf)" opacity="0.9" transform="rotate(-2 50 14)" />
         </svg>
       );
   }
@@ -57,6 +143,7 @@ export function ElementSelector() {
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>("pick");
   const [selected, setSelected] = useState<ElementId[]>([]);
+  const tilt = usePointerTilt(4);
 
   useEffect(() => {
     setAmbientProfile("cosmic");
@@ -94,8 +181,16 @@ export function ElementSelector() {
   }
 
   return (
-    <section className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black px-6 py-16">
-      <NebulaBackdrop starCount={150} />
+    <section
+      ref={tilt.ref}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+      className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black px-6 py-16"
+      style={{ perspective: 1400 }}
+    >
+      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+        <NebulaBackdrop starCount={150} />
+      </TiltedBackdrop>
 
       <AnimatePresence mode="wait">
         {step === "pick" ? (
@@ -115,7 +210,7 @@ export function ElementSelector() {
               Puoi scegliere più di un elemento. Passa il mouse (o tieni premuto) su ciascuno per saperne di più.
             </p>
 
-            <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 md:flex md:flex-wrap md:justify-center md:gap-x-10">
+            <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 md:flex md:flex-wrap md:justify-center md:gap-7">
               {ELEMENTS.map((el) => {
                 const isOn = selected.includes(el.id);
                 return (
@@ -124,19 +219,20 @@ export function ElementSelector() {
                       type="button"
                       onClick={() => toggle(el.id)}
                       aria-pressed={isOn}
-                      className="flex flex-col items-center gap-3 rounded-2xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70"
+                      className="flex w-32 flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-36"
                     >
                       <span
-                        className="flex h-20 w-20 items-center justify-center rounded-full border-2 transition-all sm:h-24 sm:w-24"
+                        className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 p-5 transition-all"
                         style={{
                           borderColor: isOn ? el.accent : `${el.accent}35`,
                           background: isOn
-                            ? `radial-gradient(circle at 35% 30%, ${el.accent}55, rgba(7,4,15,0.7) 70%)`
-                            : `radial-gradient(circle at 35% 30%, ${el.accent}22, rgba(7,4,15,0.6) 70%)`,
-                          boxShadow: isOn ? `0 0 30px ${el.accentSoft}70` : "none",
+                            ? `radial-gradient(circle at 35% 25%, ${el.accent}3d, rgba(7,4,15,0.85) 75%)`
+                            : `radial-gradient(circle at 35% 25%, ${el.accent}18, rgba(7,4,15,0.75) 75%)`,
+                          boxShadow: isOn ? `0 0 34px ${el.accentSoft}70` : "none",
+                          opacity: isOn ? 1 : 0.8,
                         }}
                       >
-                        <ElementIcon id={el.id} accent={isOn ? el.accent : `${el.accent}bb`} />
+                        <ElementIllustration id={el.id} />
                       </span>
                       <span
                         className="font-display text-sm font-medium tracking-wide sm:text-base"
