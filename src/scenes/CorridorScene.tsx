@@ -33,7 +33,7 @@ export function CorridorScene() {
     animate(scale, 7, {
       duration: ZOOM_DURATION_S,
       ease: [0.7, 0, 0.9, 0.2],
-      onComplete: () => navigate("/portale"),
+      onComplete: () => navigate("/scegli"),
     });
   }
 
@@ -67,66 +67,57 @@ export function CorridorScene() {
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
 
-        {/* the diamond's own light breathing — a soft pulse behind the gem itself,
-            starting almost immediately rather than waiting on a long sequence */}
+        {/* the diamond's own radiance — rays and bloom both centred exactly on the
+            gem and screened onto the photo, so the light reads as coming from
+            the diamond itself rather than a UI ring floating near it */}
         <div
-          className="pointer-events-none absolute rounded-full mix-blend-screen"
+          className="pointer-events-none absolute mix-blend-screen"
           style={{
             left: `${DIAMOND.x}%`,
             top: `${DIAMOND.y}%`,
-            width: "16%",
-            height: "22%",
+            width: "50%",
+            height: "64%",
             transform: "translate(-50%, -50%)",
-            background: "radial-gradient(circle, rgba(255,250,235,0.55) 0%, rgba(232,193,104,0.28) 45%, transparent 75%)",
-            animation: "diamond-breathe 3.2s ease-in-out infinite",
           }}
-        />
+        >
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background:
+                "repeating-conic-gradient(from 0deg, rgba(255,250,235,0.4) 0deg 3deg, transparent 3deg 45deg)",
+              opacity: ready ? 0.55 : 0.25,
+              filter: "blur(7px)",
+              animation: "spin-slow 46s linear infinite",
+              transition: "opacity 1s ease",
+            }}
+          />
+          <div
+            className="absolute rounded-full"
+            style={{
+              inset: "24%",
+              background:
+                "radial-gradient(circle, rgba(255,250,235,0.75) 0%, rgba(232,193,104,0.4) 45%, transparent 75%)",
+              animation: "diamond-breathe 3.2s ease-in-out infinite",
+            }}
+          />
+        </div>
 
-        {/* diamond activation button */}
+        {/* diamond activation button — invisible hit area, the light above already sells it */}
         <button
           type="button"
           aria-label="Attiva il diamante e apri il portale"
           onClick={handleDiamondClick}
           disabled={!ready}
-          className="absolute flex items-center justify-center rounded-full"
+          className="absolute rounded-full"
           style={{
             left: `${DIAMOND.x}%`,
             top: `${DIAMOND.y}%`,
-            width: "11%",
-            height: "17%",
+            width: "13%",
+            height: "19%",
             transform: "translate(-50%, -50%)",
             cursor: ready ? "pointer" : "default",
           }}
-        >
-          <AnimatePresence>
-            {ready && !activating && (
-              <>
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    boxShadow: "0 0 40px 12px rgba(232,193,104,0.35)",
-                    animation: "ring-pulse 2.2s ease-out infinite",
-                    border: "1.5px solid rgba(232,193,104,0.65)",
-                  }}
-                />
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    boxShadow: "0 0 70px 22px rgba(232,193,104,0.22)",
-                    animation: "ring-pulse 2.2s ease-out 0.5s infinite",
-                    border: "1.5px solid rgba(232,193,104,0.4)",
-                  }}
-                />
-              </>
-            )}
-          </AnimatePresence>
-        </button>
+        />
 
         {/* call to action copy */}
         <AnimatePresence>
@@ -169,8 +160,8 @@ export function CorridorScene() {
       </motion.div>
 
       {/* brand mark, top-left — minimal chrome so the scene stays immersive */}
-      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.3em] text-cosmic-star/70 md:left-10 md:top-8">
-        Will Marketing Agency
+      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.35em] text-cosmic-star/70 md:left-10 md:top-8">
+        Supernova
       </div>
     </section>
   );

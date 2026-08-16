@@ -4,7 +4,10 @@ import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ScrollToTop } from "./lib/ScrollToTop";
 import { useSmoothScroll } from "./lib/useSmoothScroll";
+import { IntroScene } from "./scenes/IntroScene";
 import { CorridorScene } from "./scenes/CorridorScene";
+import { ChoiceScene } from "./scenes/ChoiceScene";
+import { ElementSelector } from "./scenes/ElementSelector";
 import { PathHub } from "./scenes/PathHub";
 import { GemPathScene } from "./scenes/GemPathScene";
 import { GemRoom } from "./scenes/GemRoom";
@@ -17,9 +20,10 @@ import { ChiSiamo } from "./pages/ChiSiamo";
 import { Contatti } from "./pages/Contatti";
 import { NotFound } from "./pages/NotFound";
 
-// The corridor walkthrough (home, portal junction, and its five paths) is a
-// full-bleed cinematic experience — the marketing chrome stays out of the way there.
-const IMMERSIVE_ROUTES = [/^\/$/, /^\/portale(\/.*)?$/];
+// The Supernova walkthrough (intro, corridor, choice, personalisation, portal
+// and its five paths) is a full-bleed cinematic experience — the marketing
+// chrome stays out of the way there.
+const IMMERSIVE_ROUTES = [/^\/$/, /^\/ingresso$/, /^\/scegli$/, /^\/personalizza$/, /^\/portale(\/.*)?$/];
 
 function App() {
   useSmoothScroll();
@@ -39,7 +43,10 @@ function App() {
           <DisclaimerGate onAcknowledge={() => setAcknowledged(true)} />
         ) : (
           <Routes>
-            <Route path="/" element={<CorridorScene />} />
+            <Route path="/" element={<IntroScene />} />
+            <Route path="/ingresso" element={<CorridorScene />} />
+            <Route path="/scegli" element={<ChoiceScene />} />
+            <Route path="/personalizza" element={<ElementSelector />} />
             <Route path="/portale" element={<PathHub />} />
             <Route path="/portale/pietre" element={<GemPathScene />} />
             <Route path="/portale/pietre/:gemId" element={<GemRoom />} />
