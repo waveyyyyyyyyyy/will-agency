@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { hapticConfirm } from "./haptics";
 import { BackButton } from "./BackButton";
 import { usePointerTilt } from "./usePointerTilt";
 
@@ -34,6 +35,7 @@ export function ChoiceScene() {
   }, []);
 
   function handleChoose(path: string) {
+    hapticConfirm();
     playWhoosh();
     setTimeout(() => navigate(path), 400);
   }

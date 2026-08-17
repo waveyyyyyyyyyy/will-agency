@@ -13,6 +13,8 @@ import { GemPathScene } from "./scenes/GemPathScene";
 import { GemRoom } from "./scenes/GemRoom";
 import { JourneyRoom } from "./scenes/JourneyRoom";
 import { DisclaimerGate, hasAcknowledgedDisclaimer } from "./scenes/DisclaimerGate";
+import { RegisterGate } from "./scenes/RegisterGate";
+import { hasRegistered } from "./scenes/clients";
 import { SoundToggle } from "./scenes/SoundToggle";
 import { Servizi } from "./pages/Servizi";
 import { Risultati } from "./pages/Risultati";
@@ -29,17 +31,22 @@ function App() {
   useSmoothScroll();
   const location = useLocation();
   const immersive = IMMERSIVE_ROUTES.some((re) => re.test(location.pathname));
+  const [registered, setRegistered] = useState(hasRegistered);
   const [acknowledged, setAcknowledged] = useState(hasAcknowledgedDisclaimer);
-  const gated = immersive && !acknowledged;
+  const needsRegistration = immersive && !registered;
+  const needsDisclaimer = immersive && registered && !acknowledged;
+  const gated = needsRegistration || needsDisclaimer;
 
   return (
     <>
       <div className="noise-overlay" />
       <ScrollToTop />
       {!immersive && <Navbar />}
-      {immersive && acknowledged && <SoundToggle />}
+      {immersive && !gated && <SoundToggle />}
       <main>
-        {gated ? (
+        {needsRegistration ? (
+          <RegisterGate onDone={() => setRegistered(true)} />
+        ) : needsDisclaimer ? (
           <DisclaimerGate onAcknowledge={() => setAcknowledged(true)} />
         ) : (
           <Routes>

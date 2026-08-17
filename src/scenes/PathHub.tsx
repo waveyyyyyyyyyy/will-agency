@@ -5,6 +5,7 @@ import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
 import { JOURNEYS, type Journey, type JourneyId } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { hapticConfirm } from "./haptics";
 import { BackButton } from "./BackButton";
 import { GemIllustration } from "./GemIllustration";
 import journeyMontagnaCover from "../assets/journey-montagna-cover.jpg";
@@ -128,6 +129,7 @@ export function PathHub() {
   }, []);
 
   function handleChoose(path: string) {
+    hapticConfirm();
     playWhoosh();
     setTimeout(() => navigate(path), 500);
   }
@@ -176,7 +178,7 @@ export function PathHub() {
               type="button"
               onClick={() => handleChoose(journey.path)}
               aria-label={`Entra nel percorso ${journey.name}`}
-              className="group flex w-32 flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-36"
+              className="group flex w-full flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-44 md:w-48"
               style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: "preserve-3d" }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
@@ -195,21 +197,22 @@ export function PathHub() {
               >
                 <PathIllustration id={journey.id} />
               </span>
-              <span className="font-display text-sm font-medium tracking-wide sm:text-base" style={{ color: journey.accent }}>
+              <span className="font-display text-base font-medium tracking-wide" style={{ color: journey.accent }}>
                 {journey.name}
               </span>
-              <span className="max-w-[9rem] text-center text-[11px] leading-snug text-cosmic-star/55">
+              <span className="max-w-[18rem] text-center text-xs leading-snug text-cosmic-star/55 sm:max-w-[10rem] sm:text-[11px]">
                 {journey.tagline}
               </span>
             </motion.button>
           );
 
-          // A fixed 2 / 2 / 1 layout — symmetric on every viewport, instead
-          // of letting flex-wrap decide between "4 + 1" or other lopsided
-          // splits depending on how much width happens to be available.
+          // One stacked column on mobile (image, name, tagline, card below
+          // card), a bigger 2 / 2 / 1 grid from tablet up — symmetric on
+          // every viewport instead of letting flex-wrap decide between
+          // "4 + 1" or other lopsided splits depending on available width.
           return (
-            <div className="relative z-10" style={{ perspective: 1400, transformStyle: "preserve-3d" }}>
-              <div className="mx-auto grid max-w-[19rem] grid-cols-2 gap-x-8 gap-y-10 sm:max-w-md sm:gap-x-12">
+            <div className="relative z-10 w-full" style={{ perspective: 1400, transformStyle: "preserve-3d" }}>
+              <div className="mx-auto grid max-w-xs grid-cols-1 justify-items-center gap-y-10 sm:max-w-md sm:grid-cols-2 sm:gap-x-12 md:max-w-lg">
                 {JOURNEYS.slice(0, 4).map(renderCard)}
               </div>
               <div className="mt-10 flex justify-center">{renderCard(JOURNEYS[4])}</div>

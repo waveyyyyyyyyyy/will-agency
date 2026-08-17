@@ -6,6 +6,7 @@ import { TiltedBackdrop } from "./TiltedBackdrop";
 import { GemIllustration, type GemId } from "./GemIllustration";
 import { PROTOCOLS } from "./protocols";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { hapticConfirm } from "./haptics";
 import { usePointerTilt } from "./usePointerTilt";
 
 const GEMS: { id: GemId; numeral: string; accent: string; tilt: number; label: string }[] = [
@@ -86,6 +87,7 @@ export function GemPathScene() {
   function handleChoose(id: string) {
     if (chosen) return;
     setChosen(id);
+    hapticConfirm();
     playWhoosh();
     setTimeout(() => navigate(`/portale/pietre/${id}`), 950);
   }

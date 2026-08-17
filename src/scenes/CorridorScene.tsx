@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, animate, motion, useMotionValue } from "framer-motion";
 import corridorImg from "../assets/corridor.jpg";
 import { playActivationChime, playWhoosh, setAmbientProfile, startFibonacciPulse, stopFibonacciPulse } from "./audio";
+import { hapticConfirm } from "./haptics";
 import { BackButton } from "./BackButton";
 import { Sparks } from "./Sparks";
 import { usePointerTilt } from "./usePointerTilt";
@@ -40,6 +41,7 @@ export function CorridorScene() {
     if (!ready || activating) return;
     setActivating(true);
     stopFibonacciPulse();
+    hapticConfirm();
     playWhoosh();
     animate(scale, 7, {
       duration: ZOOM_DURATION_S,

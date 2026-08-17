@@ -7,6 +7,7 @@ import { getJourney, type JourneyId } from "./journeys";
 import { PROTOCOLS } from "./protocols";
 import { setAmbientProfile, playSoftPing } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
+import journeyMontagnaCover from "../assets/journey-montagna-cover.jpg";
 
 const PROFILE_BY_JOURNEY: Record<JourneyId, "cosmic" | "gems" | "mare" | "montagna" | "geometrico"> = {
   galassie: "cosmic",
@@ -14,6 +15,13 @@ const PROFILE_BY_JOURNEY: Record<JourneyId, "cosmic" | "gems" | "mare" | "montag
   mare: "mare",
   montagna: "montagna",
   geometrico: "geometrico",
+};
+
+// Journeys with a real supplied cover photo — shown as a round portrait in
+// place of the roman-numeral badge. Add the rest here as their photos
+// arrive; the numeral badge is the fallback for anything not listed.
+const JOURNEY_COVER: Partial<Record<JourneyId, string>> = {
+  montagna: journeyMontagnaCover,
 };
 
 /**
@@ -32,6 +40,8 @@ export function JourneyRoom({ journeyId }: { journeyId: JourneyId }) {
   }, [journeyId]);
 
   if (!journey) return null;
+
+  const cover = JOURNEY_COVER[journeyId];
 
   return (
     <section
@@ -56,12 +66,21 @@ export function JourneyRoom({ journeyId }: { journeyId: JourneyId }) {
           className="rounded-3xl border px-10 py-14"
           style={{ borderColor: `${journey.accent}55`, background: "rgba(7,4,15,0.5)" }}
         >
-          <span
-            className="font-display flex h-16 w-16 items-center justify-center rounded-full border text-2xl"
-            style={{ borderColor: journey.accent, color: journey.accent, margin: "0 auto" }}
-          >
-            {journey.numeral}
-          </span>
+          {cover ? (
+            <div
+              className="mx-auto h-24 w-24 overflow-hidden rounded-full border-2"
+              style={{ borderColor: journey.accent, boxShadow: `0 0 30px ${journey.accentSoft}70` }}
+            >
+              <img src={cover} alt="" aria-hidden className="h-full w-full object-cover" />
+            </div>
+          ) : (
+            <span
+              className="font-display flex h-16 w-16 items-center justify-center rounded-full border text-2xl"
+              style={{ borderColor: journey.accent, color: journey.accent, margin: "0 auto" }}
+            >
+              {journey.numeral}
+            </span>
+          )}
           <h1 className="font-display mt-6 text-2xl font-medium tracking-tight text-cosmic-star md:text-3xl">
             {journey.name}
           </h1>
