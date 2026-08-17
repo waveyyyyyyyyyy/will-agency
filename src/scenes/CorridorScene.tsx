@@ -116,20 +116,31 @@ export function CorridorScene() {
           />
         </div>
 
-        {/* diamond activation button — invisible hit area, the light above already sells it */}
+        {/* diamond activation button — invisible hit area, the light above
+            already sells it. Sized generously for a finger, not just a
+            mouse cursor, and touch-action keeps a tap from being eaten by
+            a scroll/zoom gesture instead of registering as a click. */}
         <button
           type="button"
           aria-label="Attiva il diamante e apri il portale"
           onClick={handleDiamondClick}
+          onTouchEnd={(e) => {
+            // Some mobile browsers are slow to promote a tap to a synthetic
+            // click on an element sitting inside animated 3D transforms —
+            // handle the tap directly rather than waiting for it.
+            e.preventDefault();
+            handleDiamondClick();
+          }}
           disabled={!ready}
           className="absolute rounded-full"
           style={{
             left: `${DIAMOND.x}%`,
             top: `${DIAMOND.y}%`,
-            width: "13%",
-            height: "19%",
+            width: "20%",
+            height: "26%",
             transform: "translate(-50%, -50%)",
             cursor: ready ? "pointer" : "default",
+            touchAction: "manipulation",
           }}
         />
 

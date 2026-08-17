@@ -69,13 +69,15 @@ export function IntroScene() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="text-[11px] font-medium uppercase tracking-[0.4em] text-cosmic-gold/80">Supernova</span>
           <h1
-            className="font-display mt-2 text-4xl font-medium tracking-tight text-cosmic-star sm:text-5xl"
+            className="font-display text-5xl font-medium tracking-tight text-cosmic-star sm:text-6xl"
             style={{ textShadow: "0 2px 24px rgba(0,0,0,0.8), 0 0 40px rgba(232,193,104,0.25)" }}
           >
-            The Matrix Code
+            Supernova
           </h1>
+          <span className="mt-2 block text-xs font-medium uppercase tracking-[0.4em] text-cosmic-gold/80">
+            The Matrix Code
+          </span>
         </motion.div>
 
         <motion.p
