@@ -43,6 +43,7 @@ let ctx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 let ambient: { profile: AmbientProfileId; stop: () => void } | null = null;
 let soundOn = false;
+let audioBroken = false; // flips permanently on the first construction failure — every exported call below then no-ops instead of retrying and risking another throw
 const listeners = new Set<(on: boolean) => void>();
 
 function notify() {
@@ -58,6 +59,27 @@ function getCtx(): AudioContext {
     masterGain.connect(ctx.destination);
   }
   return ctx;
+}
+
+/**
+ * Every exported function below is wrapped through this — sound is a nice-
+ * to-have layered on top of the experience, never something a click handler
+ * or a screen's mount effect can be blocked by. If the Web Audio API throws
+ * for any reason (unsupported browser, a restrictive in-app webview, an
+ * autoplay policy rejection, ...), it's swallowed here, logged once, and
+ * audio quietly stays off for the rest of the session instead of taking
+ * down whatever UI logic happened to run right after it.
+ */
+function guarded<Args extends unknown[]>(fn: (...args: Args) => void): (...args: Args) => void {
+  return (...args: Args) => {
+    if (audioBroken) return;
+    try {
+      fn(...args);
+    } catch (err) {
+      audioBroken = true;
+      console.error("Supernova audio disabled after an error:", err);
+    }
+  };
 }
 
 export function isAudioSupported() {
@@ -360,29 +382,35 @@ let desiredProfile: AmbientProfileId = "cosmic";
  * crossfades immediately if sound happens to already be enabled, so a
  * scene never has to check `isSoundOn()` before calling this.
  */
-export function setAmbientProfile(profileId: AmbientProfileId) {
+export const setAmbientProfile = guarded((profileId: AmbientProfileId) => {
   desiredProfile = profileId;
   if (!soundOn) return;
   if (ambient?.profile === profileId) return;
   ambient?.stop();
   ambient = buildAmbient(profileId);
-}
+});
 
 export async function enableSound() {
-  const c = getCtx();
-  if (c.state === "suspended") await c.resume();
-  if (!ambient) ambient = buildAmbient(desiredProfile);
-  soundOn = true;
-  notify();
+  if (audioBroken) return;
+  try {
+    const c = getCtx();
+    if (c.state === "suspended") await c.resume();
+    if (!ambient) ambient = buildAmbient(desiredProfile);
+    soundOn = true;
+    notify();
+  } catch (err) {
+    audioBroken = true;
+    console.error("Supernova audio disabled after an error:", err);
+  }
 }
 
-export function disableSound() {
+export const disableSound = guarded(() => {
   ambient?.stop();
   ambient = null;
   ctx?.suspend();
   soundOn = false;
   notify();
-}
+});
 
 export async function toggleSound() {
   if (soundOn) {
@@ -393,7 +421,7 @@ export async function toggleSound() {
 }
 
 /** A short, soft bell — scheduled `delaySeconds` from now. */
-export function playTileChime(delaySeconds: number, index: number) {
+export const playTileChime = guarded((delaySeconds: number, index: number) => {
   if (!soundOn) return;
   const c = getCtx();
   const now = c.currentTime + Math.max(0, delaySeconds);
@@ -425,10 +453,10 @@ export function playTileChime(delaySeconds: number, index: number) {
   osc.stop(now + 0.9);
   partial.start(now);
   partial.stop(now + 0.55);
-}
+});
 
 /** A richer shimmering chord — the diamond waking up. */
-export function playActivationChime() {
+export const playActivationChime = guarded(() => {
   if (!soundOn) return;
   const c = getCtx();
   const now = c.currentTime;
@@ -446,10 +474,10 @@ export function playActivationChime() {
     osc.start(t);
     osc.stop(t + 2.2);
   });
-}
+});
 
 /** Filtered-noise sweep for the click-through dash into the diamond. */
-export function playWhoosh() {
+export const playWhoosh = guarded(() => {
   if (!soundOn) return;
   const c = getCtx();
   const now = c.currentTime;
@@ -476,10 +504,10 @@ export function playWhoosh() {
   gain.connect(masterGain!);
   noise.start(now);
   noise.stop(now + duration);
-}
+});
 
 /** A soft single tone — used for lighter UI moments like a gem being chosen. */
-export function playSoftPing() {
+export const playSoftPing = guarded(() => {
   if (!soundOn) return;
   const c = getCtx();
   const now = c.currentTime;
@@ -494,7 +522,7 @@ export function playSoftPing() {
   gain.connect(masterGain!);
   osc.start(now);
   osc.stop(now + 1.2);
-}
+});
 
 const FIBONACCI_STEPS = [1, 1, 2, 3, 5, 8, 13]; // seconds of sound; each step is followed by 1s of silence, then loops
 
@@ -508,7 +536,7 @@ let fibonacciStop: (() => void) | null = null;
  * choosing to step through. Filtered noise, not a raw hiss, and quiet
  * enough to sit under the cosmic ambience rather than fight it.
  */
-export function startFibonacciPulse() {
+export const startFibonacciPulse = guarded(() => {
   if (fibonacciStop) return; // already running — never double-schedule
   let stopped = false;
   let i = 0;
@@ -554,8 +582,8 @@ export function startFibonacciPulse() {
     if (timer) window.clearTimeout(timer);
     fibonacciStop = null;
   };
-}
+});
 
-export function stopFibonacciPulse() {
+export const stopFibonacciPulse = guarded(() => {
   fibonacciStop?.();
-}
+});

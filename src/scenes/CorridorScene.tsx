@@ -20,12 +20,16 @@ export function CorridorScene() {
   const [activating, setActivating] = useState(false);
 
   useEffect(() => {
-    setAmbientProfile("cosmic");
-    startFibonacciPulse(); // present on this screen until the diamond is activated
+    // Scheduled first and kept free of anything audio-related: `ready` is
+    // what makes the diamond clickable at all, so it must never be able to
+    // depend on a sound call succeeding (audio.ts guards against throwing,
+    // but this is the belt to that suspenders).
     const t = window.setTimeout(() => {
       setReady(true);
       playActivationChime();
     }, REVEAL_DELAY_S * 1000);
+    setAmbientProfile("cosmic");
+    startFibonacciPulse(); // present on this screen until the diamond is activated
     return () => {
       window.clearTimeout(t);
       stopFibonacciPulse();
@@ -118,18 +122,21 @@ export function CorridorScene() {
 
         {/* diamond activation button — invisible hit area, the light above
             already sells it. Sized generously for a finger, not just a
-            mouse cursor, and touch-action keeps a tap from being eaten by
-            a scroll/zoom gesture instead of registering as a click. */}
+            mouse cursor. Pointer Events (not touch events) drive the tap:
+            they're the one event family that fires consistently for mouse,
+            touch and pen alike, so there's no separate touch-only code
+            path that can quietly diverge from what the mouse does. */}
         <button
           type="button"
           aria-label="Attiva il diamante e apri il portale"
-          onClick={handleDiamondClick}
-          onTouchEnd={(e) => {
-            // Some mobile browsers are slow to promote a tap to a synthetic
-            // click on an element sitting inside animated 3D transforms —
-            // handle the tap directly rather than waiting for it.
+          onPointerUp={(e) => {
             e.preventDefault();
             handleDiamondClick();
+          }}
+          onClick={(e) => {
+            // Fallback for input that skips pointer events entirely
+            // (keyboard Enter/Space activation, some assistive tech).
+            if (e.detail === 0) handleDiamondClick();
           }}
           disabled={!ready}
           className="absolute rounded-full"
