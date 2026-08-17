@@ -19,6 +19,19 @@ export interface FrequencyPreset {
 
 export const FREQUENCY_LIBRARY: FrequencyPreset[] = [
   {
+    id: "40",
+    hz: 40,
+    name: "40 Hz (Onde Gamma)",
+    description:
+      "Studi preliminari suggeriscono che stimolazioni a 40 Hz possano aiutare a migliorare la concentrazione e l'attività cerebrale in presenza di decadimento cognitivo — un'area di ricerca ancora in corso, non una terapia consolidata.",
+  },
+  {
+    id: "174",
+    hz: 174,
+    name: "174 Hz",
+    description: "Associata nella tradizione alla riduzione del dolore fisico percepito e al rilassamento dei tessuti.",
+  },
+  {
     id: "396",
     hz: 396,
     name: "396 Hz",
@@ -31,10 +44,18 @@ export const FREQUENCY_LIBRARY: FrequencyPreset[] = [
     description: "Associato al cambiamento — utile come sottofondo nei percorsi che accompagnano una transizione.",
   },
   {
+    id: "432",
+    hz: 432,
+    name: "432 Hz",
+    description:
+      "Considerata da alcuni la \"frequenza naturale dell'universo\": un'accordatura alternativa spesso scelta per calmare la mente e favorire il sonno.",
+  },
+  {
     id: "528",
     hz: 528,
     name: "528 Hz",
-    description: "Il tono \"del cuore\": presente come costante discreta in ogni ambiente sonoro dell'app.",
+    description:
+      "Il tono \"del cuore\" o della trasformazione — nella tradizione delle frequenze solfeggio è associato a uno stato di calma e, in alcune letture, alla riduzione del cortisolo. Presente come costante discreta in ogni ambiente sonoro dell'app.",
   },
   {
     id: "639",

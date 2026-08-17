@@ -10,7 +10,7 @@ const OPTIONS = [
   {
     id: "seleziona",
     title: "Seleziona il tuo percorso",
-    body: "Scegli tra cinque ambientazioni — Galassie, Pietre Preziose, Mare, Montagna, Geometria Astratta — e lasciati guidare.",
+    body: "Scegli tra cinque ambientazioni — Viaggio Cosmico, Frattali di Luce, Flusso Marino, Sussurri della Natura, Geometria del Silenzio — e lasciati guidare.",
     accent: "#e8c168",
     path: "/portale",
   },

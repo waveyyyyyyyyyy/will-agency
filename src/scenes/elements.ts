@@ -26,7 +26,7 @@ export const ELEMENTS: WuXingElement[] = [
     name: "Fuoco",
     accent: "#e0698a",
     accentSoft: "#8f2c42",
-    symbol: "Energia, slancio, calore",
+    symbol: "Energia",
     description:
       "Il fuoco è l'elemento dell'energia e dell'entusiasmo. Quando arde senza controllo porta agitazione, cuore che corre, difficoltà a fermare i pensieri.",
     care: "Agitazione, ansia, difficoltà a calmare la mente.",
@@ -37,7 +37,7 @@ export const ELEMENTS: WuXingElement[] = [
     name: "Acqua",
     accent: "#2fc2b0",
     accentSoft: "#0b6e64",
-    symbol: "Profondità, flusso, ascolto",
+    symbol: "Flusso",
     description:
       "L'acqua è l'elemento della profondità e dell'adattamento. Quando è in blocco porta timore, esitazione, la sensazione di restare fermi davanti a ciò che verrà.",
     care: "Paura, ansia anticipatoria, blocchi.",
@@ -48,7 +48,7 @@ export const ELEMENTS: WuXingElement[] = [
     name: "Terra",
     accent: "#8fb4d9",
     accentSoft: "#3c5a78",
-    symbol: "Radicamento, stabilità, cura",
+    symbol: "Radici",
     description:
       "La terra è l'elemento del radicamento e del nutrimento. Quando manca stabilità emergono preoccupazione costante e il bisogno di sicurezza.",
     care: "Preoccupazione eccessiva, senso di instabilità.",
@@ -59,7 +59,7 @@ export const ELEMENTS: WuXingElement[] = [
     name: "Metallo",
     accent: "#e8c168",
     accentSoft: "#b6862c",
-    symbol: "Chiarezza, struttura, distacco",
+    symbol: "Forza",
     description:
       "Il metallo è l'elemento della chiarezza e del lasciar andare. Quando è in eccesso pesa come malinconia; quando manca, lascia disordine e confusione.",
     care: "Tristezza, elaborazione di una perdita, bisogno di ordine.",
@@ -70,7 +70,7 @@ export const ELEMENTS: WuXingElement[] = [
     name: "Legno",
     accent: "#9b7bdb",
     accentSoft: "#4c2a8f",
-    symbol: "Crescita, direzione, decisione",
+    symbol: "Rinascita",
     description:
       "Il legno è l'elemento della crescita e della direzione. Quando trova ostacoli si trasforma in frustrazione, rabbia, senso di blocco.",
     care: "Rabbia, frustrazione, senso di stagnazione.",

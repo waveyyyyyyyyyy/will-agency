@@ -20,7 +20,7 @@ export const JOURNEYS: Journey[] = [
   {
     id: "galassie",
     numeral: "I",
-    name: "Galassie",
+    name: "Viaggio Cosmico",
     tagline: "Deriva tra spirali di stelle lontane.",
     accent: "#9b7bdb",
     accentSoft: "#4c2a8f",
@@ -29,7 +29,7 @@ export const JOURNEYS: Journey[] = [
   {
     id: "pietre",
     numeral: "II",
-    name: "Pietre Preziose",
+    name: "Frattali di Luce",
     tagline: "Tre gemme, tre soglie.",
     accent: "#e8c168",
     accentSoft: "#b6862c",
@@ -38,7 +38,7 @@ export const JOURNEYS: Journey[] = [
   {
     id: "mare",
     numeral: "III",
-    name: "Mare",
+    name: "Flusso Marino",
     tagline: "Il respiro lento delle onde.",
     accent: "#2fc2b0",
     accentSoft: "#0b6e64",
@@ -47,7 +47,7 @@ export const JOURNEYS: Journey[] = [
   {
     id: "montagna",
     numeral: "IV",
-    name: "Montagna",
+    name: "Sussurri della Natura",
     tagline: "Silenzio alto e aria sottile.",
     accent: "#8fb4d9",
     accentSoft: "#3c5a78",
@@ -56,7 +56,7 @@ export const JOURNEYS: Journey[] = [
   {
     id: "geometrico",
     numeral: "V",
-    name: "Geometria Astratta",
+    name: "Geometria del Silenzio",
     tagline: "Forme pure, quiete della mente.",
     accent: "#e0698a",
     accentSoft: "#8f2c42",

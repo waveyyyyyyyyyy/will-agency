@@ -2,19 +2,24 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 
-const ACK_KEY = "will-agency-journey-ack-v1";
+const ACK_KEY = "will-agency-journey-ack-v2";
 
 export function hasAcknowledgedDisclaimer() {
   try {
-    return window.localStorage.getItem(ACK_KEY) === "1";
+    return Boolean(window.localStorage.getItem(ACK_KEY));
   } catch {
     return false;
   }
 }
 
+/**
+ * Records the ISO timestamp of acceptance, not just a boolean flag — so
+ * that, in case of dispute, there's a concrete date/time showing when this
+ * visitor read and accepted the disclaimer, not merely that they did.
+ */
 function setAcknowledged() {
   try {
-    window.localStorage.setItem(ACK_KEY, "1");
+    window.localStorage.setItem(ACK_KEY, new Date().toISOString());
   } catch {
     /* private browsing / storage disabled — the gate will just reappear next visit */
   }
@@ -48,22 +53,46 @@ export function DisclaimerGate({ onAcknowledge }: { onAcknowledge: () => void })
         <span className="text-xs font-medium uppercase tracking-[0.35em] text-cosmic-gold">Prima di varcare la soglia</span>
 
         <h1 className="font-display mt-5 text-balance text-2xl font-medium leading-[1.25] tracking-tight text-cosmic-star sm:text-3xl">
-          Un momento di pausa, non una cura.
+          Disclaimer di Salute, Sicurezza e Benessere
         </h1>
 
-        <div className="mt-6 space-y-4 text-left text-sm leading-relaxed text-cosmic-star/75">
+        <div className="mt-6 max-h-[42vh] space-y-4 overflow-y-auto pr-1 text-left text-sm leading-relaxed text-cosmic-star/75">
           <p>
-            Supernova ti accompagna in un&apos;esperienza di immagini, suoni e atmosfere pensata per un momento di
-            pausa e di ascolto di sé.
+            Questa applicazione è progettata esclusivamente per scopi di rilassamento, intrattenimento e benessere
+            personale. <strong className="text-cosmic-star">Non è un dispositivo medico e non fornisce diagnosi,
+            trattamenti o consulenze mediche.</strong>
           </p>
+
+          <div>
+            <p className="font-semibold text-cosmic-star/90">Avvertenza medica</p>
+            <p className="mt-1">
+              Nessun contenuto dell&apos;app deve essere inteso come sostituto del parere, della diagnosi o del
+              trattamento di un medico o di un professionista della salute mentale. In caso di patologie, forti stati
+              d&apos;ansia o disturbi della salute, consulta un medico qualificato.
+            </p>
+          </div>
+
+          <div>
+            <p className="font-semibold text-cosmic-star/90">Frequenze sonore ed epilessia</p>
+            <p className="mt-1">
+              Alcuni contenuti o frequenze sonore presenti nell&apos;app potrebbero non essere adatti a persone
+              soggette ad epilessia, convulsioni o disturbi cardiaci. Se avverti vertigini, nausea o fastidio,
+              interrompi immediatamente l&apos;ascolto.
+            </p>
+          </div>
+
+          <div>
+            <p className="font-semibold text-cosmic-star/90">Sicurezza alla guida</p>
+            <p className="mt-1">
+              <strong className="text-cosmic-star">Non utilizzare mai questa applicazione durante la guida di
+              autoveicoli, l&apos;uso di macchinari pericolosi o in qualsiasi situazione che richieda la tua piena
+              attenzione visiva o uditiva.</strong>
+            </p>
+          </div>
+
           <p>
-            Non è, in nessun modo, un percorso terapeutico, una diagnosi o una cura: non sostituisce il lavoro di uno
-            psicologo, di un medico o di un professionista specializzato. È pensata per affiancare, mai per
-            sostituire.
-          </p>
-          <p>
-            Se stai attraversando un momento difficile, parlane con una persona qualificata: è il gesto più
-            importante che tu possa fare per te.
+            Utilizzando questa app, dichiari di aver letto, compreso e accettato i presenti termini e di assumerti la
+            piena responsabilità del suo utilizzo.
           </p>
         </div>
 
@@ -74,7 +103,7 @@ export function DisclaimerGate({ onAcknowledge }: { onAcknowledge: () => void })
             onChange={(e) => setChecked(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 accent-[#e8c168]"
           />
-          Ho letto e ne prendo atto.
+          Ho letto, compreso e accetto quanto sopra.
         </label>
 
         <button
@@ -83,7 +112,7 @@ export function DisclaimerGate({ onAcknowledge }: { onAcknowledge: () => void })
           disabled={!checked}
           className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-cosmic-gold px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition-all enabled:hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-30"
         >
-          Entra
+          Accetto e Continuo
         </button>
       </motion.div>
     </section>

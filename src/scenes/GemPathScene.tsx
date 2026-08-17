@@ -169,7 +169,7 @@ export function GemPathScene() {
         />
 
         <div className="relative z-10 mb-16 max-w-xl text-center md:mb-20">
-          <span className="text-xs font-medium uppercase tracking-[0.35em] text-cosmic-gold">Hai scelto le Pietre Preziose</span>
+          <span className="text-xs font-medium uppercase tracking-[0.35em] text-cosmic-gold">Hai scelto Frattali di Luce</span>
           <h1 className="font-display mt-5 text-balance text-3xl font-medium leading-[1.15] tracking-tight text-cosmic-star sm:text-4xl md:text-5xl">
             Tre gemme, tre soglie.
           </h1>
