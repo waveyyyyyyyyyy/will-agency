@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import supernovaPoster from "../assets/supernova-poster.jpg";
-import { TiltedBackdrop } from "./TiltedBackdrop";
+import supernovaPosterWide from "../assets/supernova-poster-wide.jpg";
 import { Sparks } from "./Sparks";
 import { usePointerTilt } from "./usePointerTilt";
 
@@ -15,62 +14,84 @@ const POINTS = ["Respiro ritrovato.", "Pensieri alleggeriti.", "Presenza piena."
 
 /**
  * First screen after the consent gate — the "cover" of the experience.
- * The poster sits on its own tilt-responsive plane while a second, closer
- * plane of drifting starlight moves a little more with the pointer — real
- * parallax depth, not just a static photo, so it reads as the beginning of
- * a walk into the image rather than a flat picture with text over it.
+ *
+ * The galaxy is framed as a distant "porthole" rather than an edge-to-edge
+ * photo: a softly-vignetted, lens-shaped window floating in an open starlit
+ * void, as if seen from farther back through a wide lens — smaller in the
+ * frame, with generous dark space around it, instead of the tight crop used
+ * before. The source photo (the same one supplied at the start of this
+ * project) is cropped once, offline, to drop its own baked-in title/formula
+ * band so it reads as pure galaxy art here; no image was generated or
+ * repainted — see the chat note on why AI image editing isn't available in
+ * this environment.
  */
 export function IntroScene() {
   const navigate = useNavigate();
   const [aboutOpen, setAboutOpen] = useState(false);
-  const tilt = usePointerTilt(7);
+  const tilt = usePointerTilt(6);
 
   return (
     <section
       ref={tilt.ref}
       onPointerMove={tilt.onPointerMove}
       onPointerLeave={tilt.onPointerLeave}
-      className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden bg-black"
+      className="relative flex min-h-[100dvh] w-full flex-col items-center overflow-y-auto overflow-x-hidden bg-black px-6 py-10 sm:py-14"
       style={{ perspective: 1200 }}
     >
-      <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY} duration={22}>
-        <motion.div
-          className="absolute inset-0 overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <img
-            src={supernovaPoster}
-            alt="Supernova — spirale cosmica di stelle e nebulose in movimento"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ animation: "kenburns 34s ease-in-out infinite alternate" }}
-          />
-        </motion.div>
-      </TiltedBackdrop>
-
-      {/* a closer plane of drifting starlight — moves slightly more than the
-          poster itself under pointer tilt, the parallax cue that sells depth */}
-      <div className="pointer-events-none absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
+      {/* the open void — starfield fills the whole scene, not just the porthole */}
+      <div className="pointer-events-none fixed inset-0" style={{ transformStyle: "preserve-3d" }}>
         <motion.div
           className="absolute inset-0"
           style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: "preserve-3d", translateZ: 60 }}
         >
-          <Sparks count={70} />
+          <Sparks count={90} />
         </motion.div>
       </div>
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(76,42,143,0.25),transparent_60%)]" />
 
-      <div className="pointer-events-none absolute inset-0 bg-black/50" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/55" />
+      {/* the galaxy, seen as if from farther away — a soft-edged porthole,
+          not a full-bleed photo, so the "wide angle, more distance" reads
+          as an actual composition choice rather than a filter */}
+      <div className="relative z-10 mt-4 w-full max-w-[560px] sm:mt-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
+          style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: "preserve-3d" }}
+          className="relative mx-auto aspect-[848/763] w-[78%] overflow-hidden rounded-[50%] border border-cosmic-star/10 sm:w-[70%]"
+        >
+          <img
+            src={supernovaPosterWide}
+            alt="Una spirale galattica di stelle e nebulose, vista da lontano come attraverso un obiettivo grandangolare"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ animation: "kenburns-distant 30s ease-in-out infinite alternate" }}
+          />
+          {/* lens vignette — the visual signature of a wide shot, and what
+              keeps the porthole's edge from reading as a hard photo crop */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "radial-gradient(circle, transparent 42%, rgba(3,1,8,0.85) 100%)" }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ boxShadow: "inset 0 0 46px 10px rgba(0,0,0,0.55)" }}
+          />
+        </motion.div>
+        {/* faint glass rim, like light catching the edge of the lens */}
+        <div
+          className="pointer-events-none absolute inset-0 mx-auto aspect-[848/763] w-[78%] rounded-[50%] sm:w-[70%]"
+          style={{ boxShadow: "0 0 70px rgba(232,193,104,0.14)" }}
+        />
+      </div>
 
-      <div className="relative z-10 flex w-full max-w-xl flex-col items-center px-6 text-center">
+      <div className="relative z-10 mt-8 flex w-full max-w-xl flex-col items-center px-2 text-center sm:mt-10">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1
-            className="font-display text-5xl font-medium tracking-tight text-cosmic-star sm:text-6xl"
+            className="font-display text-4xl font-medium tracking-tight text-cosmic-star sm:text-5xl"
             style={{ textShadow: "0 2px 24px rgba(0,0,0,0.8), 0 0 40px rgba(232,193,104,0.25)" }}
           >
             Supernova
@@ -84,13 +105,13 @@ export function IntroScene() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display mt-5 text-balance text-base tracking-wide text-cosmic-star/85 sm:text-lg"
+          className="font-display mt-4 text-balance text-base tracking-wide text-cosmic-star/85 sm:text-lg"
           style={{ textShadow: "0 2px 16px rgba(0,0,0,0.7)" }}
         >
           {TAGLINE}
         </motion.p>
 
-        <div className="mt-8 flex flex-col gap-2.5">
+        <div className="mt-6 flex flex-col gap-2">
           {POINTS.map((line, i) => (
             <motion.p
               key={line}
@@ -112,7 +133,7 @@ export function IntroScene() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.4 }}
           transition={{ duration: 1, delay: 1.4 }}
-          className="mt-6 font-mono text-[11px] italic tracking-widest text-cosmic-star"
+          className="mt-5 font-mono text-[11px] italic tracking-widest text-cosmic-star"
           aria-hidden
         >
           Ω₀ = ∮ ( Ψ • 𝕊ˣ ) dt
@@ -122,7 +143,7 @@ export function IntroScene() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 2.1 }}
-          className="mt-12 flex flex-col items-center gap-4"
+          className="mt-9 flex flex-col items-center gap-4 pb-4"
         >
           <button
             type="button"

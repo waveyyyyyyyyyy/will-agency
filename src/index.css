@@ -172,6 +172,17 @@
   }
 }
 
+/* A gentler drift for the intro's galaxy "porthole" — the framing is
+   already wide/distant, so this stays subtle rather than pushing in tight. */
+@keyframes kenburns-distant {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.06) translate(-0.8%, -0.6%);
+  }
+}
+
 html {
   background-color: var(--color-ink);
 }
