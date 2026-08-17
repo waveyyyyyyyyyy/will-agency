@@ -7,7 +7,12 @@ import { ELEMENTS, type ElementId, type WuXingElement } from "./elements";
 import { getJourney } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { BackButton } from "./BackButton";
+import elementFuocoCover from "../assets/element-fuoco-cover.jpg";
 import { usePointerTilt } from "./usePointerTilt";
+
+// "Fuoco" gets a real photo cover instead of an SVG — it fills its card
+// edge-to-edge (no icon padding), unlike the other elements.
+const PHOTO_COVER_ELEMENTS: ElementId[] = ["fuoco"];
 
 /**
  * Fuller illustrated scenes rather than small line icons — each element
@@ -20,31 +25,11 @@ function ElementIllustration({ id }: { id: ElementId }) {
   switch (id) {
     case "fuoco":
       return (
-        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
-          <defs>
-            <linearGradient id="fire-outer" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="#8a1f3a" />
-              <stop offset="55%" stopColor="#e0698a" />
-              <stop offset="100%" stopColor="#ffd27a" />
-            </linearGradient>
-            <linearGradient id="fire-inner" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="#c93f5e" />
-              <stop offset="70%" stopColor="#ffb24d" />
-              <stop offset="100%" stopColor="#fff3c9" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M50,14 C62,30 78,38 70,58 C66,70 54,80 40,76 C22,71 16,54 28,42 C28,54 36,56 36,48 C36,36 26,28 30,12 C38,22 44,18 50,14 Z"
-            fill="url(#fire-outer)"
-          />
-          <path
-            d="M49,34 C56,44 62,50 56,62 C53,69 45,73 38,69 C28,64 27,53 35,47 C35,54 40,54 40,49 C40,42 34,38 37,28 C42,33 45,32 49,34 Z"
-            fill="url(#fire-inner)"
-          />
-          <circle cx="72" cy="26" r="2.6" fill="#ffd27a" opacity="0.9" />
-          <circle cx="66" cy="16" r="1.7" fill="#ffe6ac" opacity="0.8" />
-          <circle cx="79" cy="38" r="1.8" fill="#ffb24d" opacity="0.7" />
-        </svg>
+        <img
+          src={elementFuocoCover}
+          alt="Un falò acceso sulla riva di un lago di montagna, sotto un'aurora boreale"
+          className="h-full w-full object-cover"
+        />
       );
     case "acqua":
       return (
@@ -194,7 +179,9 @@ export function ElementSelector() {
           className="flex w-32 flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-36"
         >
           <span
-            className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 p-5 transition-all"
+            className={`flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 transition-all ${
+              PHOTO_COVER_ELEMENTS.includes(el.id) ? "" : "p-5"
+            }`}
             style={{
               borderColor: isOn ? el.accent : `${el.accent}35`,
               background: isOn

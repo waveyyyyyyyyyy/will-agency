@@ -7,7 +7,12 @@ import { JOURNEYS, type Journey, type JourneyId } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { BackButton } from "./BackButton";
 import { GemIllustration } from "./GemIllustration";
+import journeyMontagnaCover from "../assets/journey-montagna-cover.jpg";
 import { usePointerTilt } from "./usePointerTilt";
+
+// "Sussurri della Natura" gets a real photo cover instead of an SVG — it
+// fills its card edge-to-edge (no icon padding), unlike the others.
+const PHOTO_COVER_JOURNEYS: JourneyId[] = ["montagna"];
 
 /**
  * Fuller layered illustrations for each path — the same treatment as the
@@ -76,18 +81,11 @@ function PathIllustration({ id }: { id: JourneyId }) {
       );
     case "montagna":
       return (
-        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
-          <defs>
-            <linearGradient id="ph-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8fb4d9" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#8fb4d9" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="100" height="55" fill="url(#ph-sky)" />
-          <circle cx="70" cy="22" r="9" fill="#fff6df" opacity="0.85" />
-          <polygon points="6,88 24,46 36,64 50,32 66,60 78,42 94,88" fill="#3c5a78" />
-          <polygon points="50,32 58,46 66,60 50,60 42,52" fill="#8fb4d9" opacity="0.7" />
-        </svg>
+        <img
+          src={journeyMontagnaCover}
+          alt="Un cerbiatto e un coniglio ai piedi di un vecchio albero, con un lago di montagna sullo sfondo"
+          className="h-full w-full object-cover"
+        />
       );
     case "geometrico":
     default:
@@ -184,7 +182,9 @@ export function PathHub() {
               whileTap={{ scale: 0.97 }}
             >
               <span
-                className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 p-5 transition-all"
+                className={`flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 transition-all ${
+                  PHOTO_COVER_JOURNEYS.includes(journey.id) ? "" : "p-5"
+                }`}
                 style={{
                   borderColor: `${journey.accent}45`,
                   background: `radial-gradient(circle at 35% 25%, ${journey.accent}3d, rgba(7,4,15,0.85) 75%)`,
