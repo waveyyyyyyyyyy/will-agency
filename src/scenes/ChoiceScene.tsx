@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { BackButton } from "./BackButton";
 import { usePointerTilt } from "./usePointerTilt";
 
 const OPTIONS = [
@@ -48,6 +49,8 @@ export function ChoiceScene() {
       <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
         <NebulaBackdrop starCount={150} />
       </TiltedBackdrop>
+
+      <BackButton to="/ingresso" />
 
       <motion.div
         initial={{ opacity: 0, y: 14 }}

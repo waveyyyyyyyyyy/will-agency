@@ -1,28 +1,17 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import supernovaPoster from "../assets/supernova-poster.jpg";
 import { TiltedBackdrop } from "./TiltedBackdrop";
+import { Sparks } from "./Sparks";
 import { usePointerTilt } from "./usePointerTilt";
 
-const TAGLINES = [
-  "Un campo di luce, suono e quiete.",
-  "Percorsi pensati per accompagnarti, non per sostituirti.",
-  "Ogni sentiero ha il suo ritmo, il suo colore, il suo respiro.",
-  "Un passo alla volta, verso un po' di calma.",
-];
-
-type Spark = { top: number; left: number; size: number; delay: number; duration: number };
-
-function makeSparks(count: number): Spark[] {
-  return Array.from({ length: count }, () => ({
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    size: 1 + Math.random() * 2.4,
-    delay: Math.random() * 4,
-    duration: 2.5 + Math.random() * 3,
-  }));
-}
+// The opening message, restyled but not rewritten into false medical/
+// neurological claims — see the "i" panel and the disclaimer for why:
+// this stays an evocative promise ("a reset of attention, breath and
+// presence"), never a claim to literally recalibrate the nervous system.
+const TAGLINE = "Un'esperienza d'élite, pensata per un reset di attenzione, respiro e presenza.";
+const POINTS = ["Respiro ritrovato.", "Pensieri alleggeriti.", "Presenza piena.", "Il tuo nuovo ritmo, un passo alla volta."];
 
 /**
  * First screen after the consent gate — the "cover" of the experience.
@@ -35,7 +24,6 @@ export function IntroScene() {
   const navigate = useNavigate();
   const [aboutOpen, setAboutOpen] = useState(false);
   const tilt = usePointerTilt(7);
-  const sparks = useMemo(() => makeSparks(70), []);
 
   return (
     <section
@@ -46,14 +34,19 @@ export function IntroScene() {
       style={{ perspective: 1200 }}
     >
       <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY} duration={22}>
-        <motion.img
-          src={supernovaPoster}
-          alt="Supernova — spirale cosmica di stelle e nebulose in movimento"
-          className="absolute inset-0 h-full w-full object-cover"
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <motion.div
+          className="absolute inset-0 overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-        />
+        >
+          <img
+            src={supernovaPoster}
+            alt="Supernova — spirale cosmica di stelle e nebulose in movimento"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ animation: "kenburns 34s ease-in-out infinite alternate" }}
+          />
+        </motion.div>
       </TiltedBackdrop>
 
       {/* a closer plane of drifting starlight — moves slightly more than the
@@ -63,19 +56,7 @@ export function IntroScene() {
           className="absolute inset-0"
           style={{ rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformStyle: "preserve-3d", translateZ: 60 }}
         >
-          {sparks.map((s, i) => (
-            <span
-              key={i}
-              className="absolute rounded-full bg-cosmic-star mix-blend-screen"
-              style={{
-                top: `${s.top}%`,
-                left: `${s.left}%`,
-                width: s.size,
-                height: s.size,
-                animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
-              }}
-            />
-          ))}
+          <Sparks count={70} />
         </motion.div>
       </div>
 
@@ -83,25 +64,62 @@ export function IntroScene() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/55" />
 
       <div className="relative z-10 flex w-full max-w-xl flex-col items-center px-6 text-center">
-        <div className="mt-10 flex flex-col gap-4">
-          {TAGLINES.map((line, i) => (
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="text-[11px] font-medium uppercase tracking-[0.4em] text-cosmic-gold/80">Supernova</span>
+          <h1
+            className="font-display mt-2 text-4xl font-medium tracking-tight text-cosmic-star sm:text-5xl"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.8), 0 0 40px rgba(232,193,104,0.25)" }}
+          >
+            The Matrix Code
+          </h1>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display mt-5 text-balance text-base tracking-wide text-cosmic-star/85 sm:text-lg"
+          style={{ textShadow: "0 2px 16px rgba(0,0,0,0.7)" }}
+        >
+          {TAGLINE}
+        </motion.p>
+
+        <div className="mt-8 flex flex-col gap-2.5">
+          {POINTS.map((line, i) => (
             <motion.p
               key={line}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 + i * 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-base tracking-wide text-cosmic-star/85 sm:text-lg"
-              style={{ textShadow: "0 2px 16px rgba(0,0,0,0.7)" }}
+              transition={{ duration: 0.6, delay: 0.6 + i * 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="text-sm tracking-[0.04em] text-cosmic-star/70"
+              style={{
+                textShadow: "0 2px 12px rgba(0,0,0,0.7)",
+                animation: `float-y ${4.4 + i * 0.35}s ease-in-out ${1.4 + i * 0.3}s infinite`,
+              }}
             >
               {line}
             </motion.p>
           ))}
         </div>
 
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.4 }}
+          transition={{ duration: 1, delay: 1.4 }}
+          className="mt-6 font-mono text-[11px] italic tracking-widest text-cosmic-star"
+          aria-hidden
+        >
+          Ω₀ = ∮ ( Ψ • 𝕊ˣ ) dt
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 + TAGLINES.length * 0.28 + 0.2 }}
+          transition={{ duration: 0.7, delay: 2.1 }}
           className="mt-12 flex flex-col items-center gap-4"
         >
           <button
@@ -174,10 +192,6 @@ export function IntroScene() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.3em] text-cosmic-star/50 md:left-10 md:top-8">
-        Supernova <span className="text-cosmic-star/30">— The Matrix Code</span>
-      </div>
     </section>
   );
 }

@@ -116,6 +116,20 @@
   }
 }
 
+/* Same pulse as diamond-breathe but without the recentring translate — for
+   icon tiles that are already in normal flow (grid/flex cards), where the
+   -50%/-50% offset would visually tear the icon away from its own label. */
+@keyframes card-breathe {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
 /* Gemstones on the portal screen — a slow idle turn to catch the light,
    plus an occasional specular glint sweeping across the table facet. */
 @keyframes gem-idle-spin {
@@ -144,6 +158,17 @@
   40% {
     opacity: 0.85;
     transform: translate(6px, -4px);
+  }
+}
+
+/* Slow continuous pan/zoom ("Ken Burns") for full-bleed backdrop photos —
+   keeps the very first screens feeling alive instead of static. */
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-1.4%, -1.2%);
   }
 }
 

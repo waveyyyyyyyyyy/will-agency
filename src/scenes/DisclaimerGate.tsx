@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
+import { enableSound } from "./audio";
 
 const ACK_KEY = "will-agency-journey-ack-v2";
 
@@ -37,6 +38,11 @@ export function DisclaimerGate({ onAcknowledge }: { onAcknowledge: () => void })
   function handleEnter() {
     if (!checked) return;
     setAcknowledged();
+    // This click is a guaranteed user gesture, so it's the most reliable
+    // place to unlock the Web Audio context — mobile browsers otherwise
+    // block sound entirely until one happens, which is why the ambience
+    // was going silent on phones even with the sound toggle already on.
+    void enableSound();
     onAcknowledge();
   }
 

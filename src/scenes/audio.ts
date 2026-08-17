@@ -32,11 +32,11 @@ interface ProfileConfig {
 // library in frequencies.ts, chosen for what that path is meant to help
 // with (see elements.ts's "care" field for the reasoning behind each pick).
 const PROFILES: Record<AmbientProfileId, ProfileConfig> = {
-  cosmic: { freqs: [98, 146.83, 220, 293.66], filterHz: 850, texture: "twinkle", frequencyId: "963" }, // G2 D3 A3 D4 — corridor/portal/galassie; 963 Hz for quiete e presenza
-  gems: { freqs: [130.81, 196, 261.63, 329.63], filterHz: 1150, texture: "chime", frequencyId: "852" }, // C3 G3 C4 E4 — brighter, crystalline; 852 Hz for chiarezza
-  mare: { freqs: [87.31, 130.81, 174.61, 220], filterHz: 620, texture: "waves", frequencyId: "396" }, // F2 C3 F3 A3 — low, tidal; 396 Hz per il rilascio della paura
-  montagna: { freqs: [110, 164.81, 220, 293.66, 440], filterHz: 950, texture: "wind", frequencyId: "741" }, // A2 E3 A3 D4 A4 — wide, "symphonic"; 741 Hz per la chiarezza mentale
-  geometrico: { freqs: [130.81, 195.5, 261.63, 391.0], filterHz: 1400, texture: "beating", frequencyId: "417" }, // near-perfect fifths, slow beating; 417 Hz per il cambiamento
+  cosmic: { freqs: [98, 146.83, 220, 293.66], filterHz: 720, texture: "twinkle", frequencyId: "963" }, // G2 D3 A3 D4 — corridor/portal/galassie; 963 Hz for quiete e presenza
+  gems: { freqs: [130.81, 196, 261.63, 329.63], filterHz: 980, texture: "chime", frequencyId: "852" }, // C3 G3 C4 E4 — brighter, crystalline; 852 Hz for chiarezza
+  mare: { freqs: [87.31, 130.81, 174.61, 220], filterHz: 540, texture: "waves", frequencyId: "396" }, // F2 C3 F3 A3 — low, tidal; 396 Hz per il rilascio della paura
+  montagna: { freqs: [110, 164.81, 220, 293.66, 440], filterHz: 800, texture: "wind", frequencyId: "741" }, // A2 E3 A3 D4 A4 — wide, "symphonic"; 741 Hz per la chiarezza mentale
+  geometrico: { freqs: [130.81, 195.5, 261.63, 391.0], filterHz: 1150, texture: "beating", frequencyId: "417" }, // near-perfect fifths, slow beating; 417 Hz per il cambiamento
 };
 
 let ctx: AudioContext | null = null;
@@ -54,7 +54,7 @@ function getCtx(): AudioContext {
     const Ctor: AudioCtor = window.AudioContext ?? (window as unknown as { webkitAudioContext: AudioCtor }).webkitAudioContext;
     ctx = new Ctor();
     masterGain = ctx.createGain();
-    masterGain.gain.value = 0.3; // background contour, never the foreground — kept deliberately quiet
+    masterGain.gain.value = 0.21; // background contour, never the foreground — kept deliberately quiet
     masterGain.connect(ctx.destination);
   }
   return ctx;
@@ -105,11 +105,11 @@ function attachWaveTexture(c: AudioContext, destination: AudioNode, now: number)
   filter.type = "lowpass";
   filter.frequency.value = 480;
   const gain = c.createGain();
-  gain.gain.value = 0.06;
+  gain.gain.value = 0.045;
   const lfo = c.createOscillator();
   lfo.frequency.value = 0.085; // one swell roughly every 12s
   const lfoGain = c.createGain();
-  lfoGain.gain.value = 0.045;
+  lfoGain.gain.value = 0.032;
   lfo.connect(lfoGain);
   lfoGain.connect(gain.gain);
   noise.connect(filter);
@@ -130,11 +130,11 @@ function attachWindTexture(c: AudioContext, destination: AudioNode, now: number)
   filter.frequency.value = 1400;
   filter.Q.value = 0.6;
   const gain = c.createGain();
-  gain.gain.value = 0.02;
+  gain.gain.value = 0.014;
   const lfo = c.createOscillator();
   lfo.frequency.value = 0.05;
   const lfoGain = c.createGain();
-  lfoGain.gain.value = 0.014;
+  lfoGain.gain.value = 0.01;
   lfo.connect(lfoGain);
   lfoGain.connect(gain.gain);
   const filterLfo = c.createOscillator();
@@ -161,7 +161,7 @@ function attachBeatingTexture(c: AudioContext, destination: AudioNode, now: numb
   osc2.type = "sine";
   osc2.frequency.value = 393.3; // ~2.3Hz beat
   const gain = c.createGain();
-  gain.gain.value = 0.05;
+  gain.gain.value = 0.033;
   osc.connect(gain);
   osc2.connect(gain);
   gain.connect(destination);
@@ -181,7 +181,7 @@ function attachSolfeggioTone(c: AudioContext, destination: AudioNode, now: numbe
   osc.connect(gain);
   gain.connect(destination);
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(peakGain, now + 4);
+  gain.gain.linearRampToValueAtTime(peakGain, now + 2.6); // arrives together with the ambient bed, not staggered after it
   const lfo = c.createOscillator();
   lfo.frequency.value = 0.055 + Math.random() * 0.02;
   const lfoGain = c.createGain();
@@ -210,7 +210,7 @@ function scheduleTwinkle(getStopped: () => boolean) {
       osc.frequency.value = freq;
       const g = c.createGain();
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.045, t + 0.6);
+      g.gain.linearRampToValueAtTime(0.032, t + 0.6);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
       osc.connect(g);
       g.connect(masterGain!);
@@ -246,10 +246,10 @@ function scheduleChime(getStopped: () => boolean) {
       const g = c.createGain();
       const gPartial = c.createGain();
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.05, t + 0.02);
+      g.gain.linearRampToValueAtTime(0.035, t + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
       gPartial.gain.setValueAtTime(0, t);
-      gPartial.gain.linearRampToValueAtTime(0.018, t + 0.015);
+      gPartial.gain.linearRampToValueAtTime(0.012, t + 0.015);
       gPartial.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
       osc.connect(g);
       partial.connect(gPartial);
@@ -288,7 +288,7 @@ function buildAmbient(profileId: AmbientProfileId) {
     osc.type = i % 2 === 0 ? "sine" : "triangle";
     osc.frequency.value = freq;
     const voiceGain = c.createGain();
-    voiceGain.gain.value = 0.11 / (i + 1);
+    voiceGain.gain.value = 0.078 / (i + 1);
     osc.connect(voiceGain);
     voiceGain.connect(filter);
 
@@ -307,10 +307,10 @@ function buildAmbient(profileId: AmbientProfileId) {
   // The one constant across every journey: a quiet, steady 528 Hz tone —
   // plus this profile's own pick from the frequency library, layered in
   // just as quietly right beside it.
-  nodes.push(...attachSolfeggioTone(c, filter, now, 528, 0.045));
+  nodes.push(...attachSolfeggioTone(c, filter, now, 528, 0.032));
   const profileFreq = getFrequency(config.frequencyId);
   if (profileFreq) {
-    nodes.push(...attachSolfeggioTone(c, filter, now, profileFreq.hz, 0.035));
+    nodes.push(...attachSolfeggioTone(c, filter, now, profileFreq.hz, 0.025));
   }
 
   let stopScheduled: (() => void) | null = null;
@@ -410,10 +410,10 @@ export function playTileChime(delaySeconds: number, index: number) {
   const gain = c.createGain();
   const partialGain = c.createGain();
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.13, now + 0.025);
+  gain.gain.linearRampToValueAtTime(0.095, now + 0.025);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
   partialGain.gain.setValueAtTime(0, now);
-  partialGain.gain.linearRampToValueAtTime(0.035, now + 0.02);
+  partialGain.gain.linearRampToValueAtTime(0.025, now + 0.02);
   partialGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
 
   osc.connect(gain);
@@ -439,7 +439,7 @@ export function playActivationChime() {
     const gain = c.createGain();
     const t = now + i * 0.06;
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(0.11, t + 0.06);
+    gain.gain.linearRampToValueAtTime(0.08, t + 0.06);
     gain.gain.exponentialRampToValueAtTime(0.0001, t + 2.1);
     osc.connect(gain);
     gain.connect(masterGain!);
@@ -468,7 +468,7 @@ export function playWhoosh() {
 
   const gain = c.createGain();
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.16, now + 0.15);
+  gain.gain.linearRampToValueAtTime(0.11, now + 0.15);
   gain.gain.linearRampToValueAtTime(0, now + duration);
 
   noise.connect(filter);
@@ -488,10 +488,74 @@ export function playSoftPing() {
   osc.frequency.value = 660;
   const gain = c.createGain();
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.1, now + 0.04);
+  gain.gain.linearRampToValueAtTime(0.075, now + 0.04);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
   osc.connect(gain);
   gain.connect(masterGain!);
   osc.start(now);
   osc.stop(now + 1.2);
+}
+
+const FIBONACCI_STEPS = [1, 1, 2, 3, 5, 8, 13]; // seconds of sound; each step is followed by 1s of silence, then loops
+
+let fibonacciStop: (() => void) | null = null;
+
+/**
+ * A soft breathing pulse timed to the Fibonacci sequence — 1s of sound, 1s
+ * of silence, 2s of sound, 1s of silence, 3s, 1s, 5s, 1s, 8s, 1s, 13s, 1s,
+ * then back to the start. Reserved for the corridor's diamond screen, where
+ * it's meant to stay present for as long as the visitor lingers before
+ * choosing to step through. Filtered noise, not a raw hiss, and quiet
+ * enough to sit under the cosmic ambience rather than fight it.
+ */
+export function startFibonacciPulse() {
+  if (fibonacciStop) return; // already running — never double-schedule
+  let stopped = false;
+  let i = 0;
+  let timer: number | undefined;
+
+  function playBurst(durationSec: number) {
+    if (!soundOn) return;
+    const c = getCtx();
+    const now = c.currentTime;
+    const noise = c.createBufferSource();
+    noise.buffer = makeNoiseBuffer(c, durationSec + 0.3, "brown");
+    const filter = c.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 640;
+    filter.Q.value = 0.5;
+    const gain = c.createGain();
+    const attack = Math.min(0.9, durationSec * 0.35);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.04, now + attack);
+    gain.gain.setValueAtTime(0.04, now + Math.max(durationSec - 0.7, attack));
+    gain.gain.linearRampToValueAtTime(0, now + durationSec);
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain!);
+    noise.start(now);
+    noise.stop(now + durationSec + 0.1);
+  }
+
+  function tick() {
+    if (stopped) return;
+    const durationSec = FIBONACCI_STEPS[i % FIBONACCI_STEPS.length];
+    playBurst(durationSec);
+    timer = window.setTimeout(() => {
+      if (stopped) return;
+      i += 1;
+      timer = window.setTimeout(tick, 1000); // the 1s pause between bursts
+    }, durationSec * 1000);
+  }
+  tick();
+
+  fibonacciStop = () => {
+    stopped = true;
+    if (timer) window.clearTimeout(timer);
+    fibonacciStop = null;
+  };
+}
+
+export function stopFibonacciPulse() {
+  fibonacciStop?.();
 }

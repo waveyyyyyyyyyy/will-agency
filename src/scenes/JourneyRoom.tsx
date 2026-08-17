@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ThemeBackdrop } from "./ThemeBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
 import { getJourney, type JourneyId } from "./journeys";
+import { PROTOCOLS } from "./protocols";
 import { setAmbientProfile, playSoftPing } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
@@ -69,6 +70,24 @@ export function JourneyRoom({ journeyId }: { journeyId: JourneyId }) {
             Questo sentiero è ancora in costruzione — l&apos;atmosfera, il suono e i colori sono già suoi: i
             contenuti arriveranno presto.
           </p>
+
+          <div className="mt-8 grid gap-3 text-left">
+            <span className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-cosmic-star/45">
+              I protocolli di questo percorso
+            </span>
+            {PROTOCOLS[journeyId].map((protocol) => (
+              <div
+                key={protocol.name}
+                className="rounded-2xl border px-4 py-3"
+                style={{ borderColor: `${journey.accent}30`, background: "rgba(7,4,15,0.4)" }}
+              >
+                <span className="font-display block text-sm font-medium" style={{ color: journey.accent }}>
+                  {protocol.name}
+                </span>
+                <span className="mt-0.5 block text-xs leading-snug text-cosmic-star/55">{protocol.focus}</span>
+              </div>
+            ))}
+          </div>
 
           <Link
             to="/portale"

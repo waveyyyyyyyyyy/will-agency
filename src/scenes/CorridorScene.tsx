@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, animate, motion, useMotionValue } from "framer-motion";
 import corridorImg from "../assets/corridor.jpg";
-import { playActivationChime, playWhoosh, setAmbientProfile } from "./audio";
+import { playActivationChime, playWhoosh, setAmbientProfile, startFibonacciPulse, stopFibonacciPulse } from "./audio";
+import { BackButton } from "./BackButton";
+import { Sparks } from "./Sparks";
 import { usePointerTilt } from "./usePointerTilt";
 
 const DIAMOND = { x: 62, y: 45 }; // percent-of-frame position of the diamond in the photo — the glow is anchored right here
@@ -19,16 +21,21 @@ export function CorridorScene() {
 
   useEffect(() => {
     setAmbientProfile("cosmic");
+    startFibonacciPulse(); // present on this screen until the diamond is activated
     const t = window.setTimeout(() => {
       setReady(true);
       playActivationChime();
     }, REVEAL_DELAY_S * 1000);
-    return () => window.clearTimeout(t);
+    return () => {
+      window.clearTimeout(t);
+      stopFibonacciPulse();
+    };
   }, []);
 
   function handleDiamondClick() {
     if (!ready || activating) return;
     setActivating(true);
+    stopFibonacciPulse();
     playWhoosh();
     animate(scale, 7, {
       duration: ZOOM_DURATION_S,
@@ -55,15 +62,24 @@ export function CorridorScene() {
           transformStyle: "preserve-3d",
         }}
       >
-        {/* background photo */}
-        <motion.img
-          src={corridorImg}
-          alt="Galleria cosmica con soffitto a volta stellato e pavimento in marmo intarsiato, che conduce a un diamante luminoso"
-          className="absolute inset-0 h-full w-full object-cover"
-          initial={{ opacity: 0, scale: 1.03 }}
-          animate={{ opacity: 1, scale: 1 }}
+        {/* background photo — a slow continuous Ken Burns drift keeps the
+            gallery feeling alive even before the pointer moves */}
+        <motion.div
+          className="absolute inset-0 overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        />
+        >
+          <img
+            src={corridorImg}
+            alt="Galleria cosmica con soffitto a volta stellato e pavimento in marmo intarsiato, che conduce a un diamante luminoso"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ animation: "kenburns 30s ease-in-out infinite alternate" }}
+          />
+        </motion.div>
+
+        {/* drifting starlight dust — extra life across the vault ceiling */}
+        <Sparks count={45} className="opacity-70" />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
 
@@ -157,8 +173,10 @@ export function CorridorScene() {
         </AnimatePresence>
       </motion.div>
 
+      <BackButton to="/" />
+
       {/* brand mark, top-left — minimal chrome so the scene stays immersive */}
-      <div className="pointer-events-none absolute left-6 top-6 z-10 text-xs font-medium uppercase tracking-[0.35em] text-cosmic-star/70 md:left-10 md:top-8">
+      <div className="pointer-events-none absolute left-20 top-6 z-10 text-xs font-medium uppercase tracking-[0.35em] text-cosmic-star/70 md:left-24 md:top-8">
         Supernova
       </div>
     </section>

@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
-import { JOURNEYS, type JourneyId } from "./journeys";
+import { JOURNEYS, type Journey, type JourneyId } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { BackButton } from "./BackButton";
+import { GemIllustration } from "./GemIllustration";
 import { usePointerTilt } from "./usePointerTilt";
 
 /**
@@ -41,27 +43,20 @@ function PathIllustration({ id }: { id: JourneyId }) {
         </svg>
       );
     case "pietre":
+      // The same three gems from the sub-junction, clustered into one
+      // thumbnail — richer faceted illustrations instead of flat triangles.
       return (
-        <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
-          <defs>
-            <linearGradient id="ph-gem-a" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#fff6df" />
-              <stop offset="100%" stopColor="#e8c168" />
-            </linearGradient>
-            <linearGradient id="ph-gem-b" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#fce8ee" />
-              <stop offset="100%" stopColor="#d94566" />
-            </linearGradient>
-            <linearGradient id="ph-gem-c" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#e6fbf7" />
-              <stop offset="100%" stopColor="#14a696" />
-            </linearGradient>
-          </defs>
-          <polygon points="50,10 68,28 50,86 32,28" fill="url(#ph-gem-a)" />
-          <polygon points="50,10 68,28 50,44 32,28" fill="#fffaf0" opacity="0.5" />
-          <polygon points="18,42 30,54 18,80 8,58" fill="url(#ph-gem-b)" opacity="0.92" />
-          <polygon points="82,42 92,58 80,80 70,54" fill="url(#ph-gem-c)" opacity="0.92" />
-        </svg>
+        <div className="relative h-full w-full">
+          <div className="absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-[58%]">
+            <GemIllustration id="topazio" />
+          </div>
+          <div className="absolute bottom-0 left-0 h-[52%] w-[52%]">
+            <GemIllustration id="rubino" />
+          </div>
+          <div className="absolute bottom-0 right-0 h-[52%] w-[52%]">
+            <GemIllustration id="smeraldo" />
+          </div>
+        </div>
       );
     case "mare":
       return (
@@ -157,6 +152,8 @@ export function PathHub() {
           <NebulaBackdrop starCount={170} />
         </TiltedBackdrop>
 
+        <BackButton to="/scegli" />
+
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
@@ -174,11 +171,8 @@ export function PathHub() {
           </p>
         </div>
 
-        <div
-          className="relative z-10 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:flex md:flex-wrap md:items-start md:justify-center md:gap-x-10"
-          style={{ perspective: 1400, transformStyle: "preserve-3d" }}
-        >
-          {JOURNEYS.map((journey) => (
+        {(() => {
+          const renderCard = (journey: Journey) => (
             <motion.button
               key={journey.id}
               type="button"
@@ -195,7 +189,7 @@ export function PathHub() {
                   borderColor: `${journey.accent}45`,
                   background: `radial-gradient(circle at 35% 25%, ${journey.accent}3d, rgba(7,4,15,0.85) 75%)`,
                   boxShadow: `0 0 30px ${journey.accentSoft}55`,
-                  animation: "diamond-breathe 4.5s ease-in-out infinite",
+                  animation: "card-breathe 4.5s ease-in-out infinite",
                   animationDelay: `${JOURNEYS.indexOf(journey) * 0.4}s`,
                 }}
               >
@@ -208,8 +202,20 @@ export function PathHub() {
                 {journey.tagline}
               </span>
             </motion.button>
-          ))}
-        </div>
+          );
+
+          // A fixed 2 / 2 / 1 layout — symmetric on every viewport, instead
+          // of letting flex-wrap decide between "4 + 1" or other lopsided
+          // splits depending on how much width happens to be available.
+          return (
+            <div className="relative z-10" style={{ perspective: 1400, transformStyle: "preserve-3d" }}>
+              <div className="mx-auto grid max-w-[19rem] grid-cols-2 gap-x-8 gap-y-10 sm:max-w-md sm:gap-x-12">
+                {JOURNEYS.slice(0, 4).map(renderCard)}
+              </div>
+              <div className="mt-10 flex justify-center">{renderCard(JOURNEYS[4])}</div>
+            </div>
+          );
+        })()}
       </motion.div>
     </section>
   );

@@ -3,10 +3,12 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
+import { GemIllustration, type GemId } from "./GemIllustration";
+import { PROTOCOLS } from "./protocols";
 import { setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
-const GEM_ROOMS: Record<string, { numeral: string; accent: string; label: string }> = {
+const GEM_ROOMS: Record<GemId, { numeral: string; accent: string; label: string }> = {
   rubino: { numeral: "I", accent: "#d94566", label: "Rubino" },
   topazio: { numeral: "II", accent: "#e8c168", label: "Topazio" },
   smeraldo: { numeral: "III", accent: "#14a696", label: "Smeraldo" },
@@ -19,7 +21,7 @@ const GEM_ROOMS: Record<string, { numeral: string; accent: string; label: string
  */
 export function GemRoom() {
   const { gemId } = useParams();
-  const room = gemId ? GEM_ROOMS[gemId] : undefined;
+  const room = gemId && gemId in GEM_ROOMS ? GEM_ROOMS[gemId as GemId] : undefined;
   const tilt = usePointerTilt(4);
 
   useEffect(() => {
@@ -38,20 +40,15 @@ export function GemRoom() {
     >
       <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
         <NebulaBackdrop starCount={110} />
-        {/* an oversized, softly blurred silhouette of this exact gem — so the
+        {/* an oversized, softly blurred version of this exact gem — so the
             room itself reads as "inside the ruby" rather than a generic tint */}
-        <svg
-          viewBox="0 0 120 170"
-          className="absolute left-1/2 top-1/2 h-[85vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 opacity-25"
-          style={{ filter: "blur(18px)" }}
+        <div
+          className="absolute left-1/2 top-1/2 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2 opacity-30"
+          style={{ filter: "blur(22px)" }}
           aria-hidden
         >
-          <polygon points="42,16 78,16 106,42 14,42" fill={room.accent} />
-          <polygon points="42,16 14,42 4,68" fill={room.accent} opacity={0.85} />
-          <polygon points="78,16 116,68 106,42" fill={room.accent} opacity={0.6} />
-          <polygon points="4,68 44,116 60,166" fill={room.accent} opacity={0.75} />
-          <polygon points="116,68 60,166 76,116" fill={room.accent} opacity={0.5} />
-        </svg>
+          <GemIllustration id={gemId as GemId} />
+        </div>
       </TiltedBackdrop>
 
       <div
@@ -87,6 +84,18 @@ export function GemRoom() {
           Questa stanza della galleria è ancora avvolta nella nebulosa —
           i contenuti arriveranno presto.
         </p>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {PROTOCOLS.pietre.map((protocol) => (
+            <span
+              key={protocol.name}
+              className="rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em]"
+              style={{ borderColor: `${room.accent}45`, color: room.accent }}
+            >
+              {protocol.name}
+            </span>
+          ))}
+        </div>
 
         <Link
           to="/portale/pietre"

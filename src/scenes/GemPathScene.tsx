@@ -3,18 +3,22 @@ import { useNavigate, Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
+import { GemIllustration, type GemId } from "./GemIllustration";
+import { PROTOCOLS } from "./protocols";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
 import { usePointerTilt } from "./usePointerTilt";
 
-const GEMS = [
+const GEMS: { id: GemId; numeral: string; accent: string; tilt: number; label: string }[] = [
   { id: "rubino", numeral: "I", accent: "#d94566", tilt: -10, label: "Rubino" },
   { id: "topazio", numeral: "II", accent: "#e8c168", tilt: 0, label: "Topazio" },
   { id: "smeraldo", numeral: "III", accent: "#14a696", tilt: 10, label: "Smeraldo" },
-] as const;
+];
 
-// A symmetric low-poly gem — table, two crown facets, two pavilion facets —
-// shaded with per-facet opacity so light reads as coming from the upper left.
+// A richer faceted illustration (see GemIllustration) instead of a flat
+// triangle-cut placeholder, wrapped in the same idle-spin + glint life the
+// scene already had.
 function GemStone({
+  id,
   accent,
   numeral,
   label,
@@ -23,6 +27,7 @@ function GemStone({
   state,
   glintDelay,
 }: {
+  id: GemId;
   accent: string;
   numeral: string;
   label: string;
@@ -31,6 +36,7 @@ function GemStone({
   state: "idle" | "chosen" | "dimmed";
   glintDelay: number;
 }) {
+  const size = isCenter ? 132 : 110;
   return (
     <motion.div
       className="flex flex-col items-center"
@@ -50,35 +56,12 @@ function GemStone({
           transformStyle: "preserve-3d",
         }}
       >
-        <svg
-          viewBox="0 0 120 170"
-          width={isCenter ? 128 : 106}
-          style={{ overflow: "visible", transform: `rotateZ(${tilt * 0.15}deg)` }}
+        <div
+          style={{ width: size, height: size, transform: `rotateZ(${tilt * 0.15}deg)` }}
           className="drop-shadow-[0_0_36px_var(--gem-shadow)]"
         >
-          <defs>
-            <linearGradient id={`gem-fill-${numeral}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#fff6df" />
-              <stop offset="50%" stopColor={accent} />
-              <stop offset="100%" stopColor={accent} />
-            </linearGradient>
-          </defs>
-
-          <g fill={`url(#gem-fill-${numeral})`} stroke="#fdf6e6" strokeOpacity={0.4} strokeWidth={0.6}>
-            <polygon points="42,16 78,16 106,42 14,42" fillOpacity={1} />
-            <polygon points="42,16 14,42 4,68" fillOpacity={0.92} />
-            <polygon points="78,16 116,68 106,42" fillOpacity={0.66} />
-            <polygon points="4,68 44,116 60,166" fillOpacity={0.85} />
-            <polygon points="116,68 60,166 76,116" fillOpacity={0.55} />
-          </g>
-
-          {/* specular glint sweeping across the table facet */}
-          <polygon
-            points="48,20 58,20 44,38 34,38"
-            fill="#fffaf0"
-            style={{ animation: `gem-glint 5.5s ease-in-out ${glintDelay}s infinite` }}
-          />
-        </svg>
+          <GemIllustration id={id} />
+        </div>
       </div>
 
       <span className="font-display mt-4 text-xl font-medium tracking-wide" style={{ color: accent }}>
@@ -199,6 +182,7 @@ export function GemPathScene() {
               whileHover={{ scale: 1.05 }}
             >
               <GemStone
+                id={gem.id}
                 accent={gem.accent}
                 numeral={gem.numeral}
                 label={gem.label}
@@ -212,12 +196,26 @@ export function GemPathScene() {
         </div>
 
         {!chosen && (
-          <Link
-            to="/portale"
-            className="relative z-10 mt-16 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cosmic-star/50 transition-colors hover:text-cosmic-gold"
-          >
-            ← Torna al portale
-          </Link>
+          <>
+            <div className="relative z-10 mt-16 grid w-full max-w-3xl gap-4 sm:grid-cols-3">
+              {PROTOCOLS.pietre.map((protocol) => (
+                <div
+                  key={protocol.name}
+                  className="rounded-2xl border border-cosmic-gold/25 bg-black/40 px-5 py-4 text-center backdrop-blur-sm"
+                >
+                  <span className="font-display block text-sm font-medium text-cosmic-gold">{protocol.name}</span>
+                  <span className="mt-1 block text-[11px] leading-snug text-cosmic-star/55">{protocol.focus}</span>
+                </div>
+              ))}
+            </div>
+
+            <Link
+              to="/portale"
+              className="relative z-10 mt-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cosmic-star/50 transition-colors hover:text-cosmic-gold"
+            >
+              ← Torna al portale
+            </Link>
+          </>
         )}
 
         <AnimatePresence>

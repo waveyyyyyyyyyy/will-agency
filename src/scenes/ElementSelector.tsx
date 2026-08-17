@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { NebulaBackdrop } from "./NebulaBackdrop";
 import { TiltedBackdrop } from "./TiltedBackdrop";
-import { ELEMENTS, type ElementId } from "./elements";
+import { ELEMENTS, type ElementId, type WuXingElement } from "./elements";
 import { getJourney } from "./journeys";
 import { playSoftPing, playWhoosh, setAmbientProfile } from "./audio";
+import { BackButton } from "./BackButton";
 import { usePointerTilt } from "./usePointerTilt";
 
 /**
@@ -180,6 +181,54 @@ export function ElementSelector() {
     setTimeout(() => navigate(journey.path), 400);
   }
 
+  // A single element card — pulled out so the "pick" grid below can lay
+  // out a symmetric 2 / 2 / 1 (never a lonely row of 4 plus 1 stray card).
+  function renderCard(el: WuXingElement) {
+    const isOn = selected.includes(el.id);
+    return (
+      <div key={el.id} className="group relative flex flex-col items-center">
+        <button
+          type="button"
+          onClick={() => toggle(el.id)}
+          aria-pressed={isOn}
+          className="flex w-32 flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-36"
+        >
+          <span
+            className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 p-5 transition-all"
+            style={{
+              borderColor: isOn ? el.accent : `${el.accent}35`,
+              background: isOn
+                ? `radial-gradient(circle at 35% 25%, ${el.accent}3d, rgba(7,4,15,0.85) 75%)`
+                : `radial-gradient(circle at 35% 25%, ${el.accent}18, rgba(7,4,15,0.75) 75%)`,
+              boxShadow: isOn ? `0 0 34px ${el.accentSoft}70` : "none",
+              opacity: isOn ? 1 : 0.8,
+            }}
+          >
+            <ElementIllustration id={el.id} />
+          </span>
+          <span
+            className="font-display text-sm font-medium tracking-wide sm:text-base"
+            style={{ color: isOn ? el.accent : "rgba(241,232,255,0.75)" }}
+          >
+            {el.name}
+          </span>
+          <span className="max-w-[9rem] text-center text-[11px] leading-snug text-cosmic-star/50">{el.symbol}</span>
+        </button>
+
+        {/* hover/focus tooltip — the "tendina" of explanation for this element */}
+        <div
+          className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-3 w-56 -translate-x-1/2 rounded-2xl border p-4 text-left opacity-0 shadow-2xl backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+          style={{ borderColor: `${el.accent}45`, background: "rgba(7,4,15,0.92)" }}
+        >
+          <p className="text-xs leading-relaxed text-cosmic-star/80">{el.description}</p>
+          <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: el.accent }}>
+            Cura: {el.care}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section
       ref={tilt.ref}
@@ -191,6 +240,8 @@ export function ElementSelector() {
       <TiltedBackdrop rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
         <NebulaBackdrop starCount={150} />
       </TiltedBackdrop>
+
+      <BackButton to="/scegli" />
 
       <AnimatePresence mode="wait">
         {step === "pick" ? (
@@ -210,55 +261,10 @@ export function ElementSelector() {
               Puoi scegliere più di un elemento. Passa il mouse (o tieni premuto) su ciascuno per saperne di più.
             </p>
 
-            <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 md:flex md:flex-wrap md:justify-center md:gap-7">
-              {ELEMENTS.map((el) => {
-                const isOn = selected.includes(el.id);
-                return (
-                  <div key={el.id} className="group relative flex flex-col items-center">
-                    <button
-                      type="button"
-                      onClick={() => toggle(el.id)}
-                      aria-pressed={isOn}
-                      className="flex w-32 flex-col items-center gap-3 rounded-3xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-gold/70 sm:w-36"
-                    >
-                      <span
-                        className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl border-2 p-5 transition-all"
-                        style={{
-                          borderColor: isOn ? el.accent : `${el.accent}35`,
-                          background: isOn
-                            ? `radial-gradient(circle at 35% 25%, ${el.accent}3d, rgba(7,4,15,0.85) 75%)`
-                            : `radial-gradient(circle at 35% 25%, ${el.accent}18, rgba(7,4,15,0.75) 75%)`,
-                          boxShadow: isOn ? `0 0 34px ${el.accentSoft}70` : "none",
-                          opacity: isOn ? 1 : 0.8,
-                        }}
-                      >
-                        <ElementIllustration id={el.id} />
-                      </span>
-                      <span
-                        className="font-display text-sm font-medium tracking-wide sm:text-base"
-                        style={{ color: isOn ? el.accent : "rgba(241,232,255,0.75)" }}
-                      >
-                        {el.name}
-                      </span>
-                      <span className="max-w-[9rem] text-center text-[11px] leading-snug text-cosmic-star/50">
-                        {el.symbol}
-                      </span>
-                    </button>
-
-                    {/* hover/focus tooltip — the "tendina" of explanation for this element */}
-                    <div
-                      className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-3 w-56 -translate-x-1/2 rounded-2xl border p-4 text-left opacity-0 shadow-2xl backdrop-blur-md transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
-                      style={{ borderColor: `${el.accent}45`, background: "rgba(7,4,15,0.92)" }}
-                    >
-                      <p className="text-xs leading-relaxed text-cosmic-star/80">{el.description}</p>
-                      <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: el.accent }}>
-                        Cura: {el.care}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="mx-auto mt-12 grid max-w-[19rem] grid-cols-2 gap-x-8 gap-y-8 sm:max-w-md sm:gap-x-10">
+              {ELEMENTS.slice(0, 4).map(renderCard)}
             </div>
+            <div className="mt-8 flex justify-center">{renderCard(ELEMENTS[4])}</div>
 
             <button
               type="button"
