@@ -16,6 +16,20 @@
   --color-gold-deep: #e0a500;
   --color-line: rgba(246, 245, 241, 0.1);
 
+  /* Cosmic gallery palette — sampled from the diamond-corridor reference art.
+     Used by the animated homepage / portal / room scenes. */
+  --color-cosmic-void: #07040f;
+  --color-cosmic-indigo: #150c33;
+  --color-cosmic-violet: #4c2a8f;
+  --color-cosmic-violet-light: #8a5fd6;
+  --color-cosmic-blue: #23306e;
+  --color-cosmic-teal: #14a696;
+  --color-cosmic-ruby: #9c1f3f;
+  --color-cosmic-ruby-light: #d94566;
+  --color-cosmic-gold: #e8c168;
+  --color-cosmic-gold-deep: #b6862c;
+  --color-cosmic-star: #f1e8ff;
+
   --animate-marquee: marquee 32s linear infinite;
 }
 
@@ -25,6 +39,147 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Shared by the journey backdrops (galaxy dust, waves, mountain ridges) —
+   the layer is always duplicated side by side so this loops seamlessly. */
+@keyframes drift-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes float-y {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes diamond-breathe {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+/* Same pulse as diamond-breathe but without the recentring translate — for
+   icon tiles that are already in normal flow (grid/flex cards), where the
+   -50%/-50% offset would visually tear the icon away from its own label. */
+@keyframes card-breathe {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+/* Gemstones on the portal screen — a slow idle turn to catch the light,
+   plus an occasional specular glint sweeping across the table facet. */
+@keyframes gem-idle-spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  25% {
+    transform: rotateY(9deg);
+  }
+  50% {
+    transform: rotateY(0deg);
+  }
+  75% {
+    transform: rotateY(-9deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes gem-glint {
+  0%, 78%, 100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  40% {
+    opacity: 0.85;
+    transform: translate(6px, -4px);
+  }
+}
+
+/* Slow continuous pan/zoom ("Ken Burns") for full-bleed backdrop photos —
+   keeps the very first screens feeling alive instead of static. */
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-1.4%, -1.2%);
+  }
+}
+
+/* A gentler drift for the intro's galaxy "porthole" — the framing is
+   already wide/distant, so this stays subtle rather than pushing in tight. */
+@keyframes kenburns-distant {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.06) translate(-0.8%, -0.6%);
   }
 }
 
