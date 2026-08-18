@@ -22,6 +22,9 @@ export function Footer() {
               <NavLink to="/risultati" className="hover:text-gold">Risultati</NavLink>
               <NavLink to="/chi-siamo" className="hover:text-gold">Chi Siamo</NavLink>
               <NavLink to="/contatti" className="hover:text-gold">Contatti</NavLink>
+              <a href="/demo/ristorante" target="_blank" rel="noreferrer" className="hover:text-gold">
+                Esempio: sito Ristorante ↗
+              </a>
             </nav>
           </div>
 

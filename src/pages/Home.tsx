@@ -145,6 +145,34 @@ export function Home() {
         </Container>
       </section>
 
+      {/* WEBSITE TEMPLATE DEMO */}
+      <section className="py-28 md:py-36">
+        <Container>
+          <div className="grid items-center gap-12 rounded-3xl border border-line bg-surface p-9 md:grid-cols-[1fr_auto] md:p-14">
+            <Reveal>
+              <SectionLabel>Realizziamo anche siti web</SectionLabel>
+              <h2 className="font-display mt-6 max-w-xl text-balance text-3xl font-medium leading-[1.1] tracking-tight text-paper md:text-4xl">
+                Guarda un esempio pratico: il sito di un ristorante.
+              </h2>
+              <p className="mt-5 max-w-lg text-balance text-sm leading-relaxed text-smoke">
+                Un template dimostrativo per farti vedere concretamente cosa possiamo costruire
+                per la tua attività: menu, galleria, recensioni e modulo prenotazioni, tutto in
+                un unico sito curato nei dettagli.
+              </p>
+              <a
+                href="/demo/ristorante"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-8 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] text-ink transition-transform hover:scale-[1.03] active:scale-[0.98]"
+              >
+                Vedi il sito demo
+                <span aria-hidden>↗</span>
+              </a>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
       {/* CASE STUDIES */}
       <section className="border-t border-line bg-surface py-28 md:py-36">
         <Container>

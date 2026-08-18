@@ -1,0 +1,51 @@
+/* Stile isolato per il template dimostrativo "Ristorante La Quercia".
+   Identità visiva volutamente diversa da quella di Will Marketing Agency:
+   qui deve sembrare il sito di un ristorante vero, non dell'agenzia. */
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap");
+
+.restaurant-demo {
+  --r-bg: #17130f;
+  --r-bg-soft: #1e1811;
+  --r-panel: #221b14;
+  --r-cream: #f7efe1;
+  --r-cream-dim: #cbb999;
+  --r-line: rgba(247, 239, 225, 0.12);
+  --r-rust: #c1592f;
+  --r-rust-deep: #93401f;
+  --r-olive: #7c8a56;
+  --r-gold: #cfa15e;
+
+  font-family: "Inter Variable", system-ui, sans-serif;
+  background-color: var(--r-bg);
+  color: var(--r-cream);
+}
+
+.restaurant-demo .rd-display {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.restaurant-demo .rd-texture {
+  background-image: radial-gradient(circle, rgba(247, 239, 225, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.restaurant-demo .rd-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.restaurant-demo .rd-divider::before,
+.restaurant-demo .rd-divider::after {
+  content: "";
+  height: 1px;
+  width: 40px;
+  background: var(--r-line);
+}
+
+.restaurant-demo ::selection {
+  background-color: var(--r-rust);
+  color: var(--r-cream);
+}
