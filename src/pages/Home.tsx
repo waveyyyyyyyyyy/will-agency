@@ -159,15 +159,15 @@ export function Home() {
                 per la tua attività: menu, galleria, recensioni e modulo prenotazioni, tutto in
                 un unico sito curato nei dettagli.
               </p>
-              <a
-                href="/demo/ristorante"
+              <NavLink
+                to="/demo/ristorante"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-8 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-semibold uppercase tracking-[0.1em] text-ink transition-transform hover:scale-[1.03] active:scale-[0.98]"
               >
                 Vedi il sito demo
                 <span aria-hidden>↗</span>
-              </a>
+              </NavLink>
             </Reveal>
           </div>
         </Container>
