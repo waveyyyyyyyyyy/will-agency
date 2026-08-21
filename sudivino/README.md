@@ -50,31 +50,31 @@ Tutti i punti sono anche marcati nel codice con commenti `NOTA BUILD` o attribut
    stile SEO, es. `sudivino-cocktail-bar-corato-piazza-sedile.jpg`. L'og:image usa per ora
    il logo come fallback dignitoso; con una foto orizzontale vera l'anteprima sui social
    sarà molto più efficace.
-2. **Sezione "Le persone" (Daniele e Marina).** Lasciata commentata in `index.html`
-   (non cancellata) perché nomi e ruolo vengono dalle recensioni Google, non da una
-   conferma diretta del cliente, e non c'è una foto. Come da brief: senza foto è meglio
-   tagliarla che pubblicarla con un'icona generica. Decommentare solo dopo l'ok esplicito
-   del cliente + foto vera.
-3. **Recensioni.** Il badge "4.9 ★ · 76 recensioni" viene dal brief. La sezione ha 3
-   riquadri (`.review-slot`) pronti a ricevere **screenshot reali** di recensioni Google
-   positive — non testo riscritto da noi. Procedura (istruzioni identiche anche nel
-   commento `NOTA BUILD` sopra i riquadri in `index.html`):
-   1. Scheda Google Business di Sudivino → recensioni → scegli 3 recensioni 5★ vere.
-   2. Screenshot della card così com'è: Google mostra già solo nome + iniziale del
-      cognome (es. "Marco R."), non serve altro per la privacy.
-   3. Salva le immagini in `sudivino/assets/reviews/` come `review-1.jpg`, `review-2.jpg`,
-      `review-3.jpg`.
-   4. In ciascun `.review-slot` sostituisci il contenuto con
-      `<img src="/assets/reviews/review-1.jpg" alt="Recensione Google di Marco R., 5 stelle" loading="lazy" />`.
+2. **Sezione "Le persone" (Daniele e Marina).** Ancora commentata in `index.html` — manca
+   comunque una foto vera + l'ok esplicito dei due a comparire sul sito, e senza foto il
+   brief dice di tagliarla piuttosto che metterci un'icona generica. La recensione di
+   Giuseppe Q. in sezione Recensioni li nomina già entrambi (conferma indipendente che
+   i nomi sono giusti), quindi per ora quella citazione fa parzialmente da sostituto.
+   Decommentare la sezione dedicata solo dopo foto + ok del cliente.
+3. **Recensioni — fatto.** I 3 screenshot reali inviati dal cliente (Giuseppe Q., Maria
+   Vincenza C., Carola F. — tutte 5★) sono stati trascritti parola per parola in
+   `.review-card` dentro `index.html`; cognomi ridotti a iniziale per privacy (Google
+   mostra il nome per esteso, ma su richiesta lo abbreviamo comunque). Nessun testo
+   riscritto: dove una citazione è più lunga della card, è stata solo accorciata
+   (mai parafrasata) o lasciata con l'ellissi finale se la recensione continuava oltre
+   lo screenshot fornito. Per aggiungerne/sostituirne altre in futuro vale la stessa
+   regola: mai riscrivere, solo tagliare.
 4. **Link social.**
    - Facebook trovato e verosimile: `facebook.com/SuDiViNo` (285 like, indirizzo
      corrispondente) — già inserito.
    - Instagram: non trovato con certezza in ricerca. Il link è un placeholder (`href="#"`,
      `data-todo="instagram-handle"`) in due punti (sezione Eventi + footer): va sostituito
      con l'URL reale del profilo.
-   - Link "Leggi tutte le recensioni" punta a un placeholder (`data-todo="google-reviews-link"`):
-     va sostituito col link diretto alla scheda Google Business reale (da Google Maps →
-     Condividi → Copia link, sulla scheda del locale).
+   - "Leggi tutte le recensioni" e il link "Google" nel footer puntano ora a una ricerca
+     Google Maps funzionante (`google.com/maps/search/...`, non più un place_id finto),
+     ma restano marcati `data-todo="google-reviews-link"`: meglio sostituirli con il link
+     diretto della scheda (Google Maps → Condividi → Copia link) quando disponibile, per
+     portare dritti alla scheda invece che a un risultato di ricerca.
 5. **Orario di domenica.** Google riporta 11:00–14:00, un orario insolito per un cocktail
    bar. Nel sito è mostrato come "Da confermare" (sezione Dove ci trovi). Va chiesto al
    cliente se è un aperitivo/pranzo domenicale reale (allora va valorizzato come asset,
