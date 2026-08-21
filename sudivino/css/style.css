@@ -219,9 +219,9 @@ h1, h2, h3 {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(100deg, rgba(6, 6, 8, 0.48) 0%, rgba(6, 6, 8, 0.28) 32%, transparent 55%),
+    linear-gradient(100deg, rgba(6, 6, 8, 0.62) 0%, rgba(6, 6, 8, 0.4) 34%, transparent 60%),
     radial-gradient(ellipse 70% 50% at 90% 0%, rgba(226, 221, 208, 0.08), transparent 60%),
-    linear-gradient(180deg, rgba(8, 9, 12, 0.14) 0%, rgba(9, 10, 13, 0.22) 45%, rgba(6, 6, 8, 0.58) 100%);
+    linear-gradient(180deg, rgba(8, 9, 12, 0.2) 0%, rgba(9, 10, 13, 0.3) 45%, rgba(6, 6, 8, 0.66) 100%);
 }
 .hero-bg::after {
   content: "";
@@ -482,6 +482,9 @@ h1, h2, h3 {
 }
 .posto-text p.body + p.body {
   margin-top: 16px;
+}
+.posto-cta {
+  margin-top: 26px;
 }
 @media (max-width: 780px) {
   .posto-grid {
@@ -811,18 +814,12 @@ footer {
   color: var(--accent);
 }
 
-/* ---------- Floating contact buttons ---------- */
-.fab-stack {
+/* ---------- Floating WhatsApp button ---------- */
+.fab {
   position: fixed;
   right: 16px;
   bottom: 16px;
   z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-.fab {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -843,11 +840,6 @@ footer {
 .fab-whatsapp {
   background: #1fae5a;
   color: #fff;
-}
-.fab-call {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text);
 }
 
 /* Legal pages */
