@@ -24,21 +24,32 @@ sudivino/
 ├── index.html      # tutte le 11 sezioni dello script, in ordine
 ├── privacy.html     # bozza, da completare con dati societari
 ├── cookie.html       # bozza
-├── css/style.css     # palette notte+oro, Fraunces (titoli) + Inter (corpo)
+├── css/style.css     # palette nero/bianco/avorio dal logo reale, Fraunces + Inter
 ├── js/main.js         # fade-in on scroll (IntersectionObserver) + stato topbar
-├── favicon.svg
+├── assets/
+│   ├── logo.webp        # logo reale del cliente, ritagliato dallo screenshot fornito
+│   ├── favicon.png       # stesso logo, 256×256, per apple-touch-icon
+│   └── favicon-64.png     # stesso logo, 64×64, per la favicon del browser
 ├── robots.txt
 └── _headers            # cache headers per Cloudflare Pages
 ```
+
+**Logo e palette.** Il logo è quello reale fornito dal cliente (cerchio nero, calice con
+il profilo bianco/nero, wordmark "SUDIVINO") — non è stato ridisegnato, solo ritagliato
+dallo screenshot per rimuovere lo sfondo sfocato e reso trasparente. La palette del sito
+è nero/bianco/avorio presa da quel logo: niente oro/giallo (una prima versione usava un
+accento ambrato, tolto su richiesta esplicita del cliente).
 
 ## Cosa manca prima di andare online
 
 Tutti i punti sono anche marcati nel codice con commenti `NOTA BUILD` o attributi
 `data-todo` (cercabili con `grep -rn "NOTA BUILD\|data-todo" sudivino`).
 
-1. **Foto/video reali.** Hero, sezione "Il posto" e OG image sono placeholder generati
-   via CSS — vanno sostituiti con materiale vero (dehors sera, bancone, bottigliera).
-   Nomi file in stile SEO, es. `sudivino-cocktail-bar-corato-piazza-sedile.jpg`.
+1. **Foto/video reali.** Hero e sezione "Il posto" sono placeholder generati via CSS —
+   vanno sostituiti con materiale vero (dehors sera, bancone, bottigliera). Nomi file in
+   stile SEO, es. `sudivino-cocktail-bar-corato-piazza-sedile.jpg`. L'og:image usa per ora
+   il logo come fallback dignitoso; con una foto orizzontale vera l'anteprima sui social
+   sarà molto più efficace.
 2. **Sezione "Le persone" (Daniele e Marina).** Lasciata commentata in `index.html`
    (non cancellata) perché nomi e ruolo vengono dalle recensioni Google, non da una
    conferma diretta del cliente, e non c'è una foto. Come da brief: senza foto è meglio
