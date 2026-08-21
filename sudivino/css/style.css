@@ -219,8 +219,9 @@ h1, h2, h3 {
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse 70% 50% at 80% 0%, rgba(226, 221, 208, 0.1), transparent 60%),
-    linear-gradient(180deg, rgba(8, 9, 12, 0.32) 0%, rgba(9, 10, 13, 0.5) 45%, rgba(6, 6, 8, 0.9) 100%);
+    linear-gradient(100deg, rgba(6, 6, 8, 0.8) 0%, rgba(6, 6, 8, 0.55) 38%, rgba(6, 6, 8, 0.12) 65%, transparent 85%),
+    radial-gradient(ellipse 70% 50% at 90% 0%, rgba(226, 221, 208, 0.1), transparent 60%),
+    linear-gradient(180deg, rgba(8, 9, 12, 0.4) 0%, rgba(9, 10, 13, 0.58) 45%, rgba(6, 6, 8, 0.92) 100%);
 }
 .hero-bg::after {
   content: "";
@@ -250,6 +251,7 @@ h1, h2, h3 {
 .hero h1 {
   font-size: clamp(2.4rem, 6.4vw, 4.4rem);
   color: var(--text);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 .hero h1 .accent {
   color: var(--accent);
@@ -258,8 +260,9 @@ h1, h2, h3 {
 .hero .subtitle {
   margin-top: 22px;
   font-size: 1.15rem;
-  color: var(--text-dim);
+  color: rgba(230, 224, 210, 0.92);
   max-width: 480px;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
 }
 .hero .subtitle strong {
   color: var(--text);
@@ -274,8 +277,16 @@ h1, h2, h3 {
 .hero-note {
   margin-top: 22px;
   font-size: 0.9rem;
-  color: var(--text-dim);
+  color: rgba(230, 224, 210, 0.85);
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+@media (max-width: 520px) {
+  /* lascia spazio ai due bottoni fissi (telefono/WhatsApp) in basso a destra,
+     altrimenti l'ultima riga ci finisce sotto */
+  .hero-note {
+    max-width: calc(100% - 74px);
+  }
 }
 .hero-note .dot {
   color: var(--line);
