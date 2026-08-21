@@ -13,8 +13,9 @@
 <meta property="og:title" content="Sudivino | Cocktail &amp; Wine Bar in Piazza Sedile — Corato" />
 <meta property="og:description" content="Aperto dalle 19, in Piazza Sedile. Un bicchiere, due chiacchiere, e la giornata te la lasci alle spalle." />
 <meta property="og:locale" content="it_IT" />
-<meta property="og:image" content="/assets/logo.webp" />
-<!-- NOTA BUILD: og:image usa il logo come fallback — va sostituito con una foto reale del dehors/bancone (formato orizzontale) quando disponibile, per un'anteprima social migliore. -->
+<meta property="og:image" content="/assets/sudivino-og-cover.webp" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" href="/assets/favicon-64.png" sizes="64x64" type="image/png" />
@@ -31,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "BarOrPub",
   "name": "Sudivino",
-  "image": "https://www.sudivino.it/assets/logo.webp",
+  "image": "https://www.sudivino.it/assets/sudivino-og-cover.webp",
   "url": "https://www.sudivino.it/",
   "telephone": "+393287212987",
   "priceRange": "€€",
@@ -72,11 +73,13 @@
 
   <!-- ============ 1. HERO ============ -->
   <section class="hero">
+    <img class="hero-photo" src="/assets/sudivino-brindisi-cocktail-corato.webp" alt="Brindisi al bancone di Sudivino, Piazza Sedile, Corato" fetchpriority="high" />
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-glow" aria-hidden="true"></div>
-    <!-- NOTA BUILD: qui va il video loop 6-8s (mani che brindano, dehors al tramonto) o,
-         in mancanza, una foto singola del dehors con le luci accese. Al momento è un
-         fondo generato via CSS: sostituire con <video> o <img> reale prima del lancio. -->
+    <!-- NOTA BUILD: foto reale del cliente. Non è ancora il dehors al tramonto descritto nel
+         brief (quella non c'è tra il materiale ricevuto finora) — se arriva, è il primo
+         candidato a sostituire questa. Per ora è comunque un vero scatto del locale, non un
+         placeholder generato. -->
     <div class="container hero-content">
       <h1>Alle 19:00 il lavoro finisce.<br />Qui inizia il <span class="accent">resto</span>.</h1>
       <p class="subtitle">
@@ -191,9 +194,10 @@
         </p>
       </div>
       <div class="posto-photo">
-        <!-- NOTA BUILD: sostituire con foto grande orizzontale/verticale della piazza la sera.
-             Nome file suggerito: sudivino-piazza-sedile-corato-sera.webp -->
-        <span class="placeholder-label">Foto di Piazza Sedile in arrivo</span>
+        <!-- NOTA BUILD: foto reale dell'interno (bancone e soffitto a volta in pietra).
+             Se in futuro arriva anche uno scatto della piazza/dehors, può affiancarsi o
+             sostituire questa — l'interno resta comunque un'ottima prova visiva del posto. -->
+        <img src="/assets/sudivino-interno-bancone-piazza-sedile-corato.webp" alt="Interno di Sudivino con bancone e soffitto a volta in pietra, Piazza Sedile, Corato" loading="lazy" />
       </div>
     </div>
   </section>

@@ -27,9 +27,14 @@ sudivino/
 ├── css/style.css     # palette nero/bianco/avorio dal logo reale, Fraunces + Inter
 ├── js/main.js         # fade-in on scroll (IntersectionObserver) + stato topbar
 ├── assets/
-│   ├── logo.webp        # logo reale del cliente, ritagliato dallo screenshot fornito
-│   ├── favicon.png       # stesso logo, 256×256, per apple-touch-icon
-│   └── favicon-64.png     # stesso logo, 64×64, per la favicon del browser
+│   ├── logo.webp                                          # logo reale, ritagliato dallo screenshot
+│   ├── favicon.png / favicon-64.png                         # stesso logo, per favicon/apple-touch-icon
+│   ├── sudivino-brindisi-cocktail-corato.webp                # foto reale — hero
+│   ├── sudivino-interno-bancone-piazza-sedile-corato.webp     # foto reale — sezione "Il posto"
+│   ├── sudivino-og-cover.webp                                  # ritaglio 1200×630 della foto hero, per anteprime social
+│   ├── sudivino-bottiglieria-rum-corato.webp                    # foto reale, non ancora usata (vedi sotto)
+│   ├── sudivino-bartender-cocktail-corato.webp                   # foto reale, non ancora usata (vedi sotto)
+│   └── sudivino-vini-pugliesi-corato.webp                         # foto reale, non ancora usata (vedi sotto)
 ├── robots.txt
 └── _headers            # cache headers per Cloudflare Pages
 ```
@@ -45,11 +50,16 @@ accento ambrato, tolto su richiesta esplicita del cliente).
 Tutti i punti sono anche marcati nel codice con commenti `NOTA BUILD` o attributi
 `data-todo` (cercabili con `grep -rn "NOTA BUILD\|data-todo" sudivino`).
 
-1. **Foto/video reali.** Hero e sezione "Il posto" sono placeholder generati via CSS —
-   vanno sostituiti con materiale vero (dehors sera, bancone, bottigliera). Nomi file in
-   stile SEO, es. `sudivino-cocktail-bar-corato-piazza-sedile.jpg`. L'og:image usa per ora
-   il logo come fallback dignitoso; con una foto orizzontale vera l'anteprima sui social
-   sarà molto più efficace.
+1. **Foto reali — in gran parte fatto.** Hero e sezione "Il posto" ora usano foto vere
+   del locale (mandate dal cliente), non più placeholder CSS: rispettivamente il brindisi
+   con i due cocktail e l'interno con l'insegna SUDIVINO e il soffitto a volta in pietra.
+   L'og:image è un ritaglio 1200×630 della foto hero, per un'anteprima social vera invece
+   del logo. Restano in `assets/` altre 3 foto reali non ancora usate — bottiglia di Don
+   Papa, bartender che versa un cocktail, due bottiglie di vino pugliese — buoni candidati
+   per Instagram, il futuro menu, o una sezione "Cosa trovi al bancone" più fotografica se
+   in futuro si vuole ampliarla. Manca ancora uno scatto della piazza/dehors vero e proprio
+   (quello descritto nel brief originale): se arriva, è il primo candidato a sostituire la
+   foto hero attuale.
 2. **Sezione "Le persone" (Daniele e Marina).** Ancora commentata in `index.html` — manca
    comunque una foto vera + l'ok esplicito dei due a comparire sul sito, e senza foto il
    brief dice di tagliarla piuttosto che metterci un'icona generica. La recensione di
@@ -120,9 +130,8 @@ fattibile in 5 minuti se richiesto esplicitamente.
 
 ## Foto reali dal locale
 
-Non riesco a raggiungere Google Maps o TripAdvisor da questo ambiente (il proxy di rete
-blocca entrambi i domini), quindi non posso scaricare da lì le foto del locale in modo
-affidabile. La via più veloce e senza problemi di diritti: il cliente esporta 3-4 foto
-vere dalla sua Google Business Profile (o le manda da telefono), poi le miglioriamo con
-Higgsfield (color correction, upscaling, eventuale ricomposizione) prima di metterle in
-hero e nella sezione "Il posto". Vedi punto 1 sopra.
+Risolto: il cliente ha mandato 5 foto vere e professionali del locale direttamente (non
+serviva più passare da Google Maps/TripAdvisor, comunque irraggiungibili da questo
+ambiente). Ottimizzate in WebP e usate come da punto 1 sopra. Se in futuro arrivano altri
+scatti — in particolare il dehors/piazza — stessa procedura: ridimensionare, convertire in
+WebP, nome file descrittivo, e aggiornare `index.html`.
