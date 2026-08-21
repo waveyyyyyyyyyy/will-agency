@@ -55,10 +55,17 @@ Tutti i punti sono anche marcati nel codice con commenti `NOTA BUILD` o attribut
    conferma diretta del cliente, e non c'è una foto. Come da brief: senza foto è meglio
    tagliarla che pubblicarla con un'icona generica. Decommentare solo dopo l'ok esplicito
    del cliente + foto vera.
-3. **Recensioni.** Il badge "4.9 ★ · 76 recensioni" viene dal brief. Le 3 card con
-   citazioni reali NON sono state inserite: non avendo accesso diretto e verificato alla
-   scheda Google, non si è voluto rischiare di inventare o storpiare una recensione vera.
-   Vanno copiate/incollate testuali dalla scheda Google Business quando disponibili.
+3. **Recensioni.** Il badge "4.9 ★ · 76 recensioni" viene dal brief. La sezione ha 3
+   riquadri (`.review-slot`) pronti a ricevere **screenshot reali** di recensioni Google
+   positive — non testo riscritto da noi. Procedura (istruzioni identiche anche nel
+   commento `NOTA BUILD` sopra i riquadri in `index.html`):
+   1. Scheda Google Business di Sudivino → recensioni → scegli 3 recensioni 5★ vere.
+   2. Screenshot della card così com'è: Google mostra già solo nome + iniziale del
+      cognome (es. "Marco R."), non serve altro per la privacy.
+   3. Salva le immagini in `sudivino/assets/reviews/` come `review-1.jpg`, `review-2.jpg`,
+      `review-3.jpg`.
+   4. In ciascun `.review-slot` sostituisci il contenuto con
+      `<img src="/assets/reviews/review-1.jpg" alt="Recensione Google di Marco R., 5 stelle" loading="lazy" />`.
 4. **Link social.**
    - Facebook trovato e verosimile: `facebook.com/SuDiViNo` (285 like, indirizzo
      corrispondente) — già inserito.
@@ -91,10 +98,31 @@ vuoto, output directory = questa cartella (`sudivino`).
 
 ## Note tecniche
 
-- Mobile-first, bottone WhatsApp fisso in basso a destra su tutte le viewport.
+- Mobile-first. In basso a destra, su tutte le viewport, due pulsanti circolari piccoli
+  (icona sola, non una striscia larga): telefono (`tel:`) e WhatsApp — così chi preferisce
+  chiamare non è costretto a passare da WhatsApp.
 - Nessun form di contatto: ogni CTA (prenotazione, evento privato, contatto generico)
-  apre WhatsApp con un messaggio precompilato.
+  apre WhatsApp con un messaggio precompilato o chiama direttamente.
+- Trust signal ripetuto: il badge "★ 4.9 su Google" compare sia vicino alle CTA
+  dell'hero (conversione immediata) sia nella sezione Recensioni più in basso.
 - Font caricati da Google Fonts (Fraunces + Inter), unica dipendenza esterna.
 - Animazioni limitate a un fade-in leggero allo scroll (`IntersectionObserver`), rispetta
   `prefers-reduced-motion`.
 - Mappa incorporata senza bisogno di API key (`google.com/maps?...&output=embed`).
+
+## Suoni / micro-interazioni
+
+Non aggiunti. Un sito che parte con audio (o lo attiva al primo tap) è un rischio più
+alto di far scappare qualcuno che convertire — specialmente aprendo da un link Instagram
+di sera, spesso con l'audio del telefono già usato per altro. Se serve un tocco in più,
+meglio una micro-interazione visiva (es. un piccolo "pop" sui bottoni) che un suono:
+fattibile in 5 minuti se richiesto esplicitamente.
+
+## Foto reali dal locale
+
+Non riesco a raggiungere Google Maps o TripAdvisor da questo ambiente (il proxy di rete
+blocca entrambi i domini), quindi non posso scaricare da lì le foto del locale in modo
+affidabile. La via più veloce e senza problemi di diritti: il cliente esporta 3-4 foto
+vere dalla sua Google Business Profile (o le manda da telefono), poi le miglioriamo con
+Higgsfield (color correction, upscaling, eventuale ricomposizione) prima di metterle in
+hero e nella sezione "Il posto". Vedi punto 1 sopra.

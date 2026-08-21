@@ -87,7 +87,7 @@
         <a class="btn btn-primary" href="https://wa.me/393287212987?text=Ciao%20Sudivino!%20Vorrei%20prenotare%20un%20tavolo.%20Ecco%20i%20dettagli%3A" target="_blank" rel="noopener">Prenota un tavolo</a>
         <a class="btn btn-outline" href="#bancone">Guarda cosa si beve</a>
       </div>
-      <p class="hero-note">Aperto tutte le sere dalle 19<span class="dot">·</span>Martedì chiuso</p>
+      <p class="hero-note">Aperto tutte le sere dalle 19<span class="dot">·</span>Martedì chiuso<span class="dot">·</span><span class="rating-inline"><span class="stars">★</span> 4.9 su Google</span></p>
     </div>
   </section>
 
@@ -281,9 +281,33 @@
         <span class="num">4.9</span>
         <span class="count">· 76 recensioni su Google</span>
       </div>
-      <!-- NOTA BUILD: qui vanno 3 card con testo REALE ed estratto dalle recensioni Google
-           (mai inventato). Non essendo ancora state raccolte/approvate, la sezione resta
-           solo con badge + link diretto alla scheda, come da istruzioni del brief. -->
+
+      <!--
+        NOTA BUILD — 3 screenshot REALI, non testo scritto da noi.
+        Non riesco a raggiungere Google Maps/TripAdvisor da qui (proxy di rete blocca
+        entrambi i domini), quindi non posso né leggere né verificare recensioni vere:
+        meglio non inventarle. Procedura più rapida e già conforme al brief ("mai
+        inventato" + nome dell'autore da non esporre per intero):
+
+        1. Apri la scheda Google Business di Sudivino, sezione recensioni.
+        2. Scegli 3 recensioni POSITIVE (5★, testo vero, nessuna modifica).
+        3. Fai lo screenshot della card recensione così com'è: Google mostra già solo
+           nome + iniziale del cognome (es. "Marco R."), quindi non serve oscurare altro.
+        4. Salva le 3 immagini in sudivino/assets/reviews/ come review-1.jpg, review-2.jpg,
+           review-3.jpg (formato verticale ~3:4 o screenshot naturale, va bene lo stesso).
+        5. In ognuno dei 3 blocchi .review-slot qui sotto, sostituisci il contenuto con:
+           <img src="/assets/reviews/review-1.jpg" alt="Recensione Google di Marco R., 5 stelle" loading="lazy" />
+           (aggiorna il numero file e l'alt per ciascuna).
+
+        Finché mancano le immagini, i blocchi restano vuoti con un'etichetta di comodo,
+        invece di link rotti o testo inventato.
+      -->
+      <div class="reviews-grid">
+        <div class="review-slot"><span class="placeholder-label">Screenshot recensione 1<br />da inserire</span></div>
+        <div class="review-slot"><span class="placeholder-label">Screenshot recensione 2<br />da inserire</span></div>
+        <div class="review-slot"><span class="placeholder-label">Screenshot recensione 3<br />da inserire</span></div>
+      </div>
+
       <div class="recensioni-cta">
         <a class="btn btn-outline" href="https://www.google.com/maps/place/?q=place_id:sudivino-corato" data-todo="google-reviews-link" target="_blank" rel="noopener">Leggi tutte le recensioni</a>
       </div>
@@ -344,10 +368,14 @@
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/393287212987?text=Ciao%20Sudivino!" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.73-.85-2-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.51-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.5-.66-.51-.17 0-.37 0-.56 0-.2 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.43s1.05 2.82 1.2 3.02c.15.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.61.7.22 1.34.19 1.85.12.56-.08 1.73-.71 1.98-1.39.24-.68.24-1.27.17-1.39-.07-.12-.27-.2-.56-.34z"/><path d="M12.01 2C6.5 2 2.02 6.48 2.02 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.29A9.94 9.94 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.15c-1.7 0-3.29-.47-4.66-1.29l-.33-.2-3.09.81.83-3.02-.22-.31A8.14 8.14 0 0 1 3.85 12c0-4.5 3.66-8.16 8.16-8.16s8.15 3.66 8.15 8.16-3.65 8.15-8.15 8.15z"/></svg>
-  <span>WhatsApp</span>
-</a>
+<div class="fab-stack">
+  <a class="fab fab-call" href="tel:+393287212987" aria-label="Chiamaci">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.25 1.01l-2.2 2.22z"/></svg>
+  </a>
+  <a class="fab fab-whatsapp" href="https://wa.me/393287212987?text=Ciao%20Sudivino!" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.73-.85-2-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.51-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.5-.66-.51-.17 0-.37 0-.56 0-.2 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.43s1.05 2.82 1.2 3.02c.15.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.61.7.22 1.34.19 1.85.12.56-.08 1.73-.71 1.98-1.39.24-.68.24-1.27.17-1.39-.07-.12-.27-.2-.56-.34z"/><path d="M12.01 2C6.5 2 2.02 6.48 2.02 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.29A9.94 9.94 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.15c-1.7 0-3.29-.47-4.66-1.29l-.33-.2-3.09.81.83-3.02-.22-.31A8.14 8.14 0 0 1 3.85 12c0-4.5 3.66-8.16 8.16-8.16s8.15 3.66 8.15 8.16-3.65 8.15-8.15 8.15z"/></svg>
+  </a>
+</div>
 
 <script src="/js/main.js"></script>
 </body>
