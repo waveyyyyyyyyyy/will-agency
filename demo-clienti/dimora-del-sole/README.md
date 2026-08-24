@@ -20,12 +20,22 @@ Oppure trascinalo in una scheda del browser.
 
 - **Tema mediterraneo**: bianco calce, blu mare/Aegean, terracotta, ocra,
   verde oliva, tocchi di bougainville. Font titoli "Fraunces" (serif
-  editoriale) + "Manrope" per il corpo testo, via Google Fonts.
-- **Niente foto stock finte**: al posto delle fotografie (i crediti Higgsfield
-  disponibili non bastavano per immagini fotorealistiche di qualità) ci sono
-  pannelli grafici a tema — gradienti mare/terracotta/oliva con icone lineari
-  e cornice ad arco, in stile architettura mediterranea. Vanno sostituiti con
-  foto vere del locale del cliente in fase di consegna definitiva.
+  editoriale) + "Manrope" per il corpo testo, via Google Fonts. Divisore a
+  onda sotto l'hero, texture a maiolica leggera su colazione/recensioni.
+- **Foto delle 4 camere**: sono le foto stock a licenza libera fornite in
+  chat (`images/`), assegnate per coerenza con la descrizione di ciascuna
+  camera (es. la suite con vasca idromassaggio → foto con vasca idromassaggio
+  reale). Con hover/zoom leggero sulle card. `images/vista-mare-extra.jpg`
+  è di scorta, non ancora usata in pagina.
+- **Esterno, cortile e colazione restano pannelli grafici**: ho provato a
+  generare quelle immagini con Higgsfield (unico modello alla portata degli
+  0,4 crediti residui del piano free: `z_image`, stile illustrativo non
+  fotorealistico) e la generazione è riuscita, ma questa sessione non può
+  scaricare i file dal CDN dei risultati (host bloccato dalla policy di rete
+  dell'ambiente) — quindi non sono finite nel sito. Restano pannelli a
+  gradiente con icona, che a piena risoluzione reggono meglio di uno
+  stock/illustrativo incoerente. Da sostituire con foto vere in consegna
+  definitiva.
 - **Prenotazioni via email**: il modulo "Prenota" non ha backend — al submit
   compone un `mailto:` con tutti i dati (nome, date, ospiti, camera, messaggio)
   pronto da inviare.
