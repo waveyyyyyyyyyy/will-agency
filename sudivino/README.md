@@ -85,12 +85,11 @@ Tutti i punti sono anche marcati nel codice con commenti `NOTA BUILD` o attribut
      ma restano marcati `data-todo="google-reviews-link"`: meglio sostituirli con il link
      diretto della scheda (Google Maps → Condividi → Copia link) quando disponibile, per
      portare dritti alla scheda invece che a un risultato di ricerca.
-5. **Orario di domenica.** Google riporta 11:00–14:00, un orario insolito per un cocktail
-   bar. Nel sito è mostrato come "Da confermare" (sezione Dove ci trovi). Va chiesto al
-   cliente se è un aperitivo/pranzo domenicale reale (allora va valorizzato come asset,
-   magari con una riga di copy dedicata) oppure un dato sbagliato sulla scheda Google
-   (allora va corretto anche lì). Aggiornare anche lo schema `LocalBusiness` in `index.html`
-   (`openingHoursSpecification`), dove la domenica è omessa apposta.
+5. **Orari — confermati dal cliente, ma con una scadenza vicina.** Al momento la chiusura
+   settimanale è la domenica (Lunedì 19–24, Martedì–Sabato 19–01, Domenica chiuso). Da
+   settembre la chiusura si sposta al martedì. Quando arriva il cambio: invertire "Martedì"
+   e "Domenica" nella sezione Dove ci trovi, nella riga sotto l'hero, e nello schema
+   `LocalBusiness` in `index.html` — tutti e tre i punti sono segnalati con `NOTA BUILD`.
 6. **P.IVA e dati societari.** Servono per il footer e per rendere Privacy/Cookie Policy
    davvero pubblicabili (oggi sono bozze con placeholder `[da comunicare]`, marcate
    chiaramente come non conformi finché non vengono completate). Consigliato far
@@ -108,11 +107,13 @@ vuoto, output directory = questa cartella (`sudivino`).
 
 ## Note tecniche
 
-- Mobile-first. In basso a destra, su tutte le viewport, due pulsanti circolari piccoli
-  (icona sola, non una striscia larga): telefono (`tel:`) e WhatsApp — così chi preferisce
-  chiamare non è costretto a passare da WhatsApp.
-- Nessun form di contatto: ogni CTA (prenotazione, evento privato, contatto generico)
-  apre WhatsApp con un messaggio precompilato o chiama direttamente.
+- Mobile-first. In basso a destra, su tutte le viewport, un solo pulsante circolare
+  (icona sola, non una striscia larga): WhatsApp — l'unico canale fisso, su richiesta del
+  cliente. Il telefono resta comunque cliccabile nell'header (sempre visibile, topbar fissa).
+- Nessun form di contatto: ogni CTA (prenotazione, evento privato, proposta musica dal
+  vivo) apre WhatsApp con un messaggio precompilato, chiama, o apre una mail precompilata
+  verso `sudivino.americanbar@gmail.com` (l'indirizzo di riferimento per qualsiasi richiesta,
+  fornito dal cliente).
 - Trust signal ripetuto: il badge "★ 4.9 su Google" compare sia vicino alle CTA
   dell'hero (conversione immediata) sia nella sezione Recensioni più in basso.
 - Font caricati da Google Fonts (Fraunces + Inter), unica dipendenza esterna.
@@ -127,6 +128,44 @@ alto di far scappare qualcuno che convertire — specialmente aprendo da un link
 di sera, spesso con l'audio del telefono già usato per altro. Se serve un tocco in più,
 meglio una micro-interazione visiva (es. un piccolo "pop" sui bottoni) che un suono:
 fattibile in 5 minuti se richiesto esplicitamente.
+
+## Aggiornamenti dal questionario cliente
+
+Il cliente ha risposto a un questionario di posizionamento. Cosa è cambiato sul sito:
+
+- **Eyebrow del Manifesto** ("Non si viene qui per bere") rinominato da "Il posto" a
+  "Chi siamo" — è la sezione che di fatto racconta l'identità del locale, e il cliente
+  ha chiesto esplicitamente una sezione "chi siamo" nella struttura del sito.
+- **Canale email aggiunto ovunque serve una richiesta**: `sudivino.americanbar@gmail.com`,
+  sempre come alternativa a WhatsApp, mai da solo (evento privato, proposta musica, footer).
+- **Nuova sezione "Suoni o fai musica dal vivo?"**, distinta dalla sezione "evento privato":
+  il cliente ha chiesto due percorsi separati, uno per chi vuole festeggiare (cliente finale)
+  e uno per chi vuole proporsi come dj/band/artista dal vivo (fornitore di contenuti). Stessa
+  logica di contatto (WhatsApp + mail), trattamento visivo più leggero per non confonderla
+  con la sezione "vera" che porta soldi.
+- **Nuova sezione "Evento speciale — El Mercado Espolón Tequila" (1 ottobre)**: Sudivino sarà
+  il 2° locale in Puglia a ospitare questo format itinerante. Non riuscendo ad aprire l'articolo
+  di BariToday linkato dal cliente (bloccato dal proxy di rete), ho ricostruito il formato da
+  fonti pubbliche sulla tappa di Bari del 29-30 maggio 2026 (Masseria Pietra Sole): dj set,
+  musica dal vivo, cocktail a base tequila firmati Espolón (es. il Paloma). Ho scritto la
+  sezione descrivendo *quell'evento futuro a Sudivino*, non quello già avvenuto a Bari, e ho
+  lasciato fuori i dettagli specifici della tappa barese non confermati per Corato (la "maglia
+  del pueblo" disegnata da un creativo locale, la partnership con Billboard Italia) per non
+  promettere cose che potrebbero non esserci alla serata di Sudivino. Il bottone rimanda per
+  ora a Instagram (`data-todo="instagram-handle"`, come le altre CTA eventi): da aggiornare
+  con orario e dettagli precisi appena disponibili.
+- **Orari aggiornati** — vedi punto 5 sopra.
+
+**Cose non toccate perché già coperte o fuori scope per questa passata:**
+- Prezzi: confermato di non metterli — il sito già non li mostra da nessuna parte.
+- Target (25-50 anni, famiglie, gente che stacca dalla giornata) e prodotto reale
+  (l'ambiente, non birra/spritz che pur fatturano di più): già il cuore del copy esistente
+  (hero + Manifesto), nessuna riscrittura necessaria.
+- Concorrenti diretti e siti di riferimento (domanda 8): non risposta nel questionario,
+  nessuna azione presa — utile saperlo se in futuro serve un confronto.
+- Anni di attività / premi (domanda 12): citati come possibili asset ma senza numeri reali
+  forniti — non inventato nessun dato, la sezione Recensioni resta l'unica prova sociale
+  concreta sul sito.
 
 ## Foto reali dal locale
 

@@ -510,6 +510,29 @@ h1, h2, h3 {
   margin-top: 30px;
 }
 
+/* ---------- Evento speciale ---------- */
+.speciale {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.speciale .section-head p {
+  max-width: 620px;
+}
+.speciale-ctas {
+  margin-top: 30px;
+}
+
+/* ---------- Musica dal vivo / dj ---------- */
+.musica .section-head p {
+  max-width: 560px;
+}
+.musica-ctas {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
 /* ---------- Evento privato ---------- */
 .evento-privato {
   position: relative;
@@ -557,6 +580,9 @@ h1, h2, h3 {
 .evento-cta-wrap .btn {
   padding: 18px 30px;
   font-size: 1.02rem;
+}
+.evento-cta-wrap .evento-email {
+  margin-top: 12px;
 }
 .evento-cta-wrap .hint {
   margin-top: 14px;
