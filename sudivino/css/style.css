@@ -518,6 +518,103 @@ h1, h2, h3 {
     grid-template-columns: 1fr;
   }
 }
+.bancone-menu {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+.bancone-menu-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  font: inherit;
+}
+.bancone-menu-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.bancone-menu-zoom {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #fff;
+  background: linear-gradient(0deg, rgba(6, 6, 8, 0.85), transparent);
+}
+.bancone-menu-copy h3 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  margin-top: 6px;
+}
+.bancone-menu-copy p {
+  margin-top: 10px;
+  color: var(--text-dim);
+  font-size: 0.98rem;
+}
+@media (max-width: 520px) {
+  .bancone-menu {
+    grid-template-columns: 96px 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+  .bancone-menu-zoom {
+    font-size: 0.62rem;
+  }
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: rgba(6, 6, 8, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(6, 6, 8, 0.6);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
 
 /* ---------- Il posto ---------- */
 .posto-grid {
@@ -1025,6 +1122,46 @@ footer {
   color: rgba(230, 224, 210, 0.95);
   max-width: 540px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+.hero-hashtag {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 8px 18px;
+  border: 1px solid rgba(244, 236, 217, 0.35);
+  border-radius: 999px;
+  background: rgba(6, 6, 8, 0.45);
+  backdrop-filter: blur(6px);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+/* ---------- Mantra spensieratezza ---------- */
+.manifesto-tag-section {
+  text-align: center;
+}
+.manifesto-tag-lede {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+.manifesto-tag-hashtag {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4.2vw, 2.5rem);
+  color: var(--accent);
+  margin: 14px 0 22px;
+  letter-spacing: -0.01em;
+}
+.manifesto-tag-body {
+  color: var(--text-dim);
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+.cta-final-hashtag {
+  margin-top: 20px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
 }
 
 /* ---------- Container width variants + section variant ---------- */

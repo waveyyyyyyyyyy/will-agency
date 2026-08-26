@@ -51,6 +51,37 @@ if ("IntersectionObserver" in window && revealEls.length) {
   revealEls.forEach((el) => el.classList.add("is-visible"));
 }
 
+const lightbox = document.getElementById("lightbox");
+const lightboxTriggers = document.querySelectorAll("[data-lightbox]");
+if (lightbox && lightboxTriggers.length) {
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+  const openLightbox = (src, alt) => {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || "";
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+  const closeLightbox = () => {
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  lightboxTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      openLightbox(trigger.dataset.lightbox, trigger.dataset.lightboxAlt);
+    });
+  });
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+}
+
 // Sentinella per il team: elementi ancora da collegare a dati reali del cliente
 // (Instagram, link recensioni Google, P.IVA). Non blocca nulla, è solo un promemoria
 // in console durante lo sviluppo locale.

@@ -36,6 +36,7 @@
   "url": "https://www.sudivino.it/",
   "telephone": "+393287212987",
   "priceRange": "€€",
+  "vatID": "16695471009",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Piazza Sedile, 40",
@@ -179,7 +180,24 @@
         </div>
       </div>
       <p class="bancone-closing">E qualcosa da mangiare che viene dalla nostra terra, perché bere a stomaco vuoto è da dilettanti.</p>
-      <!-- NOTA BUILD: se il cliente fornisce un PDF/menu, aggiungere qui un link "Guarda il menu". -->
+
+      <div class="bancone-menu">
+        <button type="button" class="bancone-menu-thumb" data-lightbox="/assets/sudivino-menu-cielo-de-mexico.webp" data-lightbox-alt="Menu speciale Cielo de México: quattro cocktail a base Tequila Espolón, Agave Cloud, Nube Blanca, Sol Dorado e Rojo Mexicano">
+          <img src="/assets/sudivino-menu-cielo-de-mexico.webp" alt="Anteprima del menu speciale Cielo de México" loading="lazy" />
+          <span class="bancone-menu-zoom">🔍 Guarda il menu</span>
+        </button>
+        <div class="bancone-menu-copy">
+          <span class="eyebrow">Cocktail speciali</span>
+          <h3>Cielo de México</h3>
+          <p>
+            Quattro cocktail creati per la serata Espolón Tequila — Agave Cloud, Nube Blanca,
+            Sol Dorado, Rojo Mexicano. Tocca l'immagine per leggere ingredienti e descrizione
+            di ognuno.
+          </p>
+        </div>
+      </div>
+      <!-- NOTA BUILD: se il cliente fornisce un PDF/menu completo (non solo la carta Espolón),
+           aggiungere qui un secondo link "Guarda il menu completo". -->
     </div>
   </section>
 
@@ -370,7 +388,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#" class="logo"><img src="/assets/logo.webp" alt="Sudivino" width="56" height="56" /></a>
+        <a href="/" class="logo"><img src="/assets/logo.webp" alt="Sudivino" width="56" height="56" /></a>
         <p>Piazza Sedile 40, Corato (BA) · +39 328 721 2987<br />sudivino.americanbar@gmail.com</p>
       </div>
       <div class="footer-links">
@@ -380,7 +398,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> Sudivino — P.IVA <span data-todo="piva">[da comunicare]</span></span>
+      <span>© <span id="year"></span> Sudivino — P.IVA 16695471009</span>
       <span><a href="/privacy.html">Privacy Policy</a> · <a href="/cookie.html">Cookie Policy</a></span>
     </div>
   </div>
@@ -389,6 +407,11 @@
 <a class="fab fab-whatsapp" href="https://wa.me/393287212987?text=Ciao%20Sudivino!" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.73-.85-2-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.51-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.5-.66-.51-.17 0-.37 0-.56 0-.2 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.43s1.05 2.82 1.2 3.02c.15.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.61.7.22 1.34.19 1.85.12.56-.08 1.73-.71 1.98-1.39.24-.68.24-1.27.17-1.39-.07-.12-.27-.2-.56-.34z"/><path d="M12.01 2C6.5 2 2.02 6.48 2.02 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.29A9.94 9.94 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.15c-1.7 0-3.29-.47-4.66-1.29l-.33-.2-3.09.81.83-3.02-.22-.31A8.14 8.14 0 0 1 3.85 12c0-4.5 3.66-8.16 8.16-8.16s8.15 3.66 8.15 8.16-3.65 8.15-8.15 8.15z"/></svg>
 </a>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Chiudi">✕</button>
+  <img id="lightboxImg" src="" alt="" />
+</div>
 
 <script src="/js/main.js"></script>
 </body>
