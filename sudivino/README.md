@@ -259,3 +259,38 @@ Gemini/Google AI in questo ambiente (il tool di generazione immagini risulta blo
 livello di piattaforma, non semplicemente "da collegare"). Serve una decisione del
 cliente: ricaricare i crediti Higgsfield, oppure procedere con un trattamento CSS
 decorativo (pattern/texture nella palette nero-bianco-avorio, senza immagine generata).
+
+## Aggiornamenti round 4 (foto Espolón nel racconto, link, menu, P.IVA, spensieratezza)
+
+- **Foto evento Espolón riportate dentro il racconto invece che in gallery**: la sezione
+  "Evento speciale" di `eventi.html` aveva le 5 foto Espolón buttate tutte insieme in una
+  griglia in fondo, scollegata dal testo. Ristrutturata da zero: la foto dell'insegna al
+  neon apre la sezione come banner a piena larghezza con badge di prestigio e titolo
+  sovrapposti; la foto della folla sotto l'installazione accompagna il paragrafo su cos'è
+  El Mercado; la foto del bartender che guarnisce i Paloma accompagna il paragrafo sul
+  cocktail; le bottiglie e lo still life chiudono insieme la sezione sul paragrafo "il
+  bancone si trasforma". Rimossa la vecchia `.speciale-gallery`, aggiunte `.speciale-banner`
+  e `.split-photo-duo` (variante a due foto del sistema split-block già esistente).
+- **Audit di tutti i link del sito** (richiesto esplicitamente dal cliente): controllati
+  uno per uno WhatsApp (wa.me), telefono (tel:), mail (mailto:) e Google Maps su tutte e
+  tre le pagine. Trovato e corretto un bug reale: il logo nel footer di `index.html`
+  puntava a `"#"` invece che a `"/"` (chi-siamo.html ed eventi.html erano già corretti).
+  L'unico link non funzionante rimasto è il segnaposto Instagram (`data-todo=
+  "instagram-handle"`), già segnalato in precedenza — nessun handle reale da collegare
+  finché il cliente non lo fornisce.
+- **Menu "Cielo de México" aggiunto alla sezione "Al bancone"**: la grafica del menu
+  cocktail mandata dal cliente (`assets/sudivino-menu-cielo-de-mexico.webp`) è ora
+  visibile in home come miniatura con pulsante "Guarda il menu" che apre l'immagine intera
+  in una lightbox (chiusura via pulsante X, click sullo sfondo, o tasto Esc — nessuna
+  libreria esterna, ~35 righe di JS in più in `main.js`).
+- **P.IVA inserita**: sostituito il placeholder `[da comunicare]` nel footer di tutte e
+  tre le pagine con la P.IVA reale (16695471009), fornita dal cliente. Aggiunta anche come
+  `vatID` nello schema JSON-LD `BarOrPub` in homepage.
+- **`chi-siamo.html` riformattata sulla spensieratezza**: il cliente ha chiesto più peso a
+  questo tema specifico, con l'hashtag `#spensieratezzaallostatoliquido`. Aggiunto come
+  badge nell'hero, come sezione "mantra" a sé stante tra "La storia" e "Cosa ci rende
+  diversi" (unica parola che riassume tutto, seguita da una riga che la spiega senza
+  suonare da slogan), e come eco finale sotto il bottone di prenotazione — tre punti,
+  non ripetuto ovunque per non svalutarlo. Anche il primo paragrafo di "La storia" ora
+  nomina esplicitamente la sensazione ("tornare per un paio d'ore ad essere leggeri —
+  senza calcoli, senza l'ansia di domani") invece di lasciarla solo sottintesa.
