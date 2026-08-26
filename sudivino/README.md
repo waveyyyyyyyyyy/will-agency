@@ -197,3 +197,65 @@ serviva più passare da Google Maps/TripAdvisor, comunque irraggiungibili da que
 ambiente). Ottimizzate in WebP e usate come da punto 1 sopra. Se in futuro arrivano altri
 scatti — in particolare il dehors/piazza — stessa procedura: ridimensionare, convertire in
 WebP, nome file descrittivo, e aggiornare `index.html`.
+
+## Aggiornamenti round 3 (ristrutturazione in più pagine, storytelling)
+
+Il cliente ha bocciato la struttura precedente ("non mi piace assolutamente"): voleva che
+le voci del menu aprissero pagine vere, non semplici scroll-to-anchor, e ha chiesto un sito
+che raccontasse una storia — chi sono, cosa li rende diversi, cosa si vive lì — invece di
+essere "solo un portale per far venire le persone". Obiettivo dichiarato: "fare innamorare
+le persone al locale prima ancora che ci vengano".
+
+- **Menu → pagine reali**: `Chi siamo` e `Eventi` nel pannello ☰ ora aprono
+  `/chi-siamo.html` e `/eventi.html` (non più `#chi-siamo`/`#eventi` sulla stessa pagina).
+  `Al bancone` e `Dove ci trovi` restano ancore sulla home.
+- **`chi-siamo.html` (nuova pagina)**: pagina di storytelling dedicata.
+  - Hero con foto reale del bartender (shaker) e headline "Non è il posto dove bevi.
+    È il posto dove torni a essere te."
+  - Sezione "La storia": perché è nato Sudivino (via d'uscita dalla giornata, non dalla
+    città) e perché Piazza Sedile (il tempo si muove diverso in una piazza).
+  - Tre blocchi alternati testo/foto su cosa li rende diversi: le persone dietro al
+    bancone (foto con maglietta "SUDIVINO"), la qualità dei prodotti (foto amaro), il
+    posto stesso — dehors d'estate, sala in pietra d'inverno (foto dehors).
+  - Sezione "Per chi è": target dichiarato dal cliente (25+, famiglie, chi si fa un'ora
+    di strada) + citazione vera (recensione Google di Maria Vincenza C., già usata altrove
+    sul sito, non inventata).
+  - CTA finale di prenotazione via WhatsApp.
+- **`eventi.html` (nuova pagina)**: hub eventi, raccoglie tutto ciò che prima era sparso
+  sulla home.
+  - Hero con foto dehors, headline "La piazza cambia faccia quando si accende."
+  - Sezione weekend (invariata nel contenuto, spostata qui).
+  - **Evento Espolón Tequila riscritto in chiave di prestigio**, come chiesto
+    esplicitamente dal cliente: non più "ospitiamo un evento" ma "siamo stati scelti" —
+    su tutta la Puglia Espolón ha selezionato due sole location per El Mercado, e
+    Sudivino è una delle due. Badge "★ Scelti da Espolón Tequila" in testa alla sezione.
+    Stesso principio di prima: nessun dettaglio della tappa di Bari non confermato per
+    Corato (maglia pueblo, Billboard Italia) viene promesso per la serata di Sudivino.
+  - Card "Il tuo evento privato" (identica a quella rimasta sulla home — sezione che
+    porta soldi, tenuta in entrambi i posti).
+  - Sezione "Suoni o fai musica dal vivo?" (spostata qui dalla home, contenuto invariato).
+- **`index.html` condensata**: il Manifesto ora è un teaser breve con link "Scopri la
+  nostra storia →" verso `chi-siamo.html`; la sezione eventi è un teaser breve con link
+  "Scopri tutti gli eventi →" verso `eventi.html` (badge di prestigio incluso nel teaser
+  stesso); la sezione "Suoni o fai musica dal vivo?" è stata rimossa dalla home (vive solo
+  su `eventi.html`, per non affollare la pagina principale con contenuti minoritari). La
+  card "Il tuo evento privato" resta invece intera sulla home, perché è la sezione che
+  genera più richieste dirette.
+  - Foto della sezione "Il posto" sostituita con il primo scatto reale dell'esterno/dehors
+    (`sudivino-dehors-piazza-sedile-corato.webp`), al posto della vecchia foto d'interno.
+- **5 nuove foto reali integrate** (mandate dal cliente in questo round, ottimizzate in
+  WebP): mano con bottiglia di amaro artigianale, bartender che serve un cocktail verde
+  (non ancora usata — disponibile per usi futuri), bartender con shaker (hero di
+  chi-siamo.html), dehors con tende rosse (prima foto esterna reale del locale, usata su
+  home/chi-siamo/eventi), bartender con maglietta brandizzata "SUDIVINO".
+- **Nuovi blocchi CSS riusabili** in `style.css`: `.page-hero` (hero di sottopagina con
+  lo stesso trattamento di leggibilità a due strati dell'hero della home), `.split-block`
+  (layout alternato testo/foto), `.pull-quote`, `.prestige-badge`, `.teaser-link`,
+  `.container-narrow`, `.section-alt`, `.cta-final`.
+
+**Ancora aperto — foto AI sezione "evento privato":** non risolto in questo round.
+Higgsfield resta senza crediti nel workspace collegato; Composio non riesce a collegare
+Gemini/Google AI in questo ambiente (il tool di generazione immagini risulta bloccato a
+livello di piattaforma, non semplicemente "da collegare"). Serve una decisione del
+cliente: ricaricare i crediti Higgsfield, oppure procedere con un trattamento CSS
+decorativo (pattern/texture nella palette nero-bianco-avorio, senza immagine generata).
