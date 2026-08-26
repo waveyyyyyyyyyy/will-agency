@@ -181,6 +181,15 @@ h1, h2, h3 {
   width: 44px;
   border-radius: 50%;
 }
+.logo-main img {
+  height: 72px;
+  width: 72px;
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .topbar a.call {
   display: flex;
   align-items: center;
@@ -194,6 +203,64 @@ h1, h2, h3 {
 .topbar a.call:hover {
   color: var(--accent);
   border-color: var(--line);
+}
+.nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.nav-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+.nav-toggle:hover {
+  border-color: var(--line);
+  color: var(--accent);
+}
+
+/* ---------- Nav dropdown ---------- */
+.nav-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 39;
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 11, 14, 0.97);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 24px 28px;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.28s ease, opacity 0.28s ease, visibility 0.28s;
+}
+.nav-panel.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+.nav-panel a {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.nav-panel a:hover {
+  color: var(--accent);
+}
+.nav-panel a:last-child {
+  border-bottom: none;
 }
 
 /* ---------- Hero ---------- */
@@ -517,6 +584,19 @@ h1, h2, h3 {
 }
 .speciale .section-head p {
   max-width: 620px;
+}
+.speciale-gallery {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.speciale-gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
 }
 .speciale-ctas {
   margin-top: 30px;

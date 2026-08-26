@@ -156,6 +156,29 @@ Il cliente ha risposto a un questionario di posizionamento. Cosa è cambiato sul
   con orario e dettagli precisi appena disponibili.
 - **Orari aggiornati** — vedi punto 5 sopra.
 
+## Aggiornamenti round 2 (menu, logo, foto evento)
+
+- **Menu a tendina** aggiunto in header: icona ☰ in alto a destra (accanto al numero di
+  telefono, che resta sempre visibile) apre un pannello con 4 link: Chi siamo, Al bancone,
+  Eventi, Dove ci trovi. Markup in `index.html` (`#navToggle` / `#navPanel`), logica in
+  `js/main.js`, stile in `css/style.css` (`.nav-panel`). Ancore aggiunte: `id="chi-siamo"`
+  sul Manifesto, `id="eventi"` sulla sezione "Nel weekend la piazza si accende".
+- **Logo più grande in header**: da 44px a 72px (classe `.logo-main`), per renderlo
+  l'elemento principale della topbar come richiesto.
+- **Foto evento Espolón Tequila**: le 5 foto mandate dal cliente sono ora una galleria
+  dentro la sezione "Evento speciale" (`assets/sudivino-espolon-tequila-*.webp`). Sono
+  materiale ufficiale del format/brand Espolón (installazioni, bottiglie, drink), non
+  scatti del locale di Corato — alt text scritto di conseguenza, senza far credere che
+  siano foto della serata di Sudivino (che deve ancora avvenire).
+- **Foto AI per la sezione "evento privato" (compleanni) — non fatta.** Il cliente ha
+  chiesto un'immagine generata (via Gemini/Composio o, in alternativa, Higgsfield) nella
+  stessa palette nero/bianco/avorio del sito, in tema festa/compleanno. Bloccato su
+  entrambi i fronti in questa sessione: il workspace Higgsfield è senza crediti, e
+  Composio non ha un collegamento attivo a Gemini/Google AI (i soli tool collegati sono
+  github, gmail, google_maps, remove_bg, whatsapp). Serve una decisione del cliente:
+  ricaricare crediti Higgsfield, collegare Gemini via Composio (richiede un login OAuth),
+  o lasciar perdere e usare un trattamento CSS decorativo come per gli altri placeholder.
+
 **Cose non toccate perché già coperte o fuori scope per questa passata:**
 - Prezzi: confermato di non metterli — il sito già non li mostra da nessuna parte.
 - Target (25-50 anni, famiglie, gente che stacca dalla giornata) e prodotto reale

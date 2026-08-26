@@ -65,9 +65,20 @@
 <a class="skip-link" href="#main" style="position:absolute;left:-9999px;">Vai al contenuto</a>
 
 <header class="topbar" id="topbar">
-  <a href="#" class="logo"><img src="/assets/logo.webp" alt="Sudivino" width="56" height="56" /></a>
-  <a class="call" href="tel:+393287212987">📞 328 721 2987</a>
+  <a href="#" class="logo logo-main"><img src="/assets/logo.webp" alt="Sudivino" width="72" height="72" /></a>
+  <div class="topbar-actions">
+    <a class="call" href="tel:+393287212987">📞 328 721 2987</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="navPanel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
 </header>
+<nav class="nav-panel" id="navPanel" aria-hidden="true">
+  <a href="#chi-siamo">Chi siamo</a>
+  <a href="#bancone">Al bancone</a>
+  <a href="#eventi">Eventi</a>
+  <a href="#dove">Dove ci trovi</a>
+</nav>
 
 <main id="main">
 
@@ -95,7 +106,7 @@
   </section>
 
   <!-- ============ 2. MANIFESTO ============ -->
-  <section class="section manifesto reveal">
+  <section class="section manifesto reveal" id="chi-siamo">
     <div class="container">
       <span class="eyebrow">Chi siamo</span>
       <h2>Non si viene qui per bere.</h2>
@@ -206,7 +217,7 @@
   </section>
 
   <!-- ============ 6. EVENTI E SERATE ============ -->
-  <section class="section eventi reveal">
+  <section class="section eventi reveal" id="eventi">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Weekend</span>
@@ -244,6 +255,16 @@
           cocktail a base tequila firmati Espolón, a partire dal classico Paloma.
           Per una sera, Piazza Sedile cambia ritmo.
         </p>
+      </div>
+      <!-- NOTA BUILD: foto della campagna/format Espolón Tequila fornite dal cliente — non
+           scatti del locale di Corato (l'evento lì deve ancora avvenire). Alt text scritto
+           di conseguenza: raccontano il format, non "una serata da Sudivino". -->
+      <div class="speciale-gallery">
+        <img src="/assets/sudivino-espolon-tequila-insegna.webp" alt="Insegna al neon ''Mercado Espolón Tequila'' con un cocktail in primo piano, dal format itinerante" loading="lazy" />
+        <img src="/assets/sudivino-espolon-tequila-drink.webp" alt="Bartender guarnisce una fila di cocktail Espolón Tequila" loading="lazy" />
+        <img src="/assets/sudivino-espolon-tequila-bottiglie.webp" alt="Bottiglie di Espolón Tequila in fila sotto luci colorate" loading="lazy" />
+        <img src="/assets/sudivino-espolon-tequila-still.webp" alt="Bottiglia ed Espolón Tequila con teschio decorativo, still life a tema" loading="lazy" />
+        <img src="/assets/sudivino-espolon-tequila-installazione.webp" alt="Installazione scenografica del format Mercado Espolón Tequila" loading="lazy" />
       </div>
       <div class="speciale-ctas">
         <a class="btn btn-outline" href="#" data-todo="instagram-handle" target="_blank" rel="noopener">Seguici su Instagram per i dettagli</a>

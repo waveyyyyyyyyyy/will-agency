@@ -12,6 +12,27 @@ if (topbar) {
   window.addEventListener("scroll", onScroll, { passive: true });
 }
 
+const navToggle = document.getElementById("navToggle");
+const navPanel = document.getElementById("navPanel");
+if (navToggle && navPanel) {
+  const closeNav = () => {
+    navPanel.classList.remove("is-open");
+    navPanel.setAttribute("aria-hidden", "true");
+    navToggle.setAttribute("aria-expanded", "false");
+  };
+  const toggleNav = () => {
+    const willOpen = !navPanel.classList.contains("is-open");
+    navPanel.classList.toggle("is-open", willOpen);
+    navPanel.setAttribute("aria-hidden", String(!willOpen));
+    navToggle.setAttribute("aria-expanded", String(willOpen));
+  };
+  navToggle.addEventListener("click", toggleNav);
+  navPanel.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeNav));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeNav();
+  });
+}
+
 const revealEls = document.querySelectorAll(".reveal");
 if ("IntersectionObserver" in window && revealEls.length) {
   const io = new IntersectionObserver(
